@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.zhengjin.test.utils.FileUtils;
 import com.zhengjin.test.utils.HttpUtils;
 import com.zhengjin.test.utils.JsonUtils;
@@ -16,12 +17,12 @@ public final class TestDemo {
 	
 	@Before
 	public void setUp() {
-		log("setup in testDemo.");
+		printLog("setup in testDemo.");
 	}
 	
 	@After
 	public void tearDown() {
-		log("teardown in testDemo.");
+		printLog("teardown in testDemo.");
 	}
 	
 	@Test
@@ -32,8 +33,10 @@ public final class TestDemo {
 		String content = FileUtils.readFileContent(path);
 		
 		JSONArray data = JsonUtils.parseJsonAndRetJsonArray(content, "add");
-		log(data);
-		Assert.assertTrue((data.size() > 0));
+		for (int i = 0; i < data.size(); i++) {
+			JSONObject item = data.getJSONObject(i);
+			printLog(item.getString("name"));
+		}
 	}
 	
 	@Test
@@ -42,14 +45,14 @@ public final class TestDemo {
 		String file = "02_json_push_empty.txt";
 		String path = TestConstants.INPUT_DATA_PATH + file;
 		String content = FileUtils.readFileContent(path);
-		log(content);
+		printLog(content);
 		
 		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, content);
-		log(response);
+		printLog(response);
 		Assert.assertTrue((JsonUtils.parseJsonAndRetIntValue(response, "retCode") == 200));
 	}
 	
-	private static void log(Object text) {
+	private static void printLog(Object text) {
 		System.out.println(text);
 	}
 
