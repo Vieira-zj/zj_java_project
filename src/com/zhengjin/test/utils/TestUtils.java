@@ -1,6 +1,6 @@
 package com.zhengjin.test.utils;
 
 
-public class TestUtils {
-
+public final class TestUtils {
+	// todo
 }

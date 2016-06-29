@@ -1,5 +1,5 @@
 package com.zhengjin.test.utils;
 
-public class TestHelper {
-
+public final class TestHelper {
+	// todo
 }
