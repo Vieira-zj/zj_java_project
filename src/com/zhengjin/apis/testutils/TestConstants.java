@@ -27,10 +27,11 @@ public final class TestConstants {
 	public static final int COL_CASE_ID = 2;
 	public static final int COL_CASE_DESC = 3;
 	public static final int COL_CLASS = 4;
-	public static final int COL_RUN_FLAG = 5;
-	public static final int COL_REQUEST_TYPE = 6;
-	public static final int COL_URL = 7;
-	public static final int COL_REQUEST_DATA = 8;
-	public static final int COL_EXPECTED_RESPONSE_DATA = 9;
+	public static final int COL_METHOD = 5;
+	public static final int COL_RUN_FLAG = 6;
+	public static final int COL_REQUEST_TYPE = 7;
+	public static final int COL_URL = 8;
+	public static final int COL_REQUEST_DATA = 9;
+	public static final int COL_EXPECTED_RESPONSE_DATA = 10;
 	
 }

@@ -1,5 +1,5 @@
 package com.zhengjin.apis.testcategory;
 
-public interface DemoTest {
+public interface CategoryRetCodeTest {
 
 }

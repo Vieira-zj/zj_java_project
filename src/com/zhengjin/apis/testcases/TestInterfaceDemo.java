@@ -14,7 +14,7 @@ import org.junit.runners.MethodSorters;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.zhengjin.apis.testcategory.DemoTest;
+import com.zhengjin.apis.testcategory.CategoryDemoTest;
 import com.zhengjin.apis.testutils.FileUtils;
 import com.zhengjin.apis.testutils.HttpUtils;
 import com.zhengjin.apis.testutils.JsonUtils;
@@ -24,34 +24,34 @@ import com.zhengjin.apis.testutils.TestUtils;
 import org.junit.Assert;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public final class TestDemo {
+public final class TestInterfaceDemo {
 	
 	static List<List<String>> ROWS;
 	
 	@BeforeClass
 	public static void classSetUp() {
-		printLog("class setup in testDemo.");
+		printLog("class setup in TestDemo.");
 		ROWS = FileUtils.readExcelRows(TestConstants.TEST_DATA_PATH + "testcases.xlsx", "Settings");
 	}
 	
 	@AfterClass
 	public static void classTearDown() {
-		printLog("class teardown in testDemo.");
+		printLog("class teardown in TestDemo.");
 		ROWS.clear();
 	}
 	
 	@Before
 	public void setUp() {
-		printLog("setup in testDemo.");
+		printLog("setup in TestDemo.");
 	}
 	
 	@After
 	public void tearDown() {
-		printLog("teardown in testDemo.");
+		printLog("teardown in TestDemo.");
 	}
 	
 	@Test
-	@Category(DemoTest.class)
+	@Category(CategoryDemoTest.class)
 	public void test1ReadFileAndParseJsonString() {
 		
 		String file = "02_json_pull_allfiles.txt";
@@ -69,10 +69,11 @@ public final class TestDemo {
 	}
 	
 	@Test
-	@Category(DemoTest.class)
+	@Category(CategoryDemoTest.class)
 	public void test2SendHttpJsonPostRequest() {
 		
-		String file = "02_json_push_empty.txt";
+		String file = "01_json_push_allfiles.txt";
+//		String file = "02_json_push_empty.txt";
 		String path = TestConstants.TEST_DATA_PATH + file;
 		String content = FileUtils.readFileContent(path);
 
@@ -82,7 +83,7 @@ public final class TestDemo {
 	}
 	
 	@Test
-	@Category(DemoTest.class)
+	@Category(CategoryDemoTest.class)
 	public void test3ReadTestCaseFromExcel() {
 		
 		List<String> row = FileUtils.getSpecifiedRow(ROWS, "SS_01");
