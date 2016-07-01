@@ -1,6 +1,0 @@
-{
-    "brand": "funshion",
-    "ids": "{}",
-    "mac": "28:76:CD:01:96:F6",
-    "model": "FD5551A-SU"
-}
