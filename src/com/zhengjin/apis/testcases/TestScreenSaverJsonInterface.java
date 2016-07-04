@@ -26,11 +26,11 @@ import com.zhengjin.apis.testutils.TestUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public final class TestScreenSaverJsonInterface {
 
-	static List<List<String>> ROWS;
+	private static List<List<String>> ROWS;
 	
 	@BeforeClass
 	public static void classSetUp() {
-		ROWS = FileUtils.readExcelRows(TestConstants.TEST_DATA_PATH + "testcases.xlsx", "Settings");
+		ROWS = FileUtils.readExcelRows(TestConstants.EXCEL_TESTCASES_FILE_PATH, "Settings");
 	}
 	
 	@AfterClass
@@ -68,9 +68,9 @@ public final class TestScreenSaverJsonInterface {
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_01");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
 		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, pushData);
+		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response).getJSONObject("data");
 
 		final int empty = 0;
-		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response).getJSONObject("data");
 		JSONArray addList = retJsonObj.getJSONArray("add");
 		Assert.assertEquals("Verify the add list is empty, when push all screen saver files.",
 				empty, addList.size());
@@ -125,17 +125,14 @@ public final class TestScreenSaverJsonInterface {
 		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, pushData);
 		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response).getJSONObject("data");
 		JSONArray retAddList = retJsonObj.getJSONArray("add");
-		Assert.assertNotNull("Verify the return add list is not empty when push empty.", retAddList);
+		Assert.assertTrue("Verify the return add list is not empty when push empty.", (retAddList.size() > 0));
 		
 		String expectedStr = dataRow.get(TestConstants.COL_EXPECTED_RESPONSE_DATA);
 		JSONObject expectedJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(expectedStr).getJSONObject("data");
 		JSONArray expectedAddList = expectedJsonObj.getJSONArray("add");
-		Assert.assertNotNull(expectedAddList);
+		Assert.assertTrue(expectedAddList.size() > 0);
 		
 		TestUtils.assertJsonArrayEqualsForSpecifiedField(expectedAddList, retAddList, "name");
 	}
-	
-	
-	
 	
 }

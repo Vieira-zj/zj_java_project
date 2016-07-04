@@ -2,13 +2,15 @@ package com.zhengjin.apis.testutils;
 
 public final class TestConstants {
 
-	public static final String PROJECT_ROOT_PATH = "D:/GitHub_Workspace/Eclipse_Workspace/FunSettingsInterfaceTest";
-	private static final String INPUT_DATA_DIR = "testdata";
-	public static final String TEST_DATA_PATH = String.format("%s/%s/", PROJECT_ROOT_PATH, INPUT_DATA_DIR);
-
 	// when run in JMETER ENV, below will return null
-//	public static final String INPUT_DATA_PATH = String.format("%s/%s/", FileUtils.getProjectPath(), INPUT_DATA_DIR);
-
+//	public static final String PROJECT_ROOT_PATH = FileUtils.getProjectPath();
+	public static final String PROJECT_ROOT_PATH = "D:/GitHub_Workspace/Eclipse_Workspace/FunSettingsInterfaceTest";
+	public static final String TEST_DATA_DIR = "testdata/";
+	public static final String EXCEL_TESTCASES_FILE_NAME = "testcases.xlsx";
+	
+	public static final String TEST_DATA_PATH = String.format("%s/%s", PROJECT_ROOT_PATH, TEST_DATA_DIR);
+	public static final String EXCEL_TESTCASES_FILE_PATH = TEST_DATA_PATH + EXCEL_TESTCASES_FILE_NAME;
+	
 	public static final int SHORT_WAIT = 1000;
 	public static final int WAIT = 3000;
 	public static final int LONG_WAIT = 5000;

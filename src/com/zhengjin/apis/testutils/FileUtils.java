@@ -93,7 +93,8 @@ public final class FileUtils {
 			Assert.assertTrue(String.format("Error, the file(%s) is NOT exist!", filePath), false);
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertTrue(String.format("Error, the IOException(%) when read excel file!", e.getMessage()), false);
+			Assert.assertTrue(String.format(
+					"Error, the IOException(%s) when read excel file!", e.getMessage()), false);
 		} finally {
 			try {
 				if (excelWorkbook != null) {
