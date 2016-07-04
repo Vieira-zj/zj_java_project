@@ -18,9 +18,12 @@ import com.zhengjin.apis.testcategory.CategoryRetCodeTest;
 import com.zhengjin.apis.testcategory.CategoryScreenSaverTest;
 import com.zhengjin.apis.testutils.FileUtils;
 import com.zhengjin.apis.testutils.HttpUtils;
+import com.zhengjin.apis.testutils.JmeterUtils;
 import com.zhengjin.apis.testutils.JsonUtils;
 import com.zhengjin.apis.testutils.TestConstants;
 import com.zhengjin.apis.testutils.TestUtils;
+
+import org.apache.jmeter.protocol.java.sampler.JUnitSampler;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -30,7 +33,8 @@ public final class TestScreenSaverJsonInterface {
 	
 	@BeforeClass
 	public static void classSetUp() {
-		ROWS = FileUtils.readExcelRows(TestConstants.EXCEL_TESTCASES_FILE_PATH, "Settings");
+		// get the test cases file path via Jmeter var instead of static var in Java
+//		ROWS = FileUtils.readExcelRows(TestConstants.EXCEL_TESTCASES_FILE_PATH, "Settings");
 	}
 	
 	@AfterClass
@@ -47,10 +51,18 @@ public final class TestScreenSaverJsonInterface {
 	public void tearDown() {
 		TestUtils.printLog("teardown in TestScreenSaver.");
 	}
+
+	@Test
+	public void test11GetJmeterUserDefinedVars() {
+		
+		// get the junit sampler when running the test cases
+		String testcases_file_path = JmeterUtils.getUserDefinedVarFromJmeterEnv(new JUnitSampler(), "testdata_path");
+		ROWS = FileUtils.readExcelRows(testcases_file_path, "Settings");
+	}
 	
 	@Test
 	@Category({CategoryScreenSaverTest.class, CategoryRetCodeTest.class})
-	public void test11HttpOkWhenPushAllScreenSaverPictures() {
+	public void test12HttpOkWhenPushAllScreenSaverPictures() {
 		
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_01");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
@@ -63,7 +75,7 @@ public final class TestScreenSaverJsonInterface {
 	
 	@Test
 	@Category(CategoryScreenSaverTest.class)
-	public void test12PullEmptyWhenPushAllScreenSaverPictures() {
+	public void test13PullEmptyWhenPushAllScreenSaverPictures() {
 	
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_01");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
