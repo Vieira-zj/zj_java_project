@@ -34,7 +34,7 @@ public final class TestScreenSaverJsonInterface {
 	@BeforeClass
 	public static void classSetUp() {
 		// get the test cases file path via Jmeter var instead of static var in Java
-//		ROWS = FileUtils.readExcelRows(TestConstants.EXCEL_TESTCASES_FILE_PATH, "Settings");
+		ROWS = FileUtils.readExcelRows(TestConstants.EXCEL_TESTCASES_FILE_PATH, "Settings");
 	}
 	
 	@AfterClass
@@ -53,11 +53,15 @@ public final class TestScreenSaverJsonInterface {
 	}
 
 	@Test
+	@Category(CategoryScreenSaverTest.class)
 	public void test11GetJmeterUserDefinedVars() {
 		
-		// get the junit sampler when running the test cases
-		String testcases_file_path = JmeterUtils.getUserDefinedVarFromJmeterEnv(new JUnitSampler(), "testdata_path");
+		// get the Jmeter sampler when running the test cases
+		String testcases_file_path = 
+				JmeterUtils.getUserDefinedVarFromJmeterEnv(new JUnitSampler(), TestConstants.JMETER_KEY_TEST_DATA);
 		ROWS = FileUtils.readExcelRows(testcases_file_path, "Settings");
+		
+		Assert.assertTrue("Verify read the test data.", ROWS.size() > 0);
 	}
 	
 	@Test
