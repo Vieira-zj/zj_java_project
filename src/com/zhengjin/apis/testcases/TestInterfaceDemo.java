@@ -77,7 +77,7 @@ public final class TestInterfaceDemo {
 		String path = TestConstants.TEST_DATA_PATH + file;
 		String content = FileUtils.readFileContent(path);
 
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, content);
+		String response = HttpUtils.sendJsonPostRequest(TestConstants.SCREEN_SAVER_URL_TEST, content);
 		printLog(response);
 		Assert.assertTrue((JsonUtils.parseJsonContentAndRetJsonObject(response).getIntValue("retCode") == 200));
 	}
@@ -87,7 +87,8 @@ public final class TestInterfaceDemo {
 	public void test3ReadTestCaseFromExcel() {
 		
 		List<String> row = FileUtils.getSpecifiedRow(ROWS, "SS_01");
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL,row.get(TestConstants.COL_REQUEST_DATA));
+		String response = HttpUtils.sendJsonPostRequest(
+				TestConstants.SCREEN_SAVER_URL_TEST, row.get(TestConstants.COL_REQUEST_DATA));
 		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response);
 
 		TestUtils.assertReturnCodeInJsonResponse(retJsonObj);

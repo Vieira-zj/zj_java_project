@@ -26,6 +26,7 @@
         <taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask"/>
         <jmeter jmeterhome="${jmeter.home}" resultlog="${jmeter.result.jtl.report}">
             <testplans dir="${jmeter.jmx.dir}" includes="ScreenSaver_APIs_FullTest.jmx"/>
+        	<property name="jmeter.save.saveservice.output_format" value="xml"/>
         </jmeter>
     </target>
 	

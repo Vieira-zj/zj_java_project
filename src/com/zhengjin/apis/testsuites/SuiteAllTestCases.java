@@ -13,5 +13,4 @@ import com.zhengjin.apis.testcategory.CategoryDemoTest;
 @ExcludeCategory(CategoryDemoTest.class)
 @SuiteClasses({TestInterfaceDemo.class, TestScreenSaverJsonInterface.class})
 public final class SuiteAllTestCases {
-
 }

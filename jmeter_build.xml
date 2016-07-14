@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." name="ant-jmeter" default="all">
+	
+	<description>
+		The ant jmeter build reference from {jmeter-home}/extras/build.xml
+	</description>
+	
+	<tstamp>
+		<format property="time" pattern="yyyyMMddhhmm" />
+	</tstamp>
+	
+	<property name="ReportName" value="TestReport"/>
+	<property name="report.title" value="Load Test Results"/>
+
+	<!-- path -->
+	<property name="jmeter.home" location="D:\Program_Files\apache-jmeter-3.0"/>
+	<property name="jmeter.extras" location="${jmeter.home}/extras"/>
+    <property name="jmeter.lib.dir" value="${jmeter.home}/lib"/>
+
+	<property name="project.root" location="${ant.project.name}/.."/>
+	<property name="jmeter.jmx.dir" location="${project.root}/jmx"/>
+
+	<property name="jmeter.result.jtl.dir" location="${project.root}/reports"/>
+	<property name="jmeter.result.html.dir" location="${project.root}/reports"/>
+
+	<property name="jmeter.result.jtl.report" location="${jmeter.result.jtl.dir}/${ReportName}${time}.jtl"/>
+	<property name="jmeter.result.html.report" location="${jmeter.result.jtl.dir}/${ReportName}${time}.html"/>
+
+    <property name="test" value="Test"/>
+    <!-- Should report include response data for failures? -->
+    <property name="show-data" value="n"/>
+    <property name="format" value="2.1"/>
+
+    <condition property="style_version" value="">
+        <equals arg1="${format}" arg2="2.0"/>
+    </condition>
+    <condition property="style_version" value="_21">
+        <equals arg1="${format}" arg2="2.1"/>
+    </condition>
+
+    <condition property="funcMode">
+        <equals arg1="${show-data}" arg2="y"/>
+    </condition>
+    
+    <condition property="funcMode" value="false">
+      <not>
+        <equals arg1="${show-data}" arg2="y"/>
+      </not>
+    </condition>
+
+    <path id="jmeter.classpath">
+        <fileset dir="${jmeter.extras}">
+          <include name="ant-jmeter*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="jmeter" classpathref="jmeter.classpath"
+        classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask"/>
+
+    <target name="all" depends="run,report"/>
+	
+	<target name="run">
+        <echo>funcMode = ${funcMode}</echo>
+        <jmeter jmeterhome="${jmeter.home}"
+            testplan ="${jmeter.jmx.dir}/ScreenSaver_APIs_FullTest.jmx"
+            resultlog="${jmeter.result.jtl.report}">
+        <!--
+            <jvmarg value="-Xincgc"/>
+            <jvmarg value="-Xmx128m"/>
+            <jvmarg value="-Dproperty=value"/>
+            <jmeterarg value="-qextra.properties"/>
+        -->
+            <!-- Force suitable defaults -->
+            <property name="jmeter.save.saveservice.output_format" value="xml"/>
+            <property name="jmeter.save.saveservice.assertion_results" value="all"/>
+            <property name="jmeter.save.saveservice.bytes" value="true"/>
+        <!--
+			<property name="file_format.testlog" value="${format}"/>
+        	<property name="jmeter.save.saveservice.response_data.on_error" value="${funcMode}"/>
+       	-->
+        </jmeter>
+	</target>	
+	
+    <!-- Use xalan copy from JMeter lib directory to ensure consistent processing with Java 1.4+ -->
+    <path id="xslt.classpath">
+        <fileset dir="${jmeter.lib.dir}" includes="xalan*.jar"/>
+        <fileset dir="${jmeter.lib.dir}" includes="serializer*.jar"/>
+    </path>
+
+    <target name="report" depends="xslt-report,copy-images">
+        <echo>Report generated at ${report.datestamp}</echo>
+    </target>
+	
+    <target name="xslt-report" depends="_message_xalan">
+        <tstamp><format property="report.datestamp" pattern="yyyy/MM/dd HH:mm"/></tstamp>
+        <xslt
+            classpathref="xslt.classpath"
+            force="true"
+            in="${jmeter.result.jtl.report}"
+            out="${jmeter.result.html.report}"
+            style="${jmeter.extras}/jmeter-results-detail-report${style_version}.xsl">
+            <param name="showData" expression="${show-data}"/>
+            <param name="titleReport" expression="${report.title}"/>
+            <param name="dateReport" expression="${report.datestamp}"/>
+        </xslt>
+    </target>
+
+    <!-- Copy report images if needed -->
+    <target name="copy-images" depends="verify-images" unless="samepath">
+        <copy file="${jmeter.extras}/expand.png" tofile="${jmeter.result.html.dir}/expand.png"/>
+        <copy file="${jmeter.extras}/collapse.png" tofile="${jmeter.result.html.dir}/collapse.png"/>
+    </target>
+
+    <target name="verify-images">
+        <condition property="samepath">
+			<equals arg1="${jmeter.extras}" arg2="${jmeter.result.html.dir}" />
+        </condition>
+    </target>
+
+    <!-- Check that the xalan libraries are present -->
+    <condition property="xalan.present">
+		<and>
+        <!-- No need to check all jars; just check a few -->
+            <available classpathref="xslt.classpath" classname="org.apache.xalan.processor.TransformerFactoryImpl"/>
+            <available classpathref="xslt.classpath" classname="org.apache.xml.serializer.ExtendedContentHandler"/>
+		</and>
+    </condition>
+
+    <target name="_message_xalan" unless="xalan.present">
+        <echo>Cannot find all xalan and/or serialiser jars</echo>
+        <echo>The XSLT formatting may not work correctly.</echo>
+        <echo>Check you have xalan and serializer jars in ${lib.dir}</echo>
+    </target>
+
+</project>

@@ -10,15 +10,13 @@ public final class TestUtils {
 
 	public static void assertReturnCodeInJsonResponse(JSONObject jsonObj) {
 		
-		Assert.assertEquals(
-				"Verify the ret code in response.", 
+		Assert.assertEquals("Verify the ret code in response.", 
 				TestConstants.RESPONSE_OK, jsonObj.getIntValue("retCode"));
 	}
 	
 	public static void assertReturnMessageInJsonResponse(JSONObject jsonObj) {
 		
-		Assert.assertEquals(
-				"Verify the ret message in response.", 
+		Assert.assertEquals("Verify the ret message in response.", 
 				TestConstants.RESPONSE_MSG_SUCCESS, jsonObj.getString("retMsg"));
 	}
 	

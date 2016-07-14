@@ -25,7 +25,6 @@ import com.zhengjin.apis.testutils.TestUtils;
 
 import org.apache.jmeter.protocol.java.sampler.JUnitSampler;
 
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public final class TestScreenSaverJsonInterface {
 
@@ -61,7 +60,12 @@ public final class TestScreenSaverJsonInterface {
 				JmeterUtils.getUserDefinedVarFromJmeterEnv(new JUnitSampler(), TestConstants.JMETER_KEY_TEST_DATA);
 		ROWS = FileUtils.readExcelRows(testcases_file_path, "Settings");
 		
-		Assert.assertTrue("Verify read the test data.", ROWS.size() > 0);
+		if (ROWS.size() > 0) {
+			Assert.assertTrue("Verify read the test data.", true);
+		} else {
+			int errCode = 1;
+			System.exit(errCode);
+		}
 	}
 	
 	@Test
@@ -70,7 +74,7 @@ public final class TestScreenSaverJsonInterface {
 		
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_01");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, pushData);
+		String response = HttpUtils.sendJsonPostRequest(TestConstants.SCREEN_SAVER_URL_TEST, pushData);
 		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response);
 		
 		TestUtils.assertReturnCodeInJsonResponse(retJsonObj);
@@ -83,7 +87,7 @@ public final class TestScreenSaverJsonInterface {
 	
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_01");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, pushData);
+		String response = HttpUtils.sendJsonPostRequest(TestConstants.SCREEN_SAVER_URL_TEST, pushData);
 		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response).getJSONObject("data");
 
 		final int empty = 0;
@@ -106,7 +110,7 @@ public final class TestScreenSaverJsonInterface {
 		
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_02");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, pushData);
+		String response = HttpUtils.sendJsonPostRequest(TestConstants.SCREEN_SAVER_URL_TEST, pushData);
 		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response);
 		
 		TestUtils.assertReturnCodeInJsonResponse(retJsonObj);
@@ -119,7 +123,7 @@ public final class TestScreenSaverJsonInterface {
 	
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_02");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, pushData);
+		String response = HttpUtils.sendJsonPostRequest(TestConstants.SCREEN_SAVER_URL_TEST, pushData);
 		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response).getJSONObject("data");
 		
 		final int empty = 0;
@@ -138,7 +142,7 @@ public final class TestScreenSaverJsonInterface {
 		
 		List<String> dataRow = FileUtils.getSpecifiedRow(ROWS, "SS_02");
 		String pushData = dataRow.get(TestConstants.COL_REQUEST_DATA);
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.URL, pushData);
+		String response = HttpUtils.sendJsonPostRequest(TestConstants.SCREEN_SAVER_URL_TEST, pushData);
 		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response).getJSONObject("data");
 		JSONArray retAddList = retJsonObj.getJSONArray("add");
 		Assert.assertTrue("Verify the return add list is not empty when push empty.", (retAddList.size() > 0));

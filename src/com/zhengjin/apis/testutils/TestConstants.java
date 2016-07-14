@@ -20,8 +20,10 @@ public final class TestConstants {
 	public static final int TIME_OUT = 8000;
 	
 	public static final String CHARSET = "UTF-8";
-	public static final String URL_TEST = "http://172.17.12.36:8080/file-ms-service/service/pic-distribute/api/v2";
-	public static final String URL = "http://fmg.tv.funshion.com/service/pic-distribute/api/v2";
+	
+//	public static final String SCREEN_SAVER_URL_TEST = 
+//			"http://172.17.12.36:8080/file-ms-service/service/pic-distribute/api/v2";
+	public static final String SCREEN_SAVER_URL_TEST = "http://fmg.tv.funshion.com/service/pic-distribute/api/v2";
 	
 	public static final int RESPONSE_OK = 200;
 	public static final String RESPONSE_MSG_SUCCESS = "Success.";

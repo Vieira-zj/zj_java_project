@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testResults version="1.2">
+<sample t="965" it="0" lt="0" ts="1468518465562" s="true" lb="Get user defined variables" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="279" it="0" lt="0" ts="1468518466537" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="135" it="0" lt="0" ts="1468518466817" s="false" lb="Pull empty and push all" rc="0001" rm="Test failed&#xa;Failure -- test13PullEmptyWhenPushAllScreenSaverPictures(org.apache.jmeter.protocol.java.sampler.JUnitSampler$AnnotatedTestCase): java.lang.AssertionError: Verify the add list is empty, when push all screen saver files. expected:&lt;0&gt; but was:&lt;8&gt;&#xa;" tn="Thread Group 1-1" dt="text" by="1589" ng="1" na="1"/>
+<sample t="89" it="0" lt="0" ts="1468518466957" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="83" it="0" lt="0" ts="1468518467049" s="true" lb="Pull empty for update and delete when push empty" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="118" it="0" lt="0" ts="1468518467134" s="false" lb="Pull all for add when push empty" rc="0001" rm="Test failed&#xa;Failure -- test23PulledScreenSaverPicturesNameForAddWhenPushEmpty(org.apache.jmeter.protocol.java.sampler.JUnitSampler$AnnotatedTestCase): java.lang.AssertionError: Verify two Json Array length is equal. expected:&lt;9&gt; but was:&lt;10&gt;&#xa;" tn="Thread Group 1-1" dt="text" by="1661" ng="1" na="1"/>
+
+</testResults>

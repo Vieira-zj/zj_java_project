@@ -12,5 +12,4 @@ import com.zhengjin.apis.testcategory.CategoryRetCodeTest;
 @Categories.IncludeCategory(CategoryRetCodeTest.class)
 @SuiteClasses({TestInterfaceDemo.class, TestScreenSaverJsonInterface.class})
 public final class SuiteRetCodeTestCases {
-
 }
