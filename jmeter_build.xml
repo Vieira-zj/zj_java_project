@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project basedir="." name="ant-jmeter" default="all">
 	
 	<description>
-		The ant jmeter build reference from {jmeter-home}/extras/build.xml
+		The ant jmeter build refer to {jmeter-home}/extras/build.xml
 	</description>
 	
 	<tstamp>
 		<format property="time" pattern="yyyyMMddhhmm" />
 	</tstamp>
 	
-	<property name="ReportName" value="TestReport"/>
+	<!-- property definition -->
+	<property name="project.root.dir" location="${ant.project.name}/.."/>
+
+	<property name="java.src.dir" location="${project.root.dir}/src"/>
+	<property name="java.class.dir" location="${project.root.dir}/classes"/>
+	<property name="java.lib.dir" location="${project.root.dir}/libs"/>
+	
+	<property name="java.jar.name" value="FunSettingsTest.jar"/>
+
+	
+	<property name="test.case" value="ScreenSaver_APIs_FullTest.jmx"/>
+	
 	<property name="report.title" value="Load Test Results"/>
+	<property name="report.name" value="JmeterTestReport"/>
 
-	<!-- path -->
-	<property name="jmeter.home" location="D:\Program_Files\apache-jmeter-3.0"/>
-	<property name="jmeter.extras" location="${jmeter.home}/extras"/>
-    <property name="jmeter.lib.dir" value="${jmeter.home}/lib"/>
+	<property name="jmeter.home.dir" location="D:\Program_Files\apache-jmeter-3.0"/>
+	<property name="jmeter.extras.dir" location="${jmeter.home.dir}/extras"/>
+    <property name="jmeter.lib.dir" location="${jmeter.home.dir}/lib"/>
+	<property name="jmeter.junit.lib.dir" location="${jmeter.lib.dir}/junit"/>
 
-	<property name="project.root" location="${ant.project.name}/.."/>
-	<property name="jmeter.jmx.dir" location="${project.root}/jmx"/>
 
-	<property name="jmeter.result.jtl.dir" location="${project.root}/reports"/>
-	<property name="jmeter.result.html.dir" location="${project.root}/reports"/>
+	<property name="project.jmeter.jmx.dir" location="${project.root.dir}/jmx"/>
 
-	<property name="jmeter.result.jtl.report" location="${jmeter.result.jtl.dir}/${ReportName}${time}.jtl"/>
-	<property name="jmeter.result.html.report" location="${jmeter.result.jtl.dir}/${ReportName}${time}.html"/>
+	<property name="project.jmeter.result.jtl.dir" location="${project.root.dir}/reports/jtls"/>
+	<property name="project.jmeter.result.html.dir" location="${project.root.dir}/reports"/>
 
-    <property name="test" value="Test"/>
+	<property name="project.jmeter.result.jtl.report" 
+		location="${project.jmeter.result.jtl.dir}/${report.name}_${time}.jtl"/>
+	<property name="proejct.jmeter.result.html.report" 
+		location="${project.jmeter.result.html.dir}/${report.name}_${time}.html"/>
+
     <!-- Should report include response data for failures? -->
     <property name="show-data" value="n"/>
     <property name="format" value="2.1"/>
@@ -39,32 +51,54 @@
         <equals arg1="${format}" arg2="2.1"/>
     </condition>
 
-    <condition property="funcMode">
-        <equals arg1="${show-data}" arg2="y"/>
-    </condition>
-    
     <condition property="funcMode" value="false">
       <not>
         <equals arg1="${show-data}" arg2="y"/>
       </not>
     </condition>
 
+	
+	<!-- targets -->
+    <target name="all" depends="run,report"/>
+
+	<!-- target, build jar package -->
+	<path id="master.classpath">
+		<fileset dir="${java.lib.dir}">
+			<include name="*.jar"/>	
+		</fileset>
+	</path>
+	
+	<target name="clear"></target>
+	
+	<target name="init"></target>
+	
+	<target name="compile">
+		<javac srcdir="${java.src.dir}" destdir="${java.class.dir}" 
+			source="1.8" target="1.8" encoding="UTF-8"
+			includeantruntime="false" classpathref="master.classpath"/>
+	</target>
+	
+	<target name="jar">
+		<jar destfile="${jmeter.junit.lib.dir}/${java.jar.name}" basedir="${java.class.dir}">
+			<include name="**/*.class"/>
+		</jar>
+	</target>
+	
+	<!-- target, jmeter run -->
     <path id="jmeter.classpath">
-        <fileset dir="${jmeter.extras}">
-          <include name="ant-jmeter*.jar"/>
+        <fileset dir="${jmeter.extras.dir}">
+        	<include name="ant-jmeter*.jar"/>
         </fileset>
     </path>
 
     <taskdef name="jmeter" classpathref="jmeter.classpath"
         classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask"/>
 
-    <target name="all" depends="run,report"/>
-	
 	<target name="run">
         <echo>funcMode = ${funcMode}</echo>
-        <jmeter jmeterhome="${jmeter.home}"
-            testplan ="${jmeter.jmx.dir}/ScreenSaver_APIs_FullTest.jmx"
-            resultlog="${jmeter.result.jtl.report}">
+        <jmeter jmeterhome="${jmeter.home.dir}"
+            testplan ="${project.jmeter.jmx.dir}/${test.case}"
+            resultlog="${project.jmeter.result.jtl.report}">
         <!--
             <jvmarg value="-Xincgc"/>
             <jvmarg value="-Xmx128m"/>
@@ -80,8 +114,10 @@
         	<property name="jmeter.save.saveservice.response_data.on_error" value="${funcMode}"/>
        	-->
         </jmeter>
-	</target>	
+	</target>
 	
+	
+	<!-- target, generate jmeter report -->
     <!-- Use xalan copy from JMeter lib directory to ensure consistent processing with Java 1.4+ -->
     <path id="xslt.classpath">
         <fileset dir="${jmeter.lib.dir}" includes="xalan*.jar"/>
@@ -93,13 +129,15 @@
     </target>
 	
     <target name="xslt-report" depends="_message_xalan">
-        <tstamp><format property="report.datestamp" pattern="yyyy/MM/dd HH:mm"/></tstamp>
+        <tstamp>
+        	<format property="report.datestamp" pattern="yyyy/MM/dd HH:mm"/>
+        </tstamp>
         <xslt
             classpathref="xslt.classpath"
             force="true"
-            in="${jmeter.result.jtl.report}"
-            out="${jmeter.result.html.report}"
-            style="${jmeter.extras}/jmeter-results-detail-report${style_version}.xsl">
+            in="${project.jmeter.result.jtl.report}"
+            out="${proejct.jmeter.result.html.report}"
+            style="${jmeter.extras.dir}/jmeter-results-detail-report${style_version}.xsl">
             <param name="showData" expression="${show-data}"/>
             <param name="titleReport" expression="${report.title}"/>
             <param name="dateReport" expression="${report.datestamp}"/>
@@ -108,13 +146,13 @@
 
     <!-- Copy report images if needed -->
     <target name="copy-images" depends="verify-images" unless="samepath">
-        <copy file="${jmeter.extras}/expand.png" tofile="${jmeter.result.html.dir}/expand.png"/>
-        <copy file="${jmeter.extras}/collapse.png" tofile="${jmeter.result.html.dir}/collapse.png"/>
+        <copy file="${jmeter.extras.dir}/expand.png" tofile="${project.jmeter.result.html.dir}/expand.png"/>
+        <copy file="${jmeter.extras.dir}/collapse.png" tofile="${project.jmeter.result.html.dir}/collapse.png"/>
     </target>
 
     <target name="verify-images">
         <condition property="samepath">
-			<equals arg1="${jmeter.extras}" arg2="${jmeter.result.html.dir}" />
+			<equals arg1="${jmeter.extras.dir}" arg2="${project.jmeter.result.html.dir}" />
         </condition>
     </target>
 

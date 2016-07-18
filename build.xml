@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project basedir="." default="report" name="ant_jmeter_test">
+<project basedir="." default="test" name="ant_jmeter_test">
 	
 	<tstamp>
 		<format property="time" pattern="yyyyMMddhhmm" />
@@ -41,7 +41,7 @@
 	</target>
 	
 	<target name="test">
-		<echo>"${jmeter.jmx.dir}"</echo>
+		<echo>"${project.root}"</echo>
 	</target>
 
 </project>

@@ -19,7 +19,7 @@ public final class TestConstants {
 	public static final int LONG_WAIT = 5000;
 	public static final int TIME_OUT = 8000;
 	
-	public static final String CHARSET = "UTF-8";
+	public static final String CHARSET_UFT8 = "UTF-8";
 	
 //	public static final String SCREEN_SAVER_URL_TEST = 
 //			"http://172.17.12.36:8080/file-ms-service/service/pic-distribute/api/v2";

@@ -62,6 +62,7 @@ public final class HttpUtils {
 			httpConn = (HttpURLConnection)url.openConnection();
 			httpConn.setRequestMethod("POST");
 			httpConn.setRequestProperty("Content-Type", "application/json");
+			httpConn.setRequestProperty("charset", TestConstants.CHARSET_UFT8);
 			httpConn.setConnectTimeout(TestConstants.TIME_OUT);
 			httpConn.setDoInput(true);
 			httpConn.setDoOutput(true);

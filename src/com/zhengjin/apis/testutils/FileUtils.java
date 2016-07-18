@@ -40,7 +40,7 @@ public final class FileUtils {
 		
 		try {
 			FileInputStream fis = new FileInputStream(path);
-			InputStreamReader isr = new InputStreamReader(fis, TestConstants.CHARSET);
+			InputStreamReader isr = new InputStreamReader(fis, TestConstants.CHARSET_UFT8);
 			reader = new BufferedReader(isr);
 			
 			String tempStr = null;
