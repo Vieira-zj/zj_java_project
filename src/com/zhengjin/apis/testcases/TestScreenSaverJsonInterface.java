@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+//import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
@@ -51,9 +52,11 @@ public final class TestScreenSaverJsonInterface {
 		TestUtils.printLog("teardown in TestScreenSaver.");
 	}
 
+//	@Ignore
 	@Test
 	@Category(CategoryScreenSaverTest.class)
 	public void test11GetJmeterUserDefinedVars() {
+		// if run test cases in Java Env (but not Jmeter Env), ignore this test case
 		
 		// get the Jmeter sampler when running the test cases
 		String testcases_file_path = 
