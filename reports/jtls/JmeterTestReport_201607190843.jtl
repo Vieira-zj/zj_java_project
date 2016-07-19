@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testResults version="1.2">
+<sample t="994" it="0" lt="0" ts="1468932206264" s="true" lb="Get user defined variables" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="273" it="0" lt="0" ts="1468932207268" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="108" it="0" lt="0" ts="1468932207542" s="false" lb="Pull empty and push all" rc="0001" rm="Test failed&#xa;Failure -- test13PullEmptyWhenPushAllScreenSaverPictures(org.apache.jmeter.protocol.java.sampler.JUnitSampler$AnnotatedTestCase): java.lang.AssertionError: Verify the add list is empty, when push all screen saver files. expected:&lt;0&gt; but was:&lt;7&gt;&#xa;" tn="Thread Group 1-1" dt="text" by="1567" ng="1" na="1"/>
+<sample t="94" it="0" lt="0" ts="1468932207656" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="101" it="0" lt="0" ts="1468932207751" s="true" lb="Pull empty for update and delete when push empty" rc="1000" rm="Test successful" tn="Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="107" it="0" lt="0" ts="1468932207853" s="false" lb="Pull all for add when push empty" rc="0001" rm="Test failed&#xa;Failure -- test23PulledScreenSaverPicturesNameForAddWhenPushEmpty(org.apache.jmeter.protocol.java.sampler.JUnitSampler$AnnotatedTestCase): org.junit.ComparisonFailure: Verify Json value is equal. expected:&lt;[极限挑战 第二季]&gt; but was:&lt;[狱中花]&gt;&#xa;" tn="Thread Group 1-1" dt="text" by="1567" ng="1" na="1"/>
+
+<sample t="971" it="0" lt="0" ts="1468932209455" s="true" lb="Get user defined variables" rc="1000" rm="Test successful" tn="setUp Thread Group 1-1" dt="text" by="0" ng="1" na="1"/>
+<sample t="313" it="0" lt="0" ts="1468932211037" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="114" it="0" lt="0" ts="1468932211238" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="102" it="0" lt="0" ts="1468932211439" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="95" it="0" lt="0" ts="1468932211638" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="98" it="0" lt="0" ts="1468932211837" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="87" it="0" lt="0" ts="1468932211852" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="94" it="0" lt="0" ts="1468932211852" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="95" it="0" lt="0" ts="1468932212042" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="94" it="0" lt="0" ts="1468932212234" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="115" it="0" lt="0" ts="1468932212439" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="120" it="0" lt="0" ts="1468932212436" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="118" it="0" lt="0" ts="1468932212447" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="100" it="0" lt="0" ts="1468932212637" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="108" it="0" lt="0" ts="1468932212829" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="112" it="0" lt="0" ts="1468932213065" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="119" it="0" lt="0" ts="1468932213061" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="148" it="0" lt="0" ts="1468932213057" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="113" it="0" lt="0" ts="1468932213238" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="84" it="0" lt="0" ts="1468932213439" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="87" it="0" lt="0" ts="1468932213679" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="87" it="0" lt="0" ts="1468932213681" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="97" it="0" lt="0" ts="1468932213706" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="125" it="0" lt="0" ts="1468932213852" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="91" it="0" lt="0" ts="1468932214025" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="98" it="0" lt="0" ts="1468932214266" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="99" it="0" lt="0" ts="1468932214268" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="77" it="0" lt="0" ts="1468932214303" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="96" it="0" lt="0" ts="1468932214477" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="143" it="0" lt="0" ts="1468932214616" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="90" it="0" lt="0" ts="1468932214864" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="90" it="0" lt="0" ts="1468932214867" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="104" it="0" lt="0" ts="1468932214880" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="90" it="0" lt="0" ts="1468932215074" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="136" it="0" lt="0" ts="1468932215259" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="105" it="0" lt="0" ts="1468932215455" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="102" it="0" lt="0" ts="1468932215459" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="90" it="0" lt="0" ts="1468932215484" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="98" it="0" lt="0" ts="1468932215665" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="91" it="0" lt="0" ts="1468932215895" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="125" it="0" lt="0" ts="1468932216060" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="127" it="0" lt="0" ts="1468932216061" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="122" it="0" lt="0" ts="1468932216074" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="83" it="0" lt="0" ts="1468932216263" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="86" it="0" lt="0" ts="1468932216489" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="98" it="0" lt="0" ts="1468932216685" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="92" it="0" lt="0" ts="1468932216696" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="106" it="0" lt="0" ts="1468932216689" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="106" it="0" lt="0" ts="1468932216846" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="89" it="0" lt="0" ts="1468932217076" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="93" it="0" lt="0" ts="1468932217284" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="96" it="0" lt="0" ts="1468932217295" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="127" it="0" lt="0" ts="1468932217290" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="91" it="0" lt="0" ts="1468932217452" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="89" it="0" lt="0" ts="1468932217665" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="93" it="0" lt="0" ts="1468932217891" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="118" it="0" lt="0" ts="1468932217879" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="152" it="0" lt="0" ts="1468932217918" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="91" it="0" lt="0" ts="1468932218044" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="117" it="0" lt="0" ts="1468932218255" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="91" it="0" lt="0" ts="1468932218486" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="86" it="0" lt="0" ts="1468932218497" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="97" it="0" lt="0" ts="1468932218573" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="88" it="0" lt="0" ts="1468932218636" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="136" it="0" lt="0" ts="1468932218872" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="115" it="0" lt="0" ts="1468932219077" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="114" it="0" lt="0" ts="1468932219083" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="137" it="0" lt="0" ts="1468932219172" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="97" it="0" lt="0" ts="1468932219225" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="94" it="0" lt="0" ts="1468932219508" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="86" it="0" lt="0" ts="1468932219692" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="101" it="0" lt="0" ts="1468932219697" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="119" it="0" lt="0" ts="1468932219810" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="113" it="0" lt="0" ts="1468932219822" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="105" it="0" lt="0" ts="1468932220104" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="102" it="0" lt="0" ts="1468932220279" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="96" it="0" lt="0" ts="1468932220299" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="132" it="0" lt="0" ts="1468932220435" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="140" it="0" lt="0" ts="1468932220429" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="89" it="0" lt="0" ts="1468932220710" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="92" it="0" lt="0" ts="1468932220895" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="109" it="0" lt="0" ts="1468932220882" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="84" it="0" lt="0" ts="1468932221068" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="89" it="0" lt="0" ts="1468932221069" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="102" it="0" lt="0" ts="1468932221300" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="106" it="0" lt="0" ts="1468932221491" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="108" it="0" lt="0" ts="1468932221488" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="86" it="0" lt="0" ts="1468932221659" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="94" it="0" lt="0" ts="1468932221652" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="93" it="0" lt="0" ts="1468932221903" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="84" it="0" lt="0" ts="1468932222098" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="93" it="0" lt="0" ts="1468932222098" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="5" na="5"/>
+<sample t="99" it="0" lt="0" ts="1468932222245" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="5" na="5"/>
+<sample t="116" it="0" lt="0" ts="1468932222246" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="5" na="5"/>
+<sample t="102" it="0" lt="0" ts="1468932222497" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="5" na="5"/>
+<sample t="83" it="0" lt="0" ts="1468932222683" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-1" dt="text" by="0" ng="5" na="5"/>
+<sample t="97" it="0" lt="0" ts="1468932222691" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-2" dt="text" by="0" ng="4" na="4"/>
+<sample t="94" it="0" lt="0" ts="1468932222845" s="true" lb="Http OK for push all" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="3" na="3"/>
+<sample t="97" it="0" lt="0" ts="1468932222863" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-3" dt="text" by="0" ng="3" na="3"/>
+<sample t="79" it="0" lt="0" ts="1468932223100" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-4" dt="text" by="0" ng="2" na="2"/>
+<sample t="122" it="0" lt="0" ts="1468932223440" s="true" lb="Http OK for push empty" rc="1000" rm="Test successful" tn="Thread Group http OK 1-5" dt="text" by="0" ng="1" na="1"/>
+
+</testResults>

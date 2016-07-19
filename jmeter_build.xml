@@ -24,7 +24,7 @@
 		<format property="time" pattern="yyyyMMddhhmm" />
 	</tstamp>
 	
-	<property name="jmx.test.case" value="ScreenSaver_APIs_FullTest.jmx"/>
+	<property name="jmx.test.case" value="ScreenSaver_Perf_HttpOK.jmx"/>
 	
 	<property name="report.title" value="Load Test Results"/>
 	<property name="report.name" value="JmeterTestReport"/>
@@ -67,9 +67,11 @@
     <target name="all" depends="java.build,jmeter.run"/>
     
 	<target name="java.build" depends="setup,deploy"/>
-    <target name="jmeter.run" depends="run,report"/>
+	<target name="jmeter.run" depends="run.single,report"/>
+	<!--
+    <target name="jmeter.run" depends="run.multiple,report"/>
+	-->
 
-	
     <!-- targets, setup -->
 	<target name="setup" depends="clear,init"/>
 	
@@ -136,7 +138,7 @@
     <taskdef name="jmeter" classpathref="jmeter.classpath"
         classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask"/>
 
-	<target name="run">
+	<target name="run.single">
         <echo>funcMode = ${funcMode}</echo>
         <jmeter jmeterhome="${jmeter.home.dir}"
             testplan="${project.jmeter.jmx.dir}/${jmx.test.case}"
@@ -158,7 +160,18 @@
         </jmeter>
 	</target>
 	
-	
+	<target name="run.multiple">
+        <echo>funcMode = ${funcMode}</echo>
+        <jmeter jmeterhome="${jmeter.home.dir}"
+            resultlog="${project.jmeter.result.jtl.report}">
+        	<testplans dir="${project.jmeter.jmx.dir}" includes="*.jmx"/>
+            <property name="jmeter.save.saveservice.output_format" value="xml"/>
+            <property name="jmeter.save.saveservice.assertion_results" value="all"/>
+            <property name="jmeter.save.saveservice.bytes" value="true"/>
+        </jmeter>
+	</target>
+
+        	
 	<!-- target, generate jmeter report -->
     <!-- Use xalan copy from JMeter lib directory to ensure consistent processing with Java 1.4+ -->
     <path id="xslt.classpath">

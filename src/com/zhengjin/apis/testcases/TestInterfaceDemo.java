@@ -95,9 +95,27 @@ public final class TestInterfaceDemo {
 		TestUtils.assertReturnMessageInJsonResponse(retJsonObj);
 	}
 	
+	@Test
+	public void test4SendHttpGetRequest() {
+		// test Baidu weather APIs
+		
+		String httpUrl = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
+		String httpArg = "cityid=101010100";
+		
+		String response = HttpUtils.sendGetRequest(httpUrl, httpArg);
+		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response);
+		
+		Assert.assertEquals(retJsonObj.getIntValue("errNum"), 0);
+		Assert.assertEquals(retJsonObj.getString("errMsg"), "success");
+		
+		JSONObject retData = retJsonObj.getJSONObject("retData");
+		JSONObject retTodayData = retData.getJSONObject("today");
+		Assert.assertTrue(retTodayData.getString("curTemp").startsWith("24"));
+	}
+
 	@Ignore
-	public void test4Demo() {
-		// TODO
+	public void test5Demo() {
+		// TODO:
 	}
 	
 	private static void printLog(Object text) {

@@ -56,7 +56,8 @@ public final class TestScreenSaverJsonInterface {
 	@Test
 	@Category(CategoryScreenSaverTest.class)
 	public void test11GetJmeterUserDefinedVars() {
-		// if run test cases in Java Env (but not Jmeter Env), ignore this test case
+		// if run test cases in Java Env, ignore this test case.
+		// if execute in Jmeter Env, add this case as first.
 		
 		// get the Jmeter sampler when running the test cases
 		String testcases_file_path = 
