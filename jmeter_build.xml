@@ -129,6 +129,10 @@
 	
 	
 	<!-- target, jmeter run -->
+	<!-- 
+		Before run Jmeter task, make sure the 3rd-party jars in "libs" is copied into {jmeter.home}\lib\ext.
+		The Eclipse java Env should be consistent with Jmeter runtime Env.
+	-->
     <path id="jmeter.classpath">
         <fileset dir="${jmeter.extras.dir}">
         	<include name="ant-jmeter*.jar"/>

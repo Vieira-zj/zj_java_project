@@ -8,13 +8,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-//import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zhengjin.apis.testcategory.CategoryJmeterEnvSetup;
 import com.zhengjin.apis.testcategory.CategoryRetCodeTest;
 import com.zhengjin.apis.testcategory.CategoryScreenSaverTest;
 import com.zhengjin.apis.testutils.FileUtils;
@@ -52,12 +52,11 @@ public final class TestScreenSaverJsonInterface {
 		TestUtils.printLog("teardown in TestScreenSaver.");
 	}
 
-//	@Ignore
 	@Test
-	@Category(CategoryScreenSaverTest.class)
+	@Category(CategoryJmeterEnvSetup.class)
 	public void test11GetJmeterUserDefinedVars() {
 		// if run test cases in Java Env, ignore this test case.
-		// if execute in Jmeter Env, add this case as first.
+		// if execute in Jmeter Env, add this case as the first.
 		
 		// get the Jmeter sampler when running the test cases
 		String testcases_file_path = 
