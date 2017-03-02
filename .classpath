@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="libs/ApacheJMeter_core.jar"/>
 	<classpathentry kind="lib" path="libs/junit.jar"/>
 	<classpathentry kind="lib" path="libs/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+	<classpathentry kind="lib" path="E:/GitHub_Workspace/FunSettingsInterfaceTest/libs/ant.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

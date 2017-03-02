@@ -2,8 +2,8 @@
 <project basedir="." name="ant-jmeter" default="all">
 	
 	<description>
-		1. the ant jmeter build refer to {jmeter-home}/extras/build.xml
-		2. add the Java build and deploy steps
+		1. The jmeter build refer to {jmeter-home}/extras/build.xml
+		2. Add the Java build and deploy steps
 	</description>
 	
 	<!-- property, Java build -->
