@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="ant.demo" default="ant.task.demo01">
-	<!-- Run tasks: demo.echo, java.build, ant.task.demo01 -->
+<project basedir="." name="ant.demo" default="ant.task.demo02">
+	<!-- Run tasks: demo.echo, java.build, ant.task.demo01, ant.task.demo02 -->
 
 	<description>
 		1. Compile and build jar
@@ -9,102 +9,101 @@
 
 
 	<!-- properties -->
-	<property name="project.root.dir" location="${ant.project.name}/.."/>
+	<property name="project.root.dir" location="${ant.project.name}/.." />
 
-	<property name="java.src.dir" location="${project.root.dir}/src"/>
-	<property name="java.libs.dir" location="${project.root.dir}/libs"/>
+	<property name="java.src.dir" location="${project.root.dir}/src" />
+	<property name="java.libs.dir" location="${project.root.dir}/libs" />
 
-	<property name="java.output.dir" location="${project.root.dir}/output"/>
-	<property name="java.output.class.dir" location="${java.output.dir}/classes"/>
-	<property name="java.output.jar.dir" location="${java.output.dir}/jars"/>
+	<property name="java.output.dir" location="${project.root.dir}/output" />
+	<property name="java.output.class.dir" location="${java.output.dir}/classes" />
+	<property name="java.output.jar.dir" location="${java.output.dir}/jars" />
 
-	<property name="java.jar.name" value="FunSettingsTest.jar"/>
-	<property name="ant.proerties.name" value="anttask.properties"/>
+	<property name="java.jar.name" value="FunSettingsTest.jar" />
+	<property name="ant.proerties.name" value="anttask.properties" />
 
 
-	<!-- targets, we can run Java build and Jmeter task separately. -->
-	<target name="java.build" depends="setup,build.jar"/>
-
-	<target name="demo.echo">
-		<echo>ant demo at ${project.root.dir}</echo>
-	</target>
-
+	<!-- targets, compile and build jar -->
+	<target name="java.build" depends="setup,build.jar" />
 
 	<!-- targets, setup -->
-	<target name="setup" depends="clear,init"/>
+	<target name="setup" depends="clear,init" />
 
 	<target name="clear" description="Clear files in Java output folder.">
 		<delete>
 			<fileset dir="${java.output.dir}">
-				<include name="**/*.class"/>
-				<include name="**/*.jar"/>
+				<include name="classes/**/*.class" />
+				<include name="jars/**/*.jar" />
 			</fileset>
 		</delete>
 	</target>
 
 	<target name="verify.file.exist" description="Verify output classes and jars folder exist.">
-		<available file="${java.output.class.dir}" property="java.output.class.dir.available"/>
-		<available file="${java.output.jar.dir}" property="java.output.jar.dir.available"/>
+		<available file="${java.output.class.dir}" property="java.output.class.dir.available" />
+		<available file="${java.output.jar.dir}" property="java.output.jar.dir.available" />
 		<condition property="java.output.dir.exist">
 			<and>
-				<istrue value="${java.output.class.dir.available}"/>
-				<istrue value="${java.output.jar.dir.available}"/>
+				<istrue value="${java.output.class.dir.available}" />
+				<istrue value="${java.output.jar.dir.available}" />
 			</and>
 		</condition>
 	</target>
 
-	<target name="init" depends="verify.file.exist" unless="java.output.dir.exist"
-		description="If necessary, create output folders for classes and jars.">
-		<mkdir dir="${java.output.class.dir}"/>
-		<mkdir dir="${java.output.jar.dir}"/>
+	<target name="init" depends="verify.file.exist" unless="java.output.dir.exist" description="If necessary, create output folders for classes and jars.">
+		<mkdir dir="${java.output.class.dir}" />
+		<mkdir dir="${java.output.jar.dir}" />
 	</target>
 
-
 	<!-- targets, build jar package -->
-	<target name="build.jar" depends="compile,copy.res,jar,deploy"/>
+	<target name="build.jar" depends="compile,copy.res,jar" />
 
 	<path id="master.classpath">
 		<fileset dir="${java.libs.dir}">
-			<include name="*.jar"/>
+			<include name="*.jar" />
 		</fileset>
 	</path>
 
 	<target name="compile" description="Compile Java source to classes.">
-		<javac srcdir="${java.src.dir}" destdir="${java.output.class.dir}" 
-			source="1.8" target="1.8" encoding="UTF-8"
-			includeantruntime="false" classpathref="master.classpath"/>
+		<javac srcdir="${java.src.dir}" destdir="${java.output.class.dir}" source="1.8" target="1.8" encoding="UTF-8" includeantruntime="false" classpathref="master.classpath" />
 	</target>
 
 	<target name="copy.res" description="Copy resource files.">
 		<copy todir="${java.output.class.dir}">
-			<fileset file="${project.root.dir}/${ant.proerties.name}"/>
+			<fileset file="${project.root.dir}/${ant.proerties.name}" />
 		</copy>
 	</target>
 
-	<target name="jar" depends="copy.res" 
-		description="Build jar package include classes and resources.">
+	<target name="jar" depends="copy.res" description="Build jar package include classes and resources.">
 		<jar destfile="${java.output.jar.dir}/${java.jar.name}" basedir="${java.output.class.dir}">
-			<include name="**/*.class"/>
-			<include name="${ant.proerties.name}"/>
+			<include name="**/*.class" />
+			<include name="${ant.proerties.name}" />
 		</jar>
 	</target>
 
-	<target name="deploy" description="Deploy jar file.">
-		<copy todir="${java.output.dir}">
-			<fileset file="${java.output.jar.dir}/${java.jar.name}"/>
-		</copy>
+
+	<!-- targets, ant demos -->
+	<target name="demo.echo">
+		<echo>ant demo at ${project.root.dir}</echo>
 	</target>
 
-
-	<!-- targets, call self-defined ant tasks -->
+	<!-- Call customized ant task -->
 	<path id="path.ant.task.jar">
-		<pathelement path="${java.output.dir}/${java.jar.name}"/>
+		<pathelement path="${java.output.jar.dir}/${java.jar.name}" />
 	</path>
-	<taskdef resource="anttask.properties" classpathref="path.ant.task.jar">
-	</taskdef>
+	<taskdef resource="anttask.properties" classpathref="path.ant.task.jar" />
 
-	<target name="ant.task.demo01" description="Call customized ant task by path id.">
+	<target name="ant.task.demo01" description="Call customized ant task, and pass args.">
 		<anttaskdemo01 message="Message from ant build_demo.xml" />
+	</target>
+
+	<!-- Call customized ant task -->
+	<!-- Link: http://blog.csdn.net/kkdelta/article/details/5678241 -->
+	<property name="property.ant.task.jar" location="${java.output.jar.dir}/${java.jar.name}" />
+	<taskdef resource="anttask.properties" classpath="${property.ant.task.jar}" />
+
+	<target name="ant.task.demo02" description="Call customized ant task, and get args.">
+		<!-- define a property with name "myprop" -->
+		<anttaskdemo02 property="myprop" />
+		<echo message="==> ${myprop}" />
 	</target>
 
 </project>
