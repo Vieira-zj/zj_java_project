@@ -12,6 +12,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -22,9 +24,8 @@ public final class FileUtils {
 	private static final int BUFFER_SIZE = 1000;
 	
 	public static String getProjectPath() {
-		
 		String path = FileUtils.class.getResource("/").getPath();
-		if (path == null || path == "") {
+		if (path == null || path.length() == 0) {
 			Assert.assertTrue("Error, the project path is null or empty!", false);
 		}
 		
@@ -32,11 +33,10 @@ public final class FileUtils {
 		return path.substring(0, path.lastIndexOf("/"));
 	}
 
+	// read content from TXT file
 	public static String readFileContent(String path) {
-		// read the content from TXT file.
-		
 		BufferedReader reader = null;
-		StringBuffer content = new StringBuffer(BUFFER_SIZE);
+		StringBuilder content = new StringBuilder(BUFFER_SIZE);
 		
 		try {
 			FileInputStream fis = new FileInputStream(path);
@@ -50,7 +50,8 @@ public final class FileUtils {
 			return content.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertTrue(String.format("Error, IOException(%s) when read file content!", e.getMessage()), false);
+			Assert.assertTrue(String.format("Error, IOException(%s) when read file %s", 
+					e.getMessage(), path), false);
 		} finally {
 			if (reader != null) {
 				try {
@@ -65,7 +66,6 @@ public final class FileUtils {
 	}
 	
 	public static List<List<String>> readExcelRows(String filePath, String sheetName) {
-		
 		FileInputStream fis = null;
 		Workbook excelWorkbook = null;
 		List<List<String>> rows = null;
@@ -94,7 +94,8 @@ public final class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assert.assertTrue(String.format(
-					"Error, the IOException(%s) when read excel file!", e.getMessage()), false);
+					"Error, the IOException(%s) when read excel file %s", 
+					e.getMessage(), filePath), false);
 		} finally {
 			try {
 				if (excelWorkbook != null) {
@@ -110,13 +111,13 @@ public final class FileUtils {
 		
 		if (rows.size() == 0) {
 			Assert.assertTrue(String.format(
-					"Error, test cases count is 0 in file(%s) and sheet(%s)!", filePath, sheetName), false);
+					"Error, test cases count is 0 in file(%s) and sheet(%s)!", 
+					filePath, sheetName), false);
 		}
 		return rows;
 	}
 	
 	public static List<String> getSpecifiedRow(List<List<String>> rows, String caseId) {
-		
 		for (List<String> row : rows) {
 			if (row.get(TestConstants.COL_CASE_ID).trim().equals(caseId)) {
 				return row;
@@ -124,7 +125,7 @@ public final class FileUtils {
 		}
 
 		Assert.assertTrue(String.format("Error, the test case(%s) is NOT found!", caseId), false);
-		return new ArrayList<>();
+		return Collections.emptyList();
 	}
 	
 }

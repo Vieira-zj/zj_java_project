@@ -8,31 +8,34 @@ import com.alibaba.fastjson.JSONObject;
 
 public final class TestUtils {
 
-	public static void assertReturnCodeInJsonResponse(JSONObject jsonObj) {
-		
-		Assert.assertEquals("Verify the ret code in response.", 
+	public static void assertRespReturnCodeForJson(JSONObject jsonObj) {
+		Assert.assertEquals("Verify response ret code.", 
 				TestConstants.RESPONSE_OK, jsonObj.getIntValue("retCode"));
 	}
 	
-	public static void assertReturnMessageInJsonResponse(JSONObject jsonObj) {
-		
-		Assert.assertEquals("Verify the ret message in response.", 
+	public static void assertRespReturnMsgForJson(JSONObject jsonObj) {
+		Assert.assertEquals("Verify response ret message.", 
 				TestConstants.RESPONSE_MSG_SUCCESS, jsonObj.getString("retMsg"));
 	}
 	
-	public static void assertJsonArrayEqualsForSpecifiedField(
-			JSONArray exptectedJson, JSONArray actualJson, String key) {
+	public static void assertElementsInJsonArray(
+			JSONArray exptectedJsonArr, JSONArray actualJsonArr, String key) {
+		Assert.assertEquals("Verify two Json Array length is equal.", 
+				exptectedJsonArr.size(), actualJsonArr.size());
 		
-		Assert.assertEquals("Verify two Json Array length is equal.", exptectedJson.size(), actualJson.size());
-		
-		for (int i = 0, size = exptectedJson.size(); i < size; i++) {
+		for (int i = 0, size = exptectedJsonArr.size(); i < size; i++) {
 			Assert.assertEquals("Verify Json value is equal.", 
-					exptectedJson.getJSONObject(i).getString(key), actualJson.getJSONObject(i).getString(key));
+					exptectedJsonArr.getJSONObject(i).getString(key), 
+					actualJsonArr.getJSONObject(i).getString(key));
 		}
 	}
 	
 	public static void printLog(Object text) {
 		System.out.println(text);
+	}
+	
+	public static void printLogWithTag(String tag, String text) {
+		System.out.println(String.format("%s: %s", tag, text));
 	}
 
 }

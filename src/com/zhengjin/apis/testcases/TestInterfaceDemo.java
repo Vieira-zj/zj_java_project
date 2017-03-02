@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
@@ -25,101 +24,105 @@ import org.junit.Assert;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public final class TestInterfaceDemo {
-	
-	static List<List<String>> ROWS;
-	
+
+	private final static String TAG = TestInterfaceDemo.class.getSimpleName();
+
+	private static List<List<String>> ROWS;
+
 	@BeforeClass
 	public static void classSetUp() {
-		printLog("class setup in TestDemo.");
-		ROWS = FileUtils.readExcelRows(TestConstants.TEST_DATA_PATH + "testcases.xlsx", "Settings");
+		TestUtils.printLogWithTag(TAG, "class setup");
+		ROWS = FileUtils.readExcelRows(TestConstants.TEST_DATA_PATH
+				+ "testcases.xlsx", "Settings");
 	}
-	
+
 	@AfterClass
 	public static void classTearDown() {
-		printLog("class teardown in TestDemo.");
+		TestUtils.printLogWithTag(TAG, "class clearup");
 		ROWS.clear();
 	}
-	
+
 	@Before
 	public void setUp() {
-		printLog("setup in TestDemo.");
+		TestUtils.printLogWithTag(TAG, "method setup");
 	}
-	
+
 	@After
 	public void tearDown() {
-		printLog("teardown in TestDemo.");
+		TestUtils.printLogWithTag(TAG, "method clearup");
 	}
-	
+
 	@Test
 	@Category(CategoryDemoTest.class)
-	public void test1ReadFileAndParseJsonString() {
-		
-		String file = "02_json_pull_allfiles.txt";
-		String path = TestConstants.TEST_DATA_PATH + file;
-		String content = FileUtils.readFileContent(path);
-		Assert.assertTrue((content.length() > 0));
-		
-		JSONArray data = JsonUtils.parseJsonContentAndRetJsonObject(content).getJSONArray("add");
-		Assert.assertTrue((data.size() > 0 ));
+	public void test01ReadFileAndParseJsonString() {
+		final String fileName = "02_json_pull_allfiles.txt";
 
-		for (int i = 0, dataSize = data.size(); i < dataSize; i++) {
-			JSONObject item = data.getJSONObject(i);
-			printLog(item.getString("name"));
+		String path = TestConstants.TEST_DATA_PATH + fileName;
+		String content = FileUtils.readFileContent(path);
+		Assert.assertTrue("Verify read content from txt file.",
+				content.length() > 0);
+
+		JSONArray addArr = JsonUtils.parseJsonContentAndRetObject(content)
+				.getJSONObject("data").getJSONArray("add");
+		Assert.assertTrue("Verify parse json object.", addArr.size() > 0);
+
+		TestUtils.printLog("Items from Json: ");
+		for (int i = 0, dataSize = addArr.size(); i < dataSize; i++) {
+			JSONObject item = addArr.getJSONObject(i);
+			TestUtils.printLog(item.getString("name"));
 		}
 	}
-	
+
 	@Test
 	@Category(CategoryDemoTest.class)
-	public void test2SendHttpJsonPostRequest() {
-		
-		String file = "01_json_push_allfiles.txt";
-//		String file = "02_json_push_empty.txt";
-		String path = TestConstants.TEST_DATA_PATH + file;
+	public void test02SendHttpJsonPostRequest() {
+		final String fileName = "02_json_push_empty.txt";
+
+		String path = TestConstants.TEST_DATA_PATH + fileName;
 		String content = FileUtils.readFileContent(path);
-
-		String response = HttpUtils.sendJsonPostRequest(TestConstants.SCREEN_SAVER_URL_TEST, content);
-		printLog(response);
-		Assert.assertTrue((JsonUtils.parseJsonContentAndRetJsonObject(response).getIntValue("retCode") == 200));
+		String response = HttpUtils.sendHttpPostRequest(
+				TestConstants.SCREEN_SAVER_SERVER_URL, content);
+		TestUtils.printLog("Response for screen saver server: ");
+		TestUtils.printLog(response);
+		Assert.assertEquals("Verify the return code is 200.", 200, JsonUtils
+				.parseJsonContentAndRetObject(response).getIntValue("retCode"));
 	}
-	
+
 	@Test
 	@Category(CategoryDemoTest.class)
-	public void test3ReadTestCaseFromExcel() {
-		
+	public void test03RunInterfaceTestCaseFromExcel() {
 		List<String> row = FileUtils.getSpecifiedRow(ROWS, "SS_01");
-		String response = HttpUtils.sendJsonPostRequest(
-				TestConstants.SCREEN_SAVER_URL_TEST, row.get(TestConstants.COL_REQUEST_DATA));
-		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response);
+		String response = HttpUtils.sendHttpPostRequest(
+				TestConstants.SCREEN_SAVER_SERVER_URL,
+				row.get(TestConstants.COL_REQUEST_DATA));
+		JSONObject retJsonObj = JsonUtils
+				.parseJsonContentAndRetObject(response);
 
-		TestUtils.assertReturnCodeInJsonResponse(retJsonObj);
-		TestUtils.assertReturnMessageInJsonResponse(retJsonObj);
+		TestUtils.assertRespReturnCodeForJson(retJsonObj);
+		TestUtils.assertRespReturnMsgForJson(retJsonObj);
 	}
-	
+
 	@Test
-	public void test4SendHttpGetRequest() {
-		// test Baidu weather APIs
-		
-		String httpUrl = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
-		String httpArg = "cityid=101010100";
-		
-		String response = HttpUtils.sendGetRequest(httpUrl, httpArg);
-		JSONObject retJsonObj = JsonUtils.parseJsonContentAndRetJsonObject(response);
-		
-		Assert.assertEquals(retJsonObj.getIntValue("errNum"), 0);
-		Assert.assertEquals(retJsonObj.getString("errMsg"), "success");
-		
-		JSONObject retData = retJsonObj.getJSONObject("retData");
-		JSONObject retTodayData = retData.getJSONObject("today");
-		Assert.assertTrue(retTodayData.getString("curTemp").startsWith("24"));
-	}
+	@Category(CategoryDemoTest.class)
+	public void test04SendHttpGetRequest() {
+		final String cityId = "101010100";
+		String httpArg = "plat_type=funtv&version=2.8.0.8_s&sid=FD5551A-SU&mac=28:76:CD:01:96:F6"
+				+ "&random=1483946026114266&sign=f56d8ebc07bd370101f06b2d84be0e2f"
+				+ "&province=&city=&area=&cityId=%s";
 
-	@Ignore
-	public void test5Demo() {
-		// TODO:
-	}
-	
-	private static void printLog(Object text) {
-		System.out.println(text);
+		String response = HttpUtils.sendHttpGetRequest(
+				TestConstants.WEATHER_SERVER_URL,
+				String.format(httpArg, cityId));
+		JSONObject retJsonObj = JsonUtils
+				.parseJsonContentAndRetObject(response);
+		Assert.assertEquals("Verify return code of GET request.",
+				retJsonObj.getString("retCode"), "200");
+		Assert.assertEquals("Verify return message of GET request.",
+				retJsonObj.getString("retMsg"), "ok");
+
+		JSONObject retData = retJsonObj.getJSONObject("data");
+		Assert.assertEquals("Verify the city cn name.",
+				retData.getString("city"), "北京");
 	}
 
 }
