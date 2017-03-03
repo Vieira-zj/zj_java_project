@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<property name="project.desc" value="sub project include common targets." />
+
+	<target name="common.echo">
+		<echo level="info">echo in build.import</echo>
+	</target>
+</project>

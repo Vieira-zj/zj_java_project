@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="ant.demo" default="ant.task.demo02">
-	<!-- Run tasks: demo.echo, java.build, ant.task.demo01, ant.task.demo02 -->
+<project basedir="." name="ant.demo" default="if.condition.test">
+	<!-- Run tasks: java.build, ant.task.demo01, ant.task.demo02 -->
 
 	<description>
 		1. Compile and build jar
@@ -85,7 +85,7 @@
 		<echo>ant demo at ${project.root.dir}</echo>
 	</target>
 
-	<!-- Call customized ant task -->
+	<!-- call customized ant task -->
 	<path id="path.ant.task.jar">
 		<pathelement path="${java.output.jar.dir}/${java.jar.name}" />
 	</path>
@@ -95,8 +95,8 @@
 		<anttaskdemo01 message="Message from ant build_demo.xml" />
 	</target>
 
-	<!-- Call customized ant task -->
-	<!-- Link: http://blog.csdn.net/kkdelta/article/details/5678241 -->
+	<!-- call customized ant task -->
+	<!-- refer to http://blog.csdn.net/kkdelta/article/details/5678241 -->
 	<property name="property.ant.task.jar" location="${java.output.jar.dir}/${java.jar.name}" />
 	<taskdef resource="anttask.properties" classpath="${property.ant.task.jar}" />
 
@@ -105,5 +105,56 @@
 		<anttaskdemo02 property="myprop" />
 		<echo message="==> ${myprop}" />
 	</target>
+
+	<!-- define macro -->
+	<macrodef name="myprint">
+		<attribute name="input" />
+		<element name="macro.element" optional="yes" />
+		<sequential>
+			<echo level="info">print @{input}</echo>
+			<macro.element />
+		</sequential>
+	</macrodef>
+
+	<target name="macro.test" description="Call self-defined macro.">
+		<myprint input="call macro test">
+			<macro.element>
+				<echo level="info">exec callback function macro.element</echo>
+			</macro.element>
+		</myprint>
+	</target>
+
+	<!-- import ant file -->
+	<property name="ant.import.xml" value="build_import.xml" />
+	<property name="path.ant.import.xml" location="${project.root.dir}/${ant.import.xml}" />
+	<import file="${path.ant.import.xml}" />
+
+	<target name="import.test" depends="common.echo" description="Invoke properties and targets from import file.">
+		<echo>Project desc from import: ${project.desc}</echo>
+	</target>
+
+	<!-- subant -->
+	<target name="subant.test" description="Define subant to call target from external file.">
+		<echo level="info">run the subant task</echo>
+		<subant failonerror="true">
+			<fileset dir="${project.root.dir}" includes="${ant.import.xml}" />
+			<target name="common.echo" />
+		</subant>
+	</target>
+
+	<!-- if condition -->
+	<target name="if.condition.test" description="Tag isset: verify the specified property exist.">
+		<property name="exist.test" value="value test" />
+
+		<!-- if property "exist.test" exist, then create property "pro.test" with value "true" -->
+		<condition property="pro.test" value="true">
+			<isset property="exist.test" />
+		</condition>
+
+		<echo level="info">Output: ${pro.test}</echo>
+	</target>
+
+	<!-- if else condition -->
+
 
 </project>
