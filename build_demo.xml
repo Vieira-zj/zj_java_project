@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." name="ant.demo" default="if.condition.test">
-	<!-- Run tasks: java.build, ant.task.demo01, ant.task.demo02 -->
+<project basedir="." name="ant.demo" default="if.else.test">
 
 	<description>
 		1. Compile and build jar
@@ -91,7 +90,7 @@
 	</path>
 	<taskdef resource="anttask.properties" classpathref="path.ant.task.jar" />
 
-	<target name="ant.task.demo01" description="Call customized ant task, and pass args.">
+	<target name="ant.self.defined.task01" description="Call customized ant task, and pass args.">
 		<anttaskdemo01 message="Message from ant build_demo.xml" />
 	</target>
 
@@ -100,7 +99,7 @@
 	<property name="property.ant.task.jar" location="${java.output.jar.dir}/${java.jar.name}" />
 	<taskdef resource="anttask.properties" classpath="${property.ant.task.jar}" />
 
-	<target name="ant.task.demo02" description="Call customized ant task, and get args.">
+	<target name="ant.self.defined.task02" description="Call customized ant task, and get args.">
 		<!-- define a property with name "myprop" -->
 		<anttaskdemo02 property="myprop" />
 		<echo message="==> ${myprop}" />
@@ -154,7 +153,25 @@
 		<echo level="info">Output: ${pro.test}</echo>
 	</target>
 
-	<!-- if else condition -->
+	<!-- call customized ant task -->
+	<target name="if.else.test" description="call customized ant task, if else condition.">
+		<property name="pro.test" value="value.test" />
 
+		<condition property="has.pro.test">
+			<and>
+				<isset property="pro.test" />
+				<length string="${pro.test}" when="greater" length="0" />
+			</and>
+		</condition>
+
+		<myifelse condition="${has.pro.test}">
+			<then>
+				<echo level="info">run in if block</echo>
+			</then>
+			<else>
+				<echo level="info">run in else block</echo>
+			</else>
+		</myifelse>
+	</target>
 
 </project>
