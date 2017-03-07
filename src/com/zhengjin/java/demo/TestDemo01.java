@@ -91,6 +91,7 @@ public final class TestDemo01 {
 
 	@Test
 	public void test03Demo() {
+		// access private fields
 		MyTestClass01 testCls = new MyTestClass01(3);
 		boolean ret = testCls.Compare(new MyTestClass01(1));
 		TestUtils.printLog("Results: " + ret);
@@ -142,7 +143,7 @@ public final class TestDemo01 {
 		}
 
 		TestUtils.printLog("AFTER LIST UPDATED => ");
-		tmpStrLst.add("NodeJs");
+		tmpStrLst.add("NodeJs"); // throw exception
 		// try {
 		// tmpStrLst.add("NodeJs");
 		// } catch (UnsupportedOperationException e) {
@@ -206,6 +207,7 @@ public final class TestDemo01 {
 
 	@Test
 	public void test10Demo() {
+		// reflection
 		Class<?> cls = TestDemo01.class;
 
 		TestUtils.printLog("Test methods in "
