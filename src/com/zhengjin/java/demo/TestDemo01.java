@@ -13,10 +13,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import com.zhengjin.apis.testutils.TestUtils;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public final class TestDemo01 {
 
 	@Test
@@ -256,7 +259,7 @@ public final class TestDemo01 {
 	}
 
 	@Test
-	public void test12FutureTaskDemo() {
+	public void test13FutureTaskDemo() {
 		// FutureTask, return
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Integer> futureTask = new FutureTask<>(new TaskCallable());
@@ -271,7 +274,7 @@ public final class TestDemo01 {
 	}
 
 	@Test
-	public void test13FutureTaskDemo() {
+	public void test14FutureTaskDemo() {
 		// FutureTask, return
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Integer> futureTask = new FutureTask<>(new Runnable() {
@@ -292,7 +295,7 @@ public final class TestDemo01 {
 	}
 
 	@Test
-	public void test14FutureTaskDemo() {
+	public void test15FutureTaskDemo() {
 		// FutureTask, return
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Void> futureTask = new FutureTask<>(new Runnable() {
@@ -332,7 +335,7 @@ public final class TestDemo01 {
 	}
 
 	@Test
-	public void test15Demo() {
+	public void test16Demo() {
 		// ENUM object
 		TestUtils.printLog(BasicOperation.PLUS.apply(1.0, 3.0));
 	}
