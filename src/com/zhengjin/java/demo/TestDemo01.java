@@ -1,9 +1,17 @@
 package com.zhengjin.java.demo;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 import org.junit.Test;
 
@@ -181,6 +189,152 @@ public final class TestDemo01 {
 		for (String str : tmpStrLst) {
 			TestUtils.printLog("Item: " + str);
 		}
+	}
+
+	@Test
+	public void test09Demo() {
+		// format
+		int frames = Integer.parseInt("00035673", 16); // 218635, 218697, 218739
+		System.out.println("frames: " + String.valueOf(frames));
+
+		float fps = 1.011f;
+		System.out.printf("fps: %.1f", fps);
+	}
+
+	@Test
+	public void test10Demo() {
+		Class<?> cls = TestDemo01.class;
+
+		TestUtils.printLog("Test methods in "
+				+ TestDemo01.class.getSimpleName() + ": ");
+		Method[] methods = cls.getMethods();
+		for (Method m : methods) {
+			Annotation annotation = m.getAnnotation(org.junit.Test.class);
+			if (annotation != null) {
+				TestUtils.printLog(m.getName());
+			}
+		}
+	}
+
+	@Test
+	public void test11RunnableTaskDemo() {
+		// Runnable, return null
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		@SuppressWarnings("unchecked")
+		Future<String> future = (Future<String>) executorService
+				.submit(new TaskRunnable());
+
+		try {
+			TestUtils.printLog(future.get());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		executorService.shutdown();
+	}
+
+	private static class TaskRunnable implements Runnable {
+
+		@Override
+		public void run() {
+			TestUtils.printLog("run");
+		}
+	}
+
+	@Test
+	public void test12CallableTaskDemo() {
+		// Callable, return
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		Future<Integer> future = (Future<Integer>) executorService
+				.submit(new TaskCallable());
+
+		try {
+			TestUtils.printLog(future.get().toString());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		executorService.shutdown();
+	}
+
+	@Test
+	public void test12FutureTaskDemo() {
+		// FutureTask, return
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		FutureTask<Integer> futureTask = new FutureTask<>(new TaskCallable());
+
+		executorService.submit(futureTask);
+		try {
+			TestUtils.printLog(futureTask.get());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		executorService.shutdown();
+	}
+
+	@Test
+	public void test13FutureTaskDemo() {
+		// FutureTask, return
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		FutureTask<Integer> futureTask = new FutureTask<>(new Runnable() {
+			@Override
+			public void run() {
+				TestUtils.printLog("FutureTask2 run");
+			}
+		}, fibc(30)); // the result to return on successful completion
+
+		executorService.submit(futureTask);
+		try {
+			TestUtils.printLog(futureTask.get());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		executorService.shutdown();
+	}
+
+	@Test
+	public void test14FutureTaskDemo() {
+		// FutureTask, return
+		ExecutorService executorService = Executors.newCachedThreadPool();
+		FutureTask<Void> futureTask = new FutureTask<>(new Runnable() {
+			@Override
+			public void run() {
+				TestUtils.printLog("FutureTask3 run");
+			}
+		}, null);
+
+		executorService.submit(futureTask);
+		try {
+			TestUtils.printLog(futureTask.get());
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		executorService.shutdown();
+	}
+
+	private static class TaskCallable implements Callable<Integer> {
+
+		@Override
+		public Integer call() throws Exception {
+			TestUtils.printLog("call");
+			return fibc(30);
+		}
+	}
+
+	private static int fibc(int num) {
+		if (num == 0) {
+			return 0;
+		}
+		if (num == 1) {
+			return 1;
+		}
+		return fibc(num - 1) + fibc(num - 2);
+	}
+
+	@Test
+	public void test15Demo() {
+		// ENUM object
+		TestUtils.printLog(BasicOperation.PLUS.apply(1.0, 3.0));
 	}
 
 }
