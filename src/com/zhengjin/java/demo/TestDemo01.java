@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -151,8 +152,21 @@ public final class TestDemo01 {
 		// }
 	}
 
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void test0701Demo() {
+		// remove elements in list
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
+				"js", "Java", "C++", "C#", "JS" }));
+
+		for (int i = 0, size = tmpStrLst.size(); i < size; i++) {
+			if ("Java".equals(tmpStrLst.get(i))) {
+				tmpStrLst.remove(i);
+			}
+		}
+	}
+
 	@Test
-	public void test07Demo() {
+	public void test0702Demo() {
 		// remove elements in list
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
@@ -172,9 +186,22 @@ public final class TestDemo01 {
 		}
 	}
 
+	@Test(expected = ConcurrentModificationException.class)
+	public void test0801Demo() {
+		// iterator, remove elements in list
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
+				"js", "Java", "C++", "C#", "JS" }));
+
+		for (String item : tmpStrLst) {
+			if ("JS".equals(item.toUpperCase())) {
+				tmpStrLst.remove(item);
+			}
+		}
+	}
+
 	@Test
-	public void test08Demo() {
-		// remove elements in list
+	public void test0802Demo() {
+		// iterator, remove elements in list
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {

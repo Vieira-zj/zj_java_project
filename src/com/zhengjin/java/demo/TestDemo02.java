@@ -2,7 +2,13 @@ package com.zhengjin.java.demo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -175,12 +181,98 @@ public final class TestDemo02 {
 
 	private void updateStringValue(String tmpStr) {
 		tmpStr += "x";
-		System.out.println("updateStringValue: " + tmpStr);
+		TestUtils.printLog("updateStringValue: " + tmpStr);
 	}
 
 	private void updateListValue(List<String> lst) {
 		lst.add("test");
-		System.out.println("updateListValue: " + lst);
+		TestUtils.printLog("updateListValue: " + lst);
+	}
+
+	@Test
+	public void test11Demo() {
+		// replace()
+		String tmpStr = "Test Demo 11";
+		TestUtils.printLog(tmpStr.replace(" ", ""));
+	}
+
+	@Test
+	public void test12Demo() {
+		// split(regex)
+		String tmpStr = ";ABBD;;;AS;D;;";
+		String[] results = tmpStr.split(";");
+		TestUtils.printLog(Arrays.toString(results));
+
+		results = tmpStr.split(";+");
+		TestUtils.printLog(Arrays.toString(results));
+	}
+
+	@Test
+	public void test13Demo() {
+		// StringTokenizer
+		String tmpStr = "1,2;3;4,5";
+		List<String> tmpLst = new ArrayList<>(20);
+
+		StringTokenizer token = new StringTokenizer(tmpStr, ",;");
+		while (token.hasMoreTokens()) {
+			tmpLst.add(token.nextToken());
+		}
+		TestUtils.printLog(Arrays.toString(tmpLst.toArray(new String[0])));
+	}
+
+	@Test
+	public void test14Demo() {
+		// StringTokenizer
+		String tmpStr = ";ABBD;;;AS;D;;";
+		List<String> tmpLst = new ArrayList<>(20);
+
+		StringTokenizer token = new StringTokenizer(tmpStr, ";");
+		while (token.hasMoreTokens()) {
+			tmpLst.add(token.nextToken());
+		}
+		TestUtils.printLog(Arrays.toString(tmpLst.toArray(new String[0])));
+	}
+
+	@Test
+	public void test15Demo() {
+		// Enumeration
+		Hashtable<String, String> ht = new Hashtable<>(20);
+		for (int i = 0; i < 5; i++) {
+			ht.put("Key=" + i, "Val=" + i);
+		}
+
+		TestUtils.printLog("Keys:");
+		Enumeration<String> keys = ht.keys();
+		while (keys.hasMoreElements()) {
+			TestUtils.printLog(keys.nextElement());
+		}
+
+		TestUtils.printLog("Values:");
+		for (Enumeration<String> eles = ht.elements(); eles.hasMoreElements();) {
+			TestUtils.printLog(eles.nextElement());
+		}
+	}
+
+	@Test
+	public void test16Demo() {
+		// Iterator
+		Hashtable<String, String> ht = new Hashtable<>(20);
+		for (int i = 0; i < 5; i++) {
+			ht.put("Key=" + i, "Val=" + i);
+		}
+
+		TestUtils.printLog("Keys:");
+		Iterator<String> keys = ht.keySet().iterator();
+		while (keys.hasNext()) {
+			TestUtils.printLog(keys.next());
+		}
+
+		TestUtils.printLog("Value:");
+		for (Iterator<Entry<String, String>> entries = ht.entrySet().iterator(); entries
+				.hasNext();) {
+			Entry<String, String> en = entries.next();
+			TestUtils.printLog(en.getValue());
+		}
 	}
 
 }
