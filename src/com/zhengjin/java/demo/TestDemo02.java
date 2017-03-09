@@ -142,7 +142,6 @@ public final class TestDemo02 {
 		for (int i = 0, length = tmpArr.length; i < length; i++) {
 			TestUtils.printLog("element: " + tmpArr[i]);
 		}
-
 	}
 
 	@Test
@@ -312,6 +311,32 @@ public final class TestDemo02 {
 
 	@Test
 	public void test19Demo() {
+		// overload
+		TestDemo02 demo = new TestDemo02();
+		demo.myPrint("overload test");
+		demo.myPrint(10);
+	}
+
+	private void myPrint(int value) {
+		TestUtils.printLog("Print int value: " + String.valueOf(value));
+	}
+
+	private void myPrint(String text) {
+		TestUtils.printLog("Print string: " + text);
+	}
+
+	@Test
+	public void test20Demo() {
+		// instanceof
+		MyTestClass01 testCls = new MyTestClass02("test", 10);
+		if (testCls instanceof MyTestClass02) {
+			TestUtils.printLog("testCls is instanceof MyTestClass02.");
+		}
+	}
+
+	@Test
+	public void test21Demo() {
 		// TODO:
 	}
+
 }
