@@ -336,6 +336,19 @@ public final class TestDemo02 {
 
 	@Test
 	public void test21Demo() {
+		// contains()
+		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
+				"Java", "C++", "Python" }));
+		if (tmpLst.contains("Java")) {
+			TestUtils.printLog("Java incldude.");
+		}
+		if (tmpLst.contains("JAVA")) {
+			TestUtils.printLog("JAVA incldude.");
+		}
+	}
+
+	@Test
+	public void test22Demo() {
 		// TODO:
 	}
 
