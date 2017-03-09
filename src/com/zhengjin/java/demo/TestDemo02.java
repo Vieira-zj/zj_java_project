@@ -3,11 +3,12 @@ package com.zhengjin.java.demo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -275,4 +276,42 @@ public final class TestDemo02 {
 		}
 	}
 
+	@Test
+	public void test17Demo() {
+		// distinct, array to set
+		String[] tmpArr = { "a", "a", "b", "c", "c", "d" };
+		Set<String> tmpSet = new HashSet<>(Arrays.asList(tmpArr));
+
+		for (String item : tmpSet) {
+			TestUtils.printLog("Item: " + item);
+		}
+	}
+
+	@Test
+	public void test18Demo() {
+		// distinct, list to set
+		List<String> tmpList = new ArrayList<>();
+		tmpList.add("a");
+		tmpList.add("b");
+		tmpList.add("c");
+		tmpList.add("c");
+		tmpList.add("d");
+		tmpList.add("a");
+
+		TestUtils.printLog("List items: ");
+		for (String item : tmpList) {
+			TestUtils.printLog("Item => " + item);
+		}
+
+		TestUtils.printLog("Set items: ");
+		Set<String> tmpSet = new HashSet<>(tmpList);
+		for (String item : tmpSet) {
+			TestUtils.printLog("Item => " + item);
+		}
+	}
+
+	@Test
+	public void test19Demo() {
+		// TODO:
+	}
 }
