@@ -23,11 +23,15 @@ public enum BasicOperation implements IOperation {
 		}
 	};
 
-	@SuppressWarnings("unused")
 	private final String symbool;
 
 	private BasicOperation(String symbool) {
 		this.symbool = symbool;
+	}
+
+	@Override
+	public String toString() {
+		return this.symbool;
 	}
 
 	@Override

@@ -51,8 +51,7 @@ public final class TestDemo01 {
 			ret = false;
 			throw e;
 		} finally {
-			TestUtils.printLog("myExceptionDemo01, finally; return value="
-					+ ret);
+			TestUtils.printLog("myExceptionDemo01, finally; return value=" + ret);
 			return ret;
 		}
 	}
@@ -84,8 +83,7 @@ public final class TestDemo01 {
 			ret = false;
 			throw e;
 		} finally {
-			TestUtils.printLog("myExceptionDemo02, finally; return value="
-					+ ret);
+			TestUtils.printLog("myExceptionDemo02, finally; return value=" + ret);
 			return ret;
 		}
 	}
@@ -155,8 +153,7 @@ public final class TestDemo01 {
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void test0701Demo() {
 		// remove elements in list
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 
 		for (int i = 0, size = tmpStrLst.size(); i < size; i++) {
 			if ("Java".equals(tmpStrLst.get(i))) {
@@ -168,8 +165,7 @@ public final class TestDemo01 {
 	@Test
 	public void test0702Demo() {
 		// remove elements in list
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {
 			TestUtils.printLog("Item: " + str);
 		}
@@ -189,8 +185,7 @@ public final class TestDemo01 {
 	@Test(expected = ConcurrentModificationException.class)
 	public void test0801Demo() {
 		// iterator, remove elements in list
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 
 		for (String item : tmpStrLst) {
 			if ("JS".equals(item.toUpperCase())) {
@@ -202,8 +197,7 @@ public final class TestDemo01 {
 	@Test
 	public void test0802Demo() {
 		// iterator, remove elements in list
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {
 			TestUtils.printLog("Item: " + str);
 		}
@@ -237,8 +231,7 @@ public final class TestDemo01 {
 		// reflection
 		Class<?> cls = TestDemo01.class;
 
-		TestUtils.printLog("Test methods in "
-				+ TestDemo01.class.getSimpleName() + ": ");
+		TestUtils.printLog("Test methods in " + TestDemo01.class.getSimpleName() + ": ");
 		Method[] methods = cls.getMethods();
 		for (Method m : methods) {
 			Annotation annotation = m.getAnnotation(org.junit.Test.class);
@@ -253,8 +246,7 @@ public final class TestDemo01 {
 		// Runnable, return null
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		@SuppressWarnings("unchecked")
-		Future<String> future = (Future<String>) executorService
-				.submit(new TaskRunnable());
+		Future<String> future = (Future<String>) executorService.submit(new TaskRunnable());
 
 		try {
 			TestUtils.printLog(future.get());
@@ -276,8 +268,7 @@ public final class TestDemo01 {
 	public void test12CallableTaskDemo() {
 		// Callable, return
 		ExecutorService executorService = Executors.newCachedThreadPool();
-		Future<Integer> future = (Future<Integer>) executorService
-				.submit(new TaskCallable());
+		Future<Integer> future = (Future<Integer>) executorService.submit(new TaskCallable());
 
 		try {
 			TestUtils.printLog(future.get().toString());
@@ -366,7 +357,42 @@ public final class TestDemo01 {
 	@Test
 	public void test16Demo() {
 		// ENUM object
+		EnumStatus status = EnumStatus.DISABLE;
+
+		switch (status) {
+		case DELETE:
+			TestUtils.printLog("Status is DELETE.");
+			TestUtils.printLog("Code: " + EnumStatus.DELETE.getCode());
+			TestUtils.printLog("Tag: " + EnumStatus.DELETE.name());
+			break;
+		case ENABLE:
+			TestUtils.printLog("Status is ENABLE.");
+			TestUtils.printLog("Code: " + EnumStatus.ENABLE.getCode());
+			TestUtils.printLog("Tag: " + EnumStatus.ENABLE.name());
+			break;
+		case DISABLE:
+			TestUtils.printLog("Status is DISABLE.");
+			TestUtils.printLog("Code: " + EnumStatus.DISABLE.getCode());
+			TestUtils.printLog("Tag: " + EnumStatus.DISABLE.name());
+			break;
+		default:
+			TestUtils.printLog("Status is invalid!");
+			break;
+		}
+	}
+
+	@Test
+	public void test17Demo() {
+		// ENUM object
+		TestUtils.printLog("Tag: " + BasicOperation.PLUS.toString());
 		TestUtils.printLog(BasicOperation.PLUS.apply(1.0, 3.0));
+	}
+
+	@Test
+	public void test18Demo() {
+		// create object by Builder
+		MyTestClass02 testCls = new MyTestClass02.Builder(1, 2).setC(3).setD(4).build();
+		testCls.myPrint();
 	}
 
 }
