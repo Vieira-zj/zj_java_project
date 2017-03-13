@@ -2,6 +2,8 @@ package com.zhengjin.java.demo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -349,7 +353,77 @@ public final class TestDemo02 {
 
 	@Test
 	public void test22Demo() {
-		// TODO:
+		// ConcurrentHashMap
+		ConcurrentHashMap<String, String> tmpMap = new ConcurrentHashMap<>(20);
+		tmpMap.put("key1", "value1");
+		tmpMap.put("key2", "value2");
+		tmpMap.put("key3", "value3");
+
+		Iterator<Entry<String, String>> tmpEntries = tmpMap.entrySet()
+				.iterator();
+		while (tmpEntries.hasNext()) {
+			// update map in loop
+			Entry<String, String> tmpEntry = tmpEntries.next();
+			if (tmpEntry.getKey().equals("key2")) {
+				tmpMap.put(tmpEntry.getKey() + "new ", tmpEntry.getValue()
+						+ "new");
+			}
+		}
+
+		for (Entry<String, String> entry : tmpMap.entrySet()) {
+			TestUtils.printLog("Key: " + entry.getKey() + " Value: "
+					+ entry.getValue());
+		}
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void test23Demo() {
+		// Collections.unmodifiableCollection
+		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
+				"test1", "test2", "test3" }));
+		Collection<String> tmpCollection = Collections
+				.unmodifiableCollection(tmpLst);
+
+		TestUtils.printLog("Size = " + tmpCollection.size());
+		tmpCollection.add("test4"); // unmodifiable
+	}
+
+	@Test
+	public void test24Demo() {
+		// Threads
+		TestRunnable testRunnable = new TestRunnable();
+		Thread[] threads = { new Thread(testRunnable, "Thread1"),
+				new Thread(testRunnable, "Thread2"),
+				new Thread(testRunnable, "Thread3") };
+
+		for (Thread t : threads) {
+			t.start();
+		}
+
+		try {
+			for (Thread t : threads) {
+				t.join();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static class TestRunnable implements Runnable {
+
+		// private int ticket = 10;
+		private AtomicInteger ticket = new AtomicInteger(10);
+
+		@Override
+		public void run() {
+			for (int i = 0; i <= 20; i++) {
+				if (this.ticket.get() > 0) {
+					TestUtils.printLog(Thread.currentThread().getName()
+							+ " get and ticket: "
+							+ this.ticket.decrementAndGet());
+				}
+			}
+		}
 	}
 
 }
