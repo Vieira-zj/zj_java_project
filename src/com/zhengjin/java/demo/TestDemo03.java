@@ -19,8 +19,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import com.zhengjin.apis.testutils.TestUtils;
-
 import static com.zhengjin.apis.testutils.TestUtils.printLog;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -132,10 +130,10 @@ public final class TestDemo03 {
 	@SuppressWarnings({ "serial" })
 	private static class Employee implements Serializable, Comparable<Employee> {
 
-		public String name;
-		public String address;
-		public transient int SSN;
-		public int number;
+		private String name;
+		private String address;
+		private transient int SSN;
+		private int number;
 
 		public void mailCheck() {
 			printLog("Mailing a check to " + name + " " + address);
@@ -143,14 +141,14 @@ public final class TestDemo03 {
 
 		@Override
 		public String toString() {
-			return String.format("(name = %s, address = %s, number = %s)",
-					this.name, this.address, this.number);
+			return String.format("(name = %s, address = %s, number = %s)", this.name, this.address, this.number);
 		}
 
 		@Override
 		public int compareTo(Employee another) {
 			return this.number < another.number ? 1 : -1;
 		}
+
 	}
 
 	@Test
@@ -165,7 +163,7 @@ public final class TestDemo03 {
 		employee.number = 101;
 
 		this.showMessage(employee, "test08Demo");
-		TestUtils.printLog("test08Demo done.");
+		printLog("test08Demo done.");
 	}
 
 	public static void testMain0(String[] args) {
@@ -186,8 +184,7 @@ public final class TestDemo03 {
 
 		employee.name = "Reyan Ali(updated)";
 		text = "test08Demo_updated";
-		TestUtils.printLog("main is done => "
-				+ Thread.currentThread().getName());
+		printLog("main is done => " + Thread.currentThread().getName());
 	}
 
 	private void showMessage(final Employee employee, final String message) {
@@ -198,9 +195,8 @@ public final class TestDemo03 {
 			public void run() {
 				for (int i = 1; i <= 5; i++) {
 					employee.mailCheck();
-					TestUtils.printLog("MSG: " + message);
-					System.out.printf("%s, run at %d time, and wait 1 sec.\n",
-							Thread.currentThread().getName(), i);
+					printLog("MSG: " + message);
+					System.out.printf("%s, run at %d time, and wait 1 sec.\n", Thread.currentThread().getName(), i);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -214,16 +210,15 @@ public final class TestDemo03 {
 	@Test
 	public void test09Demo() {
 		// Comparator
-		Integer[] integers = { new Integer(-1), new Integer(-2),
-				new Integer(0), new Integer(1), new Integer(-1) };
+		Integer[] integers = { new Integer(-1), new Integer(-2), new Integer(0), new Integer(1), new Integer(-1) };
 
-		TestUtils.printLog(Arrays.asList(integers));
+		printLog(Arrays.asList(integers));
 
 		Arrays.sort(integers);
-		TestUtils.printLog(Arrays.asList(integers));
+		printLog(Arrays.asList(integers));
 
 		Arrays.sort(integers, new AbsComparator());
-		TestUtils.printLog(Arrays.asList(integers));
+		printLog(Arrays.asList(integers));
 	}
 
 	private static class AbsComparator implements Comparator<Integer> {
@@ -258,14 +253,13 @@ public final class TestDemo03 {
 		}
 
 		// override Employee toString() method, and print list
-		TestUtils.printLog(Arrays.asList(ees));
+		printLog(Arrays.asList(ees));
 	}
 
 	@Test
 	public void test11Demo() {
 		// RandomAccess vs iterator
-		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
-				"test1", "test2", "test3" }));
+		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] { "test1", "test2", "test3" }));
 		this.loopOnList(tmpLst);
 
 		List<String> tmpLinkedLst = new LinkedList<>(tmpLst);
@@ -274,15 +268,15 @@ public final class TestDemo03 {
 
 	private void loopOnList(List<String> lst) {
 		if (lst instanceof RandomAccess) {
-			TestUtils.printLog("access by for loop");
+			printLog("access by for loop");
 			for (int i = 0, length = lst.size(); i < length; i++) {
-				TestUtils.printLog("item: " + lst.get(i));
+				printLog("item: " + lst.get(i));
 			}
 		} else {
-			TestUtils.printLog("access by for iterator");
+			printLog("access by for iterator");
 			Iterator<String> iterator = lst.iterator();
 			while (iterator.hasNext()) {
-				TestUtils.printLog("item: " + iterator.next());
+				printLog("item: " + iterator.next());
 			}
 		}
 	}
@@ -305,7 +299,7 @@ public final class TestDemo03 {
 			}).start();
 		}
 
-		TestUtils.printLog("main done: " + Thread.currentThread().getName());
+		printLog("main done: " + Thread.currentThread().getName());
 	}
 
 	private static class MutexPrint {
@@ -316,11 +310,10 @@ public final class TestDemo03 {
 		public void print(String str) throws InterruptedException {
 			semaphore.acquire();
 
-			TestUtils.printLog(Thread.currentThread().getName() + " enter ...");
+			printLog(Thread.currentThread().getName() + " enter ...");
 			Thread.sleep(1000);
-			TestUtils.printLog(Thread.currentThread().getName() + "printing..."
-					+ str);
-			TestUtils.printLog(Thread.currentThread().getName() + " out ...");
+			printLog(Thread.currentThread().getName() + "printing..." + str);
+			printLog(Thread.currentThread().getName() + " out ...");
 
 			semaphore.release();
 		}
