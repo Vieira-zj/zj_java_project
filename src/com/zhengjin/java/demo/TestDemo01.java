@@ -369,24 +369,28 @@ public final class TestDemo01 {
 		EnumStatus status = EnumStatus.DISABLE;
 
 		switch (status) {
-		case DELETE:
+		case DELETE: {
 			TestUtils.printLog("Status is DELETE.");
 			TestUtils.printLog("Code: " + EnumStatus.DELETE.getCode());
 			TestUtils.printLog("Tag: " + EnumStatus.DELETE.name());
 			break;
-		case ENABLE:
+		}
+		case ENABLE: {
 			TestUtils.printLog("Status is ENABLE.");
 			TestUtils.printLog("Code: " + EnumStatus.ENABLE.getCode());
 			TestUtils.printLog("Tag: " + EnumStatus.ENABLE.name());
 			break;
-		case DISABLE:
+		}
+		case DISABLE: {
 			TestUtils.printLog("Status is DISABLE.");
 			TestUtils.printLog("Code: " + EnumStatus.DISABLE.getCode());
 			TestUtils.printLog("Tag: " + EnumStatus.DISABLE.name());
 			break;
-		default:
+		}
+		default: {
 			TestUtils.printLog("Status is invalid!");
 			break;
+		}
 		}
 	}
 
