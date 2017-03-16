@@ -341,13 +341,16 @@ public final class TestDemo02 {
 	@Test
 	public void test21Demo() {
 		// contains()
-		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
-				"Java", "C++", "Python" }));
+		List<String> tmpLst = Arrays.asList(new String[] { "Java", "C++",
+				"Python" });
 		if (tmpLst.contains("Java")) {
 			TestUtils.printLog("Java incldude.");
 		}
-		if (tmpLst.contains("JAVA")) {
-			TestUtils.printLog("JAVA incldude.");
+
+		Set<String> tmpSet = new HashSet<>(Arrays.asList(new String[] { "C++",
+				"C#", "JS" }));
+		if (!tmpSet.contains("Java")) {
+			TestUtils.printLog("Java not incldude.");
 		}
 	}
 

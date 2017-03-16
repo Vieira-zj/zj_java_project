@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import org.junit.FixMethodOrder;
@@ -141,7 +143,8 @@ public final class TestDemo03 {
 
 		@Override
 		public String toString() {
-			return String.format("(name = %s, address = %s, number = %s)", this.name, this.address, this.number);
+			return String.format("(name = %s, address = %s, number = %s)",
+					this.name, this.address, this.number);
 		}
 
 		@Override
@@ -196,7 +199,8 @@ public final class TestDemo03 {
 				for (int i = 1; i <= 5; i++) {
 					employee.mailCheck();
 					printLog("MSG: " + message);
-					System.out.printf("%s, run at %d time, and wait 1 sec.\n", Thread.currentThread().getName(), i);
+					System.out.printf("%s, run at %d time, and wait 1 sec.\n",
+							Thread.currentThread().getName(), i);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -210,7 +214,8 @@ public final class TestDemo03 {
 	@Test
 	public void test09Demo() {
 		// Comparator
-		Integer[] integers = { new Integer(-1), new Integer(-2), new Integer(0), new Integer(1), new Integer(-1) };
+		Integer[] integers = { new Integer(-1), new Integer(-2),
+				new Integer(0), new Integer(1), new Integer(-1) };
 
 		printLog(Arrays.asList(integers));
 
@@ -259,7 +264,8 @@ public final class TestDemo03 {
 	@Test
 	public void test11Demo() {
 		// RandomAccess vs iterator
-		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] { "test1", "test2", "test3" }));
+		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
+				"test1", "test2", "test3" }));
 		this.loopOnList(tmpLst);
 
 		List<String> tmpLinkedLst = new LinkedList<>(tmpLst);
@@ -317,6 +323,44 @@ public final class TestDemo03 {
 
 			semaphore.release();
 		}
+	}
+
+	@Test
+	public void test12Demo() {
+		// binarySearch()
+		String[] tmpArr = { "C++", "Java", "Python", "Javascript" };
+		printLog("Array element type: "
+				+ tmpArr.getClass().getComponentType().toString());
+
+		Arrays.sort(tmpArr);
+		printLog(Arrays.asList(tmpArr));
+
+		int idx = -1;
+		if ((idx = Arrays.binarySearch(tmpArr, "Python")) >= 0) {
+			printLog("Python found at " + idx);
+		}
+	}
+
+	public static void testMain2(String[] args) {
+		// Timer
+		Timer t = new Timer();
+		t.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				printLog("invoked after 3 seconds.");
+			}
+		}, 3000);
+
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		if (t != null) {
+			t.cancel();
+		}
+		printLog("main finished => " + Thread.currentThread().getName());
 	}
 
 	@Test
