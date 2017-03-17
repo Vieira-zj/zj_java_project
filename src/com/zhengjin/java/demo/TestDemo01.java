@@ -24,10 +24,11 @@ import com.zhengjin.apis.testutils.TestUtils;
 public final class TestDemo01 {
 
 	@Test
-	public void test01ExceptionDemo() {
+	public void test01Demo() {
+		// exception
 		try {
 			boolean ret = true;
-			ret = myExceptionDemo01();
+			ret = myExceptionTest01();
 			TestUtils.printLog("Return value: " + ret);
 		} catch (Exception e) {
 			TestUtils.printLog("Error message: " + e.getMessage());
@@ -35,7 +36,8 @@ public final class TestDemo01 {
 	}
 
 	@SuppressWarnings("finally")
-	boolean myExceptionDemo01() throws Exception {
+	boolean myExceptionTest01() throws Exception {
+		// return in try catch block
 		boolean ret = true;
 		int c;
 		try {
@@ -51,6 +53,7 @@ public final class TestDemo01 {
 			ret = false;
 			throw e;
 		} finally {
+			// do not use return in finally block
 			TestUtils.printLog("myExceptionDemo01, finally; return value="
 					+ ret);
 			return ret;
@@ -58,10 +61,11 @@ public final class TestDemo01 {
 	}
 
 	@Test
-	public void test02ExceptionDemo() {
+	public void test02Demo() {
+		// exception
 		try {
 			boolean ret = true;
-			ret = myExceptionDemo02();
+			ret = myExceptionTest02();
 			TestUtils.printLog("Return value: " + ret);
 		} catch (Exception e) {
 			TestUtils.printLog("Error message: " + e.getMessage());
@@ -70,10 +74,10 @@ public final class TestDemo01 {
 	}
 
 	@SuppressWarnings("finally")
-	boolean myExceptionDemo02() throws Exception {
+	boolean myExceptionTest02() throws Exception {
 		boolean ret = true;
 		try {
-			ret = this.myExceptionDemo01();
+			ret = this.myExceptionTest01();
 			if (!ret) {
 				return false;
 			}
@@ -100,9 +104,14 @@ public final class TestDemo01 {
 
 	@Test
 	public void test04Demo() {
-		// getBytes()
+		// byte
 		String tmpStr = "ZJTest";
 		byte[] bytesArr = tmpStr.getBytes();
+
+		if (tmpStr.length() == bytesArr.length) {
+			TestUtils.printLog("Size equal.");
+		}
+
 		for (int i = 0, length = bytesArr.length; i < length; i++) {
 			TestUtils.printLog("Char:" + tmpStr.charAt(i));
 			TestUtils.printLog("Oct:" + bytesArr[i]);
@@ -118,7 +127,7 @@ public final class TestDemo01 {
 	@Test
 	public void test05Demo() {
 		// char
-		char tmpChar = 'Z';
+		char tmpChar = 'A';
 		TestUtils.printLog("Char: " + tmpChar);
 
 		String bin = Integer.toBinaryString(tmpChar);
@@ -137,29 +146,25 @@ public final class TestDemo01 {
 			TestUtils.printLog("Item: " + str);
 		}
 
-		TestUtils.printLog("AFTER ARRAY UPDATED => ");
+		TestUtils.printLog("Array updated => ");
 		tmpStrArr[3] = "Python";
 		for (String str : tmpStrLst) {
 			TestUtils.printLog("Item: " + str);
 		}
 
-		TestUtils.printLog("AFTER LIST UPDATED => ");
-		tmpStrLst.add("NodeJs"); // throw exception
-		// try {
-		// tmpStrLst.add("NodeJs");
-		// } catch (UnsupportedOperationException e) {
-		// TestUtils.printLog("Unsupported update operations on list.");
-		// }
+		TestUtils.printLog("List updated => ");
+		tmpStrLst.add("NodeJs"); // throw UnsupportedOperationException
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void test0701Demo() {
-		// remove elements in list
+		// remove list element in for loop
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
 
+		// throw IndexOutOfBoundsException in loop
 		for (int i = 0, size = tmpStrLst.size(); i < size; i++) {
-			if ("Java".equals(tmpStrLst.get(i))) {
+			if ("Java".equalsIgnoreCase(tmpStrLst.get(i))) {
 				tmpStrLst.remove(i);
 			}
 		}
@@ -167,7 +172,7 @@ public final class TestDemo01 {
 
 	@Test
 	public void test0702Demo() {
-		// remove elements in list
+		// remove list element in for loop
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {
@@ -175,7 +180,7 @@ public final class TestDemo01 {
 		}
 
 		for (int i = tmpStrLst.size() - 1; i >= 0; i--) {
-			if ("JS".equals(tmpStrLst.get(i).toUpperCase())) {
+			if ("C#".equalsIgnoreCase(tmpStrLst.get(i))) {
 				tmpStrLst.remove(i);
 			}
 		}
@@ -188,12 +193,13 @@ public final class TestDemo01 {
 
 	@Test(expected = ConcurrentModificationException.class)
 	public void test0801Demo() {
-		// iterator, remove elements in list
+		// remove element in list by iterator
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
 
+		// throw ConcurrentModificationException in loop
 		for (String item : tmpStrLst) {
-			if ("JS".equals(item.toUpperCase())) {
+			if ("JS".equalsIgnoreCase(item.toUpperCase())) {
 				tmpStrLst.remove(item);
 			}
 		}
@@ -201,7 +207,7 @@ public final class TestDemo01 {
 
 	@Test
 	public void test0802Demo() {
-		// iterator, remove elements in list
+		// remove element in list by iterator
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {
@@ -211,7 +217,7 @@ public final class TestDemo01 {
 		Iterator<String> tmpIter = tmpStrLst.iterator();
 		while (tmpIter.hasNext()) {
 			String tmpStr = tmpIter.next();
-			if ("JS".equals(tmpStr.toUpperCase())) {
+			if ("C++".equalsIgnoreCase(tmpStr)) {
 				tmpIter.remove();
 			}
 		}
@@ -307,6 +313,7 @@ public final class TestDemo01 {
 		// FutureTask, return
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Integer> futureTask = new FutureTask<>(new Runnable() {
+
 			@Override
 			public void run() {
 				TestUtils.printLog("FutureTask2 run");
@@ -328,6 +335,7 @@ public final class TestDemo01 {
 		// FutureTask, return
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Void> futureTask = new FutureTask<>(new Runnable() {
+
 			@Override
 			public void run() {
 				TestUtils.printLog("FutureTask3 run");
@@ -404,8 +412,7 @@ public final class TestDemo01 {
 	@Test
 	public void test18Demo() {
 		// create object by Builder
-		MyTestClass02 testCls = new MyTestClass02.Builder(1, 2).setC(3).setD(4)
-				.build();
+		MyTestClass02 testCls = new MyTestClass02.Builder(1, 2).setC(3).build();
 		testCls.myPrint();
 	}
 

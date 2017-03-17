@@ -3,12 +3,10 @@ package com.zhengjin.java.demo;
 public final class MyTestClass02 extends MyTestClass01 {
 
 	private String key;
-	private int value;
 
 	public MyTestClass02(String key, int value) {
 		super(value);
 		this.key = key;
-		this.value = value;
 	}
 
 	public boolean Compare(MyTestClass02 another) {
@@ -28,8 +26,8 @@ public final class MyTestClass02 extends MyTestClass01 {
 
 		private final int a;
 		private final int b;
-		private int c;
-		private int d;
+		private int c = 0; // set default value manual
+		private int d = 0;
 
 		public Builder(int a, int b) {
 			this.a = a;

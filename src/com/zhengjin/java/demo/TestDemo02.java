@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
 //import org.junit.runner.JUnitCore;
 import org.junit.runners.MethodSorters;
 
@@ -46,15 +48,15 @@ public final class TestDemo02 {
 	}
 
 	// run with customized test listener
-	// public static void main(String[] args) {
-	// JUnitCore runner = new JUnitCore();
-	// runner.addListener(new ExecutionListener());
-	// runner.run(TestDemo02.class);
-	// }
+	public static void testMain(String[] args) {
+		JUnitCore runner = new JUnitCore();
+		runner.addListener(new ExecutionListener());
+		runner.run(TestDemo02.class);
+	}
 
 	@Test
 	public void test04RegExpDemo() {
-		// regression express, group()
+		// RegExp, group()
 		String regEx = "\\w(\\d\\d)(\\w+)";
 		String tmpStr = "A22happy";
 		Pattern p = Pattern.compile(regEx);
@@ -71,7 +73,7 @@ public final class TestDemo02 {
 
 	@Test
 	public void test05RegExpDemo() {
-		// regression express, find(), group(), start() and end()
+		// RegExp, find(), group(), start() and end()
 		String tmpStr = "My name is Bond. James Bond.";
 		Pattern p = Pattern.compile("Bond");
 		Matcher m = p.matcher(tmpStr);
@@ -109,7 +111,7 @@ public final class TestDemo02 {
 
 	@Test
 	public void test07RegExpDemo() {
-		// find 2 bit number
+		// find 2 bit numbers
 		String tmpStr = "FD5551A-SU";
 		Pattern p = Pattern.compile("[0-9]{2}");
 		Matcher m = p.matcher(tmpStr);
@@ -143,14 +145,12 @@ public final class TestDemo02 {
 		// Integer[] tmpArr = tmpLst.toArray(new Integer[0]);
 
 		TestUtils.printLog("Array elements: ");
-		for (int i = 0, length = tmpArr.length; i < length; i++) {
-			TestUtils.printLog("element: " + tmpArr[i]);
-		}
+		TestUtils.printLog(Arrays.toString(tmpArr));
 	}
 
 	@Test
 	public void test10RefDemo() {
-		// args as value or reference
+		// parameters as value or reference
 		int i1 = 1;
 		TestUtils.printLog(i1);
 		this.updateIntValue(i1);
@@ -202,7 +202,7 @@ public final class TestDemo02 {
 
 	@Test
 	public void test12Demo() {
-		// split(regex)
+		// split()
 		String tmpStr = ";ABBD;;;AS;D;;";
 		String[] results = tmpStr.split(";");
 		TestUtils.printLog(Arrays.toString(results));
@@ -234,7 +234,7 @@ public final class TestDemo02 {
 		while (token.hasMoreTokens()) {
 			tmpLst.add(token.nextToken());
 		}
-		TestUtils.printLog(Arrays.toString(tmpLst.toArray(new String[0])));
+		TestUtils.printLog(tmpLst);
 	}
 
 	@Test
@@ -260,19 +260,19 @@ public final class TestDemo02 {
 	@Test
 	public void test16Demo() {
 		// Iterator
-		Hashtable<String, String> ht = new Hashtable<>(20);
+		HashMap<String, String> hm = new HashMap<>(20);
 		for (int i = 0; i < 5; i++) {
-			ht.put("Key=" + i, "Val=" + i);
+			hm.put("Key=" + i, "Val=" + i);
 		}
 
 		TestUtils.printLog("Keys:");
-		Iterator<String> keys = ht.keySet().iterator();
+		Iterator<String> keys = hm.keySet().iterator();
 		while (keys.hasNext()) {
 			TestUtils.printLog(keys.next());
 		}
 
 		TestUtils.printLog("Value:");
-		for (Iterator<Entry<String, String>> entries = ht.entrySet().iterator(); entries
+		for (Iterator<Entry<String, String>> entries = hm.entrySet().iterator(); entries
 				.hasNext();) {
 			Entry<String, String> en = entries.next();
 			TestUtils.printLog(en.getValue());
@@ -302,15 +302,11 @@ public final class TestDemo02 {
 		tmpList.add("a");
 
 		TestUtils.printLog("List items: ");
-		for (String item : tmpList) {
-			TestUtils.printLog("Item => " + item);
-		}
+		TestUtils.printLog(tmpList);
 
 		TestUtils.printLog("Set items: ");
 		Set<String> tmpSet = new HashSet<>(tmpList);
-		for (String item : tmpSet) {
-			TestUtils.printLog("Item => " + item);
-		}
+		TestUtils.printLog(tmpSet);
 	}
 
 	@Test
@@ -331,10 +327,19 @@ public final class TestDemo02 {
 
 	@Test
 	public void test20Demo() {
-		// instanceof
-		MyTestClass01 testCls = new MyTestClass02("test", 10);
-		if (testCls instanceof MyTestClass02) {
+		// instance of
+		MyTestClass01 testClsSuper = new MyTestClass01(13);
+		MyTestClass01 testClsSub = new MyTestClass02("test", 10);
+		
+		if (testClsSub instanceof MyTestClass02) {
 			TestUtils.printLog("testCls is instanceof MyTestClass02.");
+		}
+
+		TestUtils.printLog("Sub class value: " + testClsSub.value);
+		if (testClsSub.Compare(testClsSuper)) {
+			TestUtils.printLog("Sub class is greater.");
+		} else {
+			TestUtils.printLog("Sub class is less.");
 		}
 	}
 

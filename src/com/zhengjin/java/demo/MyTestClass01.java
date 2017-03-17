@@ -2,7 +2,7 @@ package com.zhengjin.java.demo;
 
 public class MyTestClass01 {
 
-	private int value;
+	int value;
 
 	public MyTestClass01(int value) {
 		this.value = value;
