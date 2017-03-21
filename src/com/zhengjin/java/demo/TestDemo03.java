@@ -6,12 +6,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -361,6 +364,79 @@ public final class TestDemo03 {
 			t.cancel();
 		}
 		printLog("main finished => " + Thread.currentThread().getName());
+	}
+
+	@Test
+	public void test13Demo() {
+		// remove array element
+		String[] tmpArr = { "Java", "C++", "C", "Python", "JavaScript" };
+		printLog("Before update");
+		printLog(Arrays.toString(tmpArr));
+		removeElementAt(tmpArr, 2);
+		printLog("After update");
+		printLog(Arrays.toString(tmpArr));
+	}
+
+	private <T> void removeElementAt(T[] arr, int index) {
+		if (index >= arr.length || index < 0) {
+			throw new IndexOutOfBoundsException("Invalid index: " + index);
+		}
+
+		int copyCount = arr.length - index - 1;
+		if (copyCount > 0) {
+			System.arraycopy(arr, index + 1, arr, index, copyCount);
+		}
+		arr[arr.length - 1] = null; // for GC
+	}
+
+	@Test
+	public void test14Demo() {
+		// Queue interface
+		Queue<String> queue = new LinkedList<>();
+		queue.offer("Java");
+		queue.offer("C++");
+		queue.offer("Python");
+		queue.offer("JS");
+
+		printLog("Queue init size: " + queue.size());
+		String tmpStr;
+		while ((tmpStr = queue.poll()) != null) {
+			printLog("Element: " + tmpStr);
+		}
+		printLog("After poll, queue size: " + queue.size());
+	}
+
+	@Test
+	public void test15Demo() {
+		// Deque as queue, offer at last, and poll at first
+		Deque<String> deque = new ArrayDeque<>(20);
+		deque.offer("Java");
+		deque.offer("C++");
+		deque.offer("Python");
+		deque.offer("JS");
+
+		printLog("Queue init size: " + deque.size());
+		String tmpStr;
+		while ((tmpStr = deque.poll()) != null) {
+			printLog("Element: " + tmpStr);
+		}
+		printLog("After poll, queue size: " + deque.size());
+	}
+
+	@Test
+	public void test16Demo() {
+		// Deque as stack, push and pop at first
+		Deque<String> deque = new ArrayDeque<>(20);
+		deque.push("Java");
+		deque.push("C++");
+		deque.push("Python");
+		deque.push("JS");
+
+		printLog("Queue init size: " + deque.size());
+		while (deque.size() > 0) {
+			printLog("Element: " + deque.pop());
+		}
+		printLog("After poll, queue size: " + deque.size());
 	}
 
 	@Test
