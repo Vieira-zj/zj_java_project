@@ -13,6 +13,9 @@ public final class HttpUtils {
 
 	private static final int BUFFER_SIZE = 1000;
 
+	private HttpUtils() {
+	}
+
 	public static String sendHttpGetRequest(String httpUrl, String parms) {
 		HttpURLConnection httpConn = null;
 		BufferedReader in = null;
@@ -22,7 +25,7 @@ public final class HttpUtils {
 			URL url = new URL(path);
 			httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setRequestMethod("GET");
-			httpConn.setRequestProperty("Content-Type","application/json");
+			httpConn.setRequestProperty("Content-Type", "application/json");
 			httpConn.setRequestProperty("charset", TestConstants.CHARSET_UFT8);
 			httpConn.connect();
 
@@ -38,12 +41,14 @@ public final class HttpUtils {
 				}
 				return content.toString();
 			} else {
-				Assert.assertTrue(String.format("Error, GET request return code: %d", 
+				Assert.assertTrue(String.format(
+						"Error, GET request return code: %d",
 						httpConn.getResponseCode()), false);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertTrue(String.format("Error, IOException(%s) in http GET request!",
+			Assert.assertTrue(String.format(
+					"Error, IOException(%s) in http GET request!",
 					e.getMessage()), false);
 		} finally {
 			if (in != null) {
@@ -91,12 +96,14 @@ public final class HttpUtils {
 				}
 				return content.toString();
 			} else {
-				Assert.assertTrue(String.format("Error, POST request return code %s", 
+				Assert.assertTrue(String.format(
+						"Error, POST request return code %s",
 						httpConn.getResponseCode()), false);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertTrue(String.format("Error, IOException(%s) in http POST request!",
+			Assert.assertTrue(String.format(
+					"Error, IOException(%s) in http POST request!",
 					e.getMessage()), false);
 		} finally {
 			if (out != null) {
@@ -114,5 +121,5 @@ public final class HttpUtils {
 
 		return "";
 	}
-	
+
 }

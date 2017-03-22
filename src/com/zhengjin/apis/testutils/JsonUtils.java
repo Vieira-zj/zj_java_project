@@ -5,8 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 
 public final class JsonUtils {
 
+	private JsonUtils() {
+	}
+
 	public static JSONObject parseJsonContentAndRetObject(String content) {
 		return JSON.parseObject(content);
 	}
-	
+
 }

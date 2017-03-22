@@ -2,13 +2,16 @@ package com.zhengjin.apis.testutils;
 
 public final class TestConstants {
 
+	private TestConstants() {
+	}
+
 	public static final String TEST_DATA_DIR = "testdata/";
 	public static final String EXCEL_TESTCASES_FILE_NAME = "testcases.xlsx";
 
 	// for JMETER ENV, FileUtils.getProjectPath() returns null
 	public static final String PROJECT_ROOT_PATH = FileUtils.getProjectPath();
-//	public static final String PROJECT_ROOT_PATH = 
-//			"D:/GitHub_Workspace/Eclipse_Workspace/FunSettingsInterfaceTest";
+	// public static final String PROJECT_ROOT_PATH =
+	// "D:/GitHub_Workspace/Eclipse_Workspace/FunSettingsInterfaceTest";
 	public static final String TEST_DATA_PATH = String.format("%s/%s",
 			PROJECT_ROOT_PATH, TEST_DATA_DIR);
 	public static final String EXCEL_TESTCASES_FILE_PATH = TEST_DATA_PATH
@@ -25,8 +28,7 @@ public final class TestConstants {
 	public static final String CHARSET_UFT8 = "UTF-8";
 
 	public static final String WEATHER_SERVER_URL = "http://card.tv.funshion.com/weather/city";
-	public static final String SCREEN_SAVER_SERVER_URL = 
-			"http://fmg.tv.funshion.com/service/pic-distribute/api/v2";
+	public static final String SCREEN_SAVER_SERVER_URL = "http://fmg.tv.funshion.com/service/pic-distribute/api/v2";
 
 	public static final int RESPONSE_OK = 200;
 	public static final String RESPONSE_MSG_SUCCESS = "Success.";

@@ -1,0 +1,25 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">  
+  <xsl:template match="/"> 
+    <html lang="cn"> 
+      <head/>  
+      <body> 
+        <table border="1"> 
+          <xsl:for-each select="students/student"> 
+            <tr> 
+              <td>
+                <span id="sname">
+                  <xsl:value-of select="name"/>
+                </span>
+              </td>  
+              <td>
+                <span id="sage">
+                  <xsl:value-of select="age"/>
+                </span>
+              </td> 
+            </tr> 
+          </xsl:for-each> 
+        </table> 
+      </body> 
+    </html> 
+  </xsl:template> 
+</xsl:stylesheet>

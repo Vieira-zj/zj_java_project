@@ -1,5 +1,6 @@
 package com.zhengjin.java.demo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -23,6 +24,8 @@ import java.util.concurrent.Semaphore;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import com.zhengjin.apis.testutils.TestConstants;
 
 import static com.zhengjin.apis.testutils.TestUtils.printLog;
 
@@ -440,8 +443,24 @@ public final class TestDemo03 {
 	}
 
 	@Test
-	public void test20Demo() {
-		// TODO
+	public void test17Demo() {
+		// Xml parser by xstl
+		String xmlFileName = this.getFileFullPath("11_info.xml");
+		String xslFileName = this.getFileFullPath("12_info.xstl");
+		String targetFileName = this.getFileFullPath("13_info.html");
+
+		try {
+			String output = XstlTransform.XmlXstlHtml(xmlFileName, xslFileName,
+					targetFileName);
+			printLog("Xstl transform finished and save at: " + output);
+		} catch (Exception e) {
+			printLog("Xstl transform error: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	private String getFileFullPath(String fileName) {
+		return TestConstants.TEST_DATA_PATH + File.separator + fileName;
 	}
 
 }
