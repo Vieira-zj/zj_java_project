@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">  
+  <xsl:template match="/"> 
+    <html lang="cn"> 
+      <head> 
+        <title>Test Results AllTestsSuite</title>  
+        <style type="text/css">
+          body {
+            margin: 0 auto;
+            padding: 0;
+            text-align: left;
+            height: 100%;
+          }
+          
+          #header ul {
+            display: inline;
+            white-space: nowrap
+          }
+          
+          #header ul li {
+            padding: 10px 20px;
+            display: inline-block;
+            white-space: nowrap;
+        </style> 
+      </head>
+      <body> 
+        <div id="header"> 
+          <h1 align="center">AllTestsSuite</h1>
+          <ul>
+            <strong> 
+              <li>Start at: <xsl:value-of select="testsuites/@datetime"/>
+			  </li>
+              <li>Total: <xsl:value-of select="testsuites/summary/@total"/>
+			  </li>  
+              <li>Passed: <xsl:value-of select="testsuites/summary/@totalpass"/>
+			  </li> 
+              <li>Failed: <xsl:value-of select="testsuites/summary/@totalfailed"/>
+			  </li>
+              <li>Ignored: <xsl:value-of select="testsuites/summary/@ignore"/>
+			  </li>
+              <li>Run time: <xsl:value-of select="testsuites/summary/@runtime"/>
+			  </li>
+            </strong> 
+          </ul>
+        </div>  
+        <div id="content">  
+          <table id="main_table" border="0.5" style="width:100%"> 
+            <th>TestSuite</th>  
+            <th>TestCases</th>  
+            <th>TestResults</th>
+            <th>RunTime</th>
+            <xsl:for-each select="testsuites/testsuite/testcase"> 
+              <tr> 
+                <td><xsl:value-of select="@classname"/>
+                </td>  
+                <td><xsl:value-of select="@methodname"/>
+                </td>
+                <td><xsl:value-of select="@testresult"/>
+                </td> 
+                <td><xsl:value-of select="@time"/>
+                </td> 
+              </tr> 
+            </xsl:for-each> 
+          </table>  
+        </div>
+		<div id="footer">
+		  <span><strong>END</strong></span>
+		</div>
+        <script type="text/javascript">
+          var table = document.getElementById('main_table');
+          var row;
+          for(var i=1;i&lt;table.rows.length;i++) { 
+            row = table.rows[i];
+            if (i%2 === 0) { 
+              row.style.backgroundColor = '#DCDCDC'; 
+            } else {
+              row.style.backgroundColor = '#E0FFFF';
+            }
+          }
+        </script> 
+      </body> 
+    </html> 
+  </xsl:template> 
+</xsl:stylesheet>

@@ -445,9 +445,9 @@ public final class TestDemo03 {
 	@Test
 	public void test17Demo() {
 		// Xml parser by xstl
-		String xmlFileName = this.getFileFullPath("11_info.xml");
-		String xslFileName = this.getFileFullPath("12_info.xstl");
-		String targetFileName = this.getFileFullPath("13_info.html");
+		String xmlFileName = this.getFileFullPath("11_testsuites.xml");
+		String xslFileName = this.getFileFullPath("12_testsuites.xstl");
+		String targetFileName = this.getFileFullPath("13_testsuites.html");
 
 		try {
 			String output = XstlTransform.XmlXstlHtml(xmlFileName, xslFileName,
