@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding="utf-8"?>
-
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">  
   <xsl:template match="/"> 
     <html lang="cn"> 
@@ -34,9 +33,9 @@
 			  </li>
               <li>TOTAL: <xsl:value-of select="testsuites/summary/@total"/>
 			  </li>  
-              <li>PASSED: <xsl:value-of select="testsuites/summary/@totalpass"/>
+              <li><font color="green">PASSED: <xsl:value-of select="testsuites/summary/@totalpass"/></font>
 			  </li> 
-              <li>FAILED: <xsl:value-of select="testsuites/summary/@totalfailed"/>
+              <li><font color="red">FAILED: <xsl:value-of select="testsuites/summary/@totalfailed"/></font>
 			  </li>
               <li>IGNORED: <xsl:value-of select="testsuites/summary/@ignore"/>
 			  </li>
