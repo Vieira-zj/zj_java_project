@@ -50,6 +50,7 @@
             <th>TestCases</th>  
             <th>TestResults</th>
             <th>RunTime</th>
+			<th>Error</th>
             <xsl:for-each select="testsuites/testsuite/testcase"> 
               <tr> 
                 <td><xsl:value-of select="@classname"/>
@@ -59,6 +60,8 @@
                 <td><xsl:value-of select="@testresult"/>
                 </td> 
                 <td><xsl:value-of select="@time"/>
+                </td> 
+				<td><xsl:value-of select="failure/trace"/>
                 </td> 
               </tr> 
             </xsl:for-each> 

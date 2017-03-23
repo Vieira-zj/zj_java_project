@@ -25,6 +25,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.zhengjin.apis.testutils.FileUtils;
 import com.zhengjin.apis.testutils.TestConstants;
 
 import static com.zhengjin.apis.testutils.TestUtils.printLog;
@@ -445,9 +446,10 @@ public final class TestDemo03 {
 	@Test
 	public void test17Demo() {
 		// Xml parser by xstl
-		String xmlFileName = this.getFileFullPath("11_testsuites.xml");
-		String xslFileName = this.getFileFullPath("12_testsuites.xstl");
-		String targetFileName = this.getFileFullPath("13_testsuites.html");
+		String xmlFileName = this.getDataFileFullPath("11_testsuites.xml");
+		String targetFileName = this.getDataFileFullPath("12_testsuites.html");
+		String xslFileName = FileUtils.getProjectPath() + File.separator
+				+ "xstl" + File.separator + "testsuites.xstl";
 
 		try {
 			String output = XstlTransform.XmlXstlHtml(xmlFileName, xslFileName,
@@ -459,7 +461,7 @@ public final class TestDemo03 {
 		}
 	}
 
-	private String getFileFullPath(String fileName) {
+	private String getDataFileFullPath(String fileName) {
 		return TestConstants.TEST_DATA_PATH + File.separator + fileName;
 	}
 
