@@ -446,8 +446,12 @@ public final class TestDemo03 {
 	@Test
 	public void test17Demo() {
 		// Xml parser by xstl
-		String xmlFileName = this.getDataFileFullPath("11_testsuites.xml");
-		String targetFileName = this.getDataFileFullPath("12_testsuites.html");
+		final String baseDir = TestConstants.TEST_DATA_PATH;
+		final String baseFileName = "11_testsuites";
+
+		String xmlFileName = baseDir + File.separator + baseFileName + ".xml";
+		String targetFileName = baseDir + File.separator + baseFileName
+				+ ".html";
 		String xslFileName = FileUtils.getProjectPath() + File.separator
 				+ "xstl" + File.separator + "testsuites.xstl";
 
@@ -459,10 +463,6 @@ public final class TestDemo03 {
 			printLog("Xstl transform error: " + e.getMessage());
 			e.printStackTrace();
 		}
-	}
-
-	private String getDataFileFullPath(String fileName) {
-		return TestConstants.TEST_DATA_PATH + File.separator + fileName;
 	}
 
 }

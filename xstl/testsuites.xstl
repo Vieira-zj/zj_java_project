@@ -10,7 +10,7 @@
             margin: 0 auto;
             padding: 0;
             text-align: left;
-            height: 100%;
+            height: 100%
           }
           
           #header ul {
@@ -22,6 +22,7 @@
             padding: 10px 20px;
             display: inline-block;
             white-space: nowrap;
+			background: #DCDCDC
         </style> 
       </head>
       <body> 
@@ -29,35 +30,35 @@
           <h1 align="center">AllTestsSuite</h1>
           <ul>
             <strong> 
-              <li>Start at: <xsl:value-of select="testsuites/@datetime"/>
+              <li>START AT: <xsl:value-of select="testsuites/@datetime"/>
 			  </li>
-              <li>Total: <xsl:value-of select="testsuites/summary/@total"/>
+              <li>TOTAL: <xsl:value-of select="testsuites/summary/@total"/>
 			  </li>  
-              <li>Passed: <xsl:value-of select="testsuites/summary/@totalpass"/>
+              <li>PASSED: <xsl:value-of select="testsuites/summary/@totalpass"/>
 			  </li> 
-              <li>Failed: <xsl:value-of select="testsuites/summary/@totalfailed"/>
+              <li>FAILED: <xsl:value-of select="testsuites/summary/@totalfailed"/>
 			  </li>
-              <li>Ignored: <xsl:value-of select="testsuites/summary/@ignore"/>
+              <li>IGNORED: <xsl:value-of select="testsuites/summary/@ignore"/>
 			  </li>
-              <li>Run time: <xsl:value-of select="testsuites/summary/@runtime"/>
+              <li>TOTAL RUN TIME: <xsl:value-of select="testsuites/summary/@runtime"/>
 			  </li>
             </strong> 
           </ul>
         </div>  
         <div id="content">  
           <table id="main_table" border="0.5" style="width:100%"> 
-            <th>TestSuite</th>  
+            <th>TestsSuite</th>  
             <th>TestCases</th>  
             <th>TestResults</th>
             <th>RunTime</th>
-			<th>Error</th>
+			<th>Exception</th>
             <xsl:for-each select="testsuites/testsuite/testcase"> 
               <tr> 
                 <td><xsl:value-of select="@classname"/>
                 </td>  
                 <td><xsl:value-of select="@methodname"/>
                 </td>
-                <td><xsl:value-of select="@testresult"/>
+                <td id="result"><xsl:value-of select="@testresult"/>
                 </td> 
                 <td><xsl:value-of select="@time"/>
                 </td> 
@@ -67,18 +68,27 @@
             </xsl:for-each> 
           </table>  
         </div>
-		<div id="footer">
+		<div id="footer" align="center">
 		  <span><strong>END</strong></span>
 		</div>
         <script type="text/javascript">
           var table = document.getElementById('main_table');
-          var row;
-          for(var i=1;i&lt;table.rows.length;i++) { 
-            row = table.rows[i];
+          var curRow;
+		  
+          for(var i=1; i&lt;table.rows.length; i++) { 
+            curRow = table.rows[i];
+			resultCell = curRow.cells[2];
+			
+			if (resultCell.innerText === "failed") {
+			  curRow.style.backgroundColor = '#A52A2A';
+			  continue;
+			}
+			
+			resultCell.style.color = 'green';
             if (i%2 === 0) { 
-              row.style.backgroundColor = '#DCDCDC'; 
+              curRow.style.backgroundColor = '#DCDCDC'; 
             } else {
-              row.style.backgroundColor = '#E0FFFF';
+              curRow.style.backgroundColor = '#E0FFFF';
             }
           }
         </script> 
