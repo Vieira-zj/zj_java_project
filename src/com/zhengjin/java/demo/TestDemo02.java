@@ -434,4 +434,13 @@ public final class TestDemo02 {
 		}
 	}
 
+	@Test
+	public void test25Demo() {
+		// HashSet
+		Set<String> tmpLst = new HashSet<>(Arrays.asList(new String[] { "Java",
+				"C++", "Python", "JS", "Java" }));
+		TestUtils.printLog(tmpLst);
+		TestUtils.printLog(tmpLst.contains("Java"));
+	}
+	
 }

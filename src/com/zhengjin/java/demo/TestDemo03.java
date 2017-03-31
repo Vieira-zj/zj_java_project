@@ -198,7 +198,6 @@ public final class TestDemo03 {
 	}
 
 	private void showMessage(final Employee employee, final String message) {
-
 		new Thread(new Runnable() {
 
 			@Override
