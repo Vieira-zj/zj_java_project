@@ -444,6 +444,39 @@ public final class TestDemo03 {
 
 	@Test
 	public void test17Demo() {
+		String fileName = "fun_settings_TEST-all_2017-04-11_03-21-13-623.xml";
+		try {
+			printLog(getTestingFileAbsPathInUserHome(fileName));
+		} catch (Exception e) {
+			printLog(e.getMessage());
+		}
+	}
+
+	private String getTestingFileAbsPathInUserHome(String fileName)
+			throws Exception {
+		final String envVarUserHome = "USERPROFILE";
+		final String testingDir = "auto_test_logs";
+
+		if (fileName.trim().length() == 0) {
+			return "";
+		}
+
+		String tmpPath = System.getenv(envVarUserHome) + File.separator
+				+ testingDir + File.separator + fileName;
+		File tmpFile = new File(tmpPath);
+		if (!tmpFile.exists()) {
+			throw new Exception("Invalid path, file not exist: " + tmpPath);
+		}
+		if (!tmpFile.isFile()) {
+			throw new Exception("Invalid path, file exist but not file: "
+					+ tmpPath);
+		}
+
+		return tmpPath;
+	}
+
+	@Test
+	public void test18Demo() {
 		// Xml parser by xstl
 		final String baseDir = TestConstants.TEST_DATA_PATH;
 		final String baseFileName = "11_testsuites";
@@ -453,6 +486,16 @@ public final class TestDemo03 {
 				+ ".html";
 		String xslFileName = FileUtils.getProjectPath() + File.separator
 				+ "xstl" + File.separator + "testsuites.xstl";
+
+		try {
+			// set file path here
+			String tmpFileName = getTestingFileAbsPathInUserHome("");
+			if (tmpFileName.length() > 0) {
+				xmlFileName = tmpFileName;
+			}
+		} catch (Exception e) {
+			printLog(e.getMessage());
+		}
 
 		try {
 			String output = XstlTransform.XmlXstlHtml(xmlFileName, xslFileName,
