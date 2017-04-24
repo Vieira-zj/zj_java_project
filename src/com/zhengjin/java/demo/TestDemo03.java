@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -488,13 +489,14 @@ public final class TestDemo03 {
 				+ "xstl" + File.separator + "testsuites.xstl";
 
 		try {
-			// set file path here
+			// set src xml file path here
 			String tmpFileName = getTestingFileAbsPathInUserHome("");
 			if (tmpFileName.length() > 0) {
 				xmlFileName = tmpFileName;
+				targetFileName = tmpFileName.replace(".xml", ".html");
 			}
 		} catch (Exception e) {
-			printLog(e.getMessage());
+			Assert.fail(e.getMessage());
 		}
 
 		try {
@@ -502,7 +504,7 @@ public final class TestDemo03 {
 					targetFileName);
 			printLog("Xstl transform finished and save at: " + output);
 		} catch (Exception e) {
-			printLog("Xstl transform error: " + e.getMessage());
+			Assert.fail("Xstl transform error: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
