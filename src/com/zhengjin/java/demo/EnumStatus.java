@@ -18,7 +18,7 @@ public enum EnumStatus {
 
 	@Override
 	public String toString() {
-		return name;
+		return this.name;
 	}
 
 	public String getCode() {

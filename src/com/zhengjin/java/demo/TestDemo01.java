@@ -37,7 +37,7 @@ public final class TestDemo01 {
 
 	@SuppressWarnings("finally")
 	boolean myExceptionTest01() throws Exception {
-		// return in try catch block
+		// return in try .. catch .. finally block
 		boolean ret = true;
 		int c;
 		try {
@@ -70,11 +70,11 @@ public final class TestDemo01 {
 		} catch (Exception e) {
 			TestUtils.printLog("Error message: " + e.getMessage());
 		}
-
 	}
 
 	@SuppressWarnings("finally")
 	boolean myExceptionTest02() throws Exception {
+		// return in try .. catch .. finally block
 		boolean ret = true;
 		try {
 			ret = this.myExceptionTest01();
@@ -113,20 +113,30 @@ public final class TestDemo01 {
 		}
 
 		for (int i = 0, length = bytesArr.length; i < length; i++) {
-			TestUtils.printLog("Char:" + tmpStr.charAt(i));
-			TestUtils.printLog("Oct:" + bytesArr[i]);
+			TestUtils.printLog("Char: " + tmpStr.charAt(i));
 
-			String bin = Integer.toBinaryString(bytesArr[i]);
-			TestUtils.printLog("Binary: " + bin);
+			byte tmpByte = bytesArr[i];
+			TestUtils.printLog("Oct: " + tmpByte);
 
-			String hex = Integer.toHexString(bytesArr[i] & 0xFF);
-			TestUtils.printLog("Hex: " + hex.toUpperCase());
+			// for binary, if length less than 8, prefix with 0
+			String strByteAsBin = Integer.toBinaryString(tmpByte);
+			char[] tmpInitArr = { '0', '0', '0', '0', '0', '0', '0', '0', '0' };
+			final int bytesLen = 8;
+			if (strByteAsBin.length() != bytesLen) {
+				for (int j = 0, len = strByteAsBin.length(); j < len; j++) {
+					tmpInitArr[j + bytesLen - len] = strByteAsBin.charAt(j);
+				}
+			}
+			TestUtils.printLog("Binary: " + String.valueOf(tmpInitArr));
+
+			String byteAsHex = Integer.toHexString(tmpByte & 0xFF);
+			TestUtils.printLog("Hex: " + byteAsHex.toUpperCase());
 		}
 	}
 
 	@Test
 	public void test05Demo() {
-		// char
+		// char and byte
 		char tmpChar = 'A';
 		TestUtils.printLog("Char: " + tmpChar);
 
@@ -158,21 +168,21 @@ public final class TestDemo01 {
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void test0701Demo() {
-		// remove list element in for loop
+		// remove list element in for loop, from start
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
 
 		// throw IndexOutOfBoundsException in loop
 		for (int i = 0, size = tmpStrLst.size(); i < size; i++) {
-			if ("Java".equalsIgnoreCase(tmpStrLst.get(i))) {
-				tmpStrLst.remove(i);
+			if ("java".equalsIgnoreCase(tmpStrLst.get(i))) {
+				TestUtils.printLog("Item removed: " + tmpStrLst.remove(i));
 			}
 		}
 	}
 
 	@Test
 	public void test0702Demo() {
-		// remove list element in for loop
+		// remove list element in for loop, from end
 		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
 				"js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {
@@ -181,7 +191,7 @@ public final class TestDemo01 {
 
 		for (int i = tmpStrLst.size() - 1; i >= 0; i--) {
 			if ("C#".equalsIgnoreCase(tmpStrLst.get(i))) {
-				tmpStrLst.remove(i);
+				TestUtils.printLog("Item removed: " + tmpStrLst.remove(i));
 			}
 		}
 
@@ -199,8 +209,8 @@ public final class TestDemo01 {
 
 		// throw ConcurrentModificationException in loop
 		for (String item : tmpStrLst) {
-			if ("JS".equalsIgnoreCase(item.toUpperCase())) {
-				tmpStrLst.remove(item);
+			if ("JS".equalsIgnoreCase(item)) {
+				TestUtils.printLog("Item removed: " + tmpStrLst.remove(item));
 			}
 		}
 	}
@@ -375,7 +385,7 @@ public final class TestDemo01 {
 	public void test16Demo() {
 		// ENUM object
 		EnumStatus status = EnumStatus.DISABLE;
-
+		
 		switch (status) {
 		case DELETE: {
 			TestUtils.printLog("Status is DELETE.");
@@ -391,8 +401,8 @@ public final class TestDemo01 {
 		}
 		case DISABLE: {
 			TestUtils.printLog("Status is DISABLE.");
-			TestUtils.printLog("Code: " + EnumStatus.DISABLE.getCode());
-			TestUtils.printLog("Tag: " + EnumStatus.DISABLE.name());
+			TestUtils.printLog("Code: " + status.getCode());
+			TestUtils.printLog("Tag: " + status.name());
 			break;
 		}
 		default: {
