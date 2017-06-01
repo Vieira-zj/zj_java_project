@@ -58,7 +58,7 @@ public final class TestDemo02 {
 	public void test04RegExpDemo() {
 		// RegExp, group()
 		String regEx = "\\w(\\d\\d)(\\w+)";
-		String tmpStr = "A22happy";
+		String tmpStr = "A22happy**";
 		Pattern p = Pattern.compile(regEx);
 		Matcher m = p.matcher(tmpStr);
 
@@ -75,7 +75,7 @@ public final class TestDemo02 {
 	public void test05RegExpDemo() {
 		// RegExp, find(), group(), start() and end()
 		String tmpStr = "My name is Bond. James Bond.";
-		Pattern p = Pattern.compile("Bond");
+		Pattern p = Pattern.compile("\\wond");
 		Matcher m = p.matcher(tmpStr);
 
 		if (m.find()) {
@@ -99,7 +99,7 @@ public final class TestDemo02 {
 
 	@Test
 	public void test06RegExpDemo() {
-		// find MAC by RegExp
+		// RegExp, find MAC
 		String tmpStr = "eth0      Link encap:Ethernet  HWaddr 28:76:CD:0D:00:2D";
 		Pattern p = Pattern.compile("[0-9A-F]{2}(:[0-9A-F]{2}){5}");
 		Matcher m = p.matcher(tmpStr);
@@ -111,13 +111,13 @@ public final class TestDemo02 {
 
 	@Test
 	public void test07RegExpDemo() {
-		// find 2 bit numbers
+		// RegExp, find numbers
 		String tmpStr = "FD5551A-SU";
 		Pattern p = Pattern.compile("[0-9]{2}");
 		Matcher m = p.matcher(tmpStr);
 
 		while (m.find()) {
-			TestUtils.printLog(m.group());
+			TestUtils.printLog("Number: " + m.group());
 		}
 	}
 
@@ -330,13 +330,13 @@ public final class TestDemo02 {
 		// instance of
 		MyTestClass01 testClsSuper = new MyTestClass01(13);
 		MyTestClass01 testClsSub = new MyTestClass02("test", 10);
-		
+
 		if (testClsSub instanceof MyTestClass02) {
 			TestUtils.printLog("testCls is instanceof MyTestClass02.");
 		}
 
 		TestUtils.printLog("Sub class value: " + testClsSub.value);
-		if (testClsSub.Compare(testClsSuper)) {
+		if (testClsSub.Compare(testClsSuper)) {  // overload
 			TestUtils.printLog("Sub class is greater.");
 		} else {
 			TestUtils.printLog("Sub class is less.");
@@ -442,5 +442,5 @@ public final class TestDemo02 {
 		TestUtils.printLog(tmpLst);
 		TestUtils.printLog(tmpLst.contains("Java"));
 	}
-	
+
 }

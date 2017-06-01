@@ -1,5 +1,7 @@
 package com.zhengjin.java.demo;
 
+import com.zhengjin.apis.testutils.TestUtils;
+
 public final class MyTestClass02 extends MyTestClass01 {
 
 	private String key;
@@ -10,6 +12,7 @@ public final class MyTestClass02 extends MyTestClass01 {
 	}
 
 	public boolean Compare(MyTestClass02 another) {
+		TestUtils.printLog("Compare() invoked from MyTestClass02");
 		if (this.key != another.key) {
 			return false;
 		}
