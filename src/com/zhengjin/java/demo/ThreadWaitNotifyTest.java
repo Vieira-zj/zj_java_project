@@ -8,9 +8,9 @@ public final class ThreadWaitNotifyTest {
 
 	public static void main(String args[]) {
 		Vector<String> goods = new Vector<>();
+		
 		Thread consumer = new Thread(new Consumer(goods));
 		Thread productor = new Thread(new Productor(goods));
-
 		consumer.start();
 		productor.start();
 	}
@@ -46,7 +46,7 @@ public final class ThreadWaitNotifyTest {
 						e.printStackTrace();
 					}
 				}
-			}
+			}  // release lock
 		}
 	}
 
@@ -84,7 +84,7 @@ public final class ThreadWaitNotifyTest {
 						e.printStackTrace();
 					}
 				}
-			}
+			}  // release lock
 		}
 	}
 }

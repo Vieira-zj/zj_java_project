@@ -37,9 +37,9 @@ public final class TestDemo03 {
 	@Test
 	public void test01Demo() {
 		// Arrays.equals()
-		String[] tmpArrSrc = { "test1", "test2", "test3" };
-		String[] tmpArrTarget = new String[] { "test1", "test2", "test3" };
-		boolean ret = Arrays.equals(tmpArrSrc, tmpArrTarget);
+		String[] tmpArr1 = { "test1", "test2", "test3" };
+		String[] tmpArr2 = new String[] { "test1", "test2", "test3" };
+		boolean ret = Arrays.equals(tmpArr1, tmpArr2);
 		printLog("Compare results: " + ret);
 	}
 
@@ -80,13 +80,13 @@ public final class TestDemo03 {
 
 	@Test
 	public void test05Demo() {
-		// reflection
+		// update string value by reflection
 		String tmpStr = "Zheng Jin";
 		try {
 			Field valueFieldOfString = String.class.getDeclaredField("value");
 			valueFieldOfString.setAccessible(true);
-			char[] value = (char[]) valueFieldOfString.get(tmpStr);
-			value[5] = '_';
+			char[] tmpVal = (char[]) valueFieldOfString.get(tmpStr);
+			tmpVal[5] = '_';
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -159,12 +159,10 @@ public final class TestDemo03 {
 		public int compareTo(Employee another) {
 			return this.number < another.number ? 1 : -1;
 		}
-
 	}
 
 	@Test
 	public void test08Demo() {
-		// field defined as final in thread
 		// when test method finished, sub thread is terminated,
 		// invoked runnable in main() instead
 		Employee employee = new Employee();
@@ -193,14 +191,14 @@ public final class TestDemo03 {
 			e.printStackTrace();
 		}
 
-		employee.name = "Reyan Ali(updated)";
 		text = "test08Demo_updated";
+		employee.name = "Reyan Ali(updated)";
 		printLog("main is done => " + Thread.currentThread().getName());
 	}
 
 	private void showMessage(final Employee employee, final String message) {
+		// field declared as final
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				for (int i = 1; i <= 5; i++) {
@@ -220,7 +218,7 @@ public final class TestDemo03 {
 
 	@Test
 	public void test09Demo() {
-		// Comparator
+		// sort by Comparator
 		Integer[] integers = { new Integer(-1), new Integer(-2),
 				new Integer(0), new Integer(1), new Integer(-1) };
 
@@ -229,11 +227,11 @@ public final class TestDemo03 {
 		Arrays.sort(integers);
 		printLog(Arrays.asList(integers));
 
-		Arrays.sort(integers, new AbsComparator());
+		Arrays.sort(integers, new TestComparator());
 		printLog(Arrays.asList(integers));
 	}
 
-	private static class AbsComparator implements Comparator<Integer> {
+	private static class TestComparator implements Comparator<Integer> {
 
 		@Override
 		public int compare(Integer i1, Integer i2) {
@@ -258,11 +256,10 @@ public final class TestDemo03 {
 		employee2.SSN = 11133556;
 		employee2.number = 201;
 
-		Employee[] ees = { employee1, employee2 };
+		Employee[] ees = { employee2, employee1 };
+		Arrays.asList(ees).forEach(ee -> ee.mailCheck());
 		Arrays.sort(ees);
-		for (Employee e : ees) {
-			e.mailCheck();
-		}
+		Arrays.asList(ees).forEach(ee -> ee.mailCheck());
 
 		// override Employee toString() method, and print list
 		printLog(Arrays.asList(ees));
@@ -270,12 +267,13 @@ public final class TestDemo03 {
 
 	@Test
 	public void test11Demo() {
-		// RandomAccess vs iterator
+		// loop by RandomAccess or Iterator
 		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
 				"test1", "test2", "test3" }));
 		this.loopOnList(tmpLst);
 
 		List<String> tmpLinkedLst = new LinkedList<>(tmpLst);
+		tmpLinkedLst.add("test4");
 		this.loopOnList(tmpLinkedLst);
 	}
 
@@ -300,7 +298,6 @@ public final class TestDemo03 {
 
 		for (int i = 0; i < 5; i++) {
 			new Thread(new Runnable() {
-
 				@Override
 				public void run() {
 					try {
@@ -323,10 +320,11 @@ public final class TestDemo03 {
 		public void print(String str) throws InterruptedException {
 			semaphore.acquire();
 
-			printLog(Thread.currentThread().getName() + " enter ...");
+			String threadName = Thread.currentThread().getName();
+			printLog(threadName + " enter...");
+			printLog(threadName + "printing..." + str);
 			Thread.sleep(1000);
-			printLog(Thread.currentThread().getName() + "printing..." + str);
-			printLog(Thread.currentThread().getName() + " out ...");
+			printLog(threadName + " out...");
 
 			semaphore.release();
 		}
@@ -334,7 +332,7 @@ public final class TestDemo03 {
 
 	@Test
 	public void test12Demo() {
-		// binarySearch()
+		// get array element type
 		String[] tmpArr = { "C++", "Java", "Python", "Javascript" };
 		printLog("Array element type: "
 				+ tmpArr.getClass().getComponentType().toString());
@@ -342,6 +340,7 @@ public final class TestDemo03 {
 		Arrays.sort(tmpArr);
 		printLog(Arrays.asList(tmpArr));
 
+		// binarySearch()
 		int idx = -1;
 		if ((idx = Arrays.binarySearch(tmpArr, "Python")) >= 0) {
 			printLog("Python found at " + idx);
@@ -352,7 +351,6 @@ public final class TestDemo03 {
 		// Timer
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
-
 			@Override
 			public void run() {
 				printLog("invoked after 3 seconds.");
@@ -364,6 +362,7 @@ public final class TestDemo03 {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
 		if (t != null) {
 			t.cancel();
 		}
@@ -374,14 +373,15 @@ public final class TestDemo03 {
 	public void test13Demo() {
 		// remove array element
 		String[] tmpArr = { "Java", "C++", "C", "Python", "JavaScript" };
+
 		printLog("Before update");
 		printLog(Arrays.toString(tmpArr));
-		removeElementAt(tmpArr, 2);
+		removeArrElementByIndex(tmpArr, 2);
 		printLog("After update");
 		printLog(Arrays.toString(tmpArr));
 	}
 
-	private <T> void removeElementAt(T[] arr, int index) {
+	private <T> void removeArrElementByIndex(T[] arr, int index) {
 		if (index >= arr.length || index < 0) {
 			throw new IndexOutOfBoundsException("Invalid index: " + index);
 		}
@@ -403,6 +403,8 @@ public final class TestDemo03 {
 		queue.offer("JS");
 
 		printLog("Queue init size: " + queue.size());
+		queue.forEach(item -> printLog("Element: " + item));
+
 		String tmpStr;
 		while ((tmpStr = queue.poll()) != null) {
 			printLog("Element: " + tmpStr);
@@ -412,7 +414,7 @@ public final class TestDemo03 {
 
 	@Test
 	public void test15Demo() {
-		// Deque as queue, offer at last, and poll at first
+		// Deque as queue, offer at bottom, and poll at top
 		Deque<String> deque = new ArrayDeque<>(20);
 		deque.offer("Java");
 		deque.offer("C++");
@@ -429,7 +431,7 @@ public final class TestDemo03 {
 
 	@Test
 	public void test16Demo() {
-		// Deque as stack, push and pop at first
+		// Deque as stack, push and pop at top
 		Deque<String> deque = new ArrayDeque<>(20);
 		deque.push("Java");
 		deque.push("C++");
@@ -440,7 +442,7 @@ public final class TestDemo03 {
 		while (deque.size() > 0) {
 			printLog("Element: " + deque.pop());
 		}
-		printLog("After poll, queue size: " + deque.size());
+		printLog("After pop, queue size: " + deque.size());
 	}
 
 	@Test
@@ -466,11 +468,10 @@ public final class TestDemo03 {
 				+ testingDir + File.separator + fileName;
 		File tmpFile = new File(tmpPath);
 		if (!tmpFile.exists()) {
-			throw new Exception("Invalid path, file not exist: " + tmpPath);
+			throw new Exception("File not exist: " + tmpPath);
 		}
 		if (!tmpFile.isFile()) {
-			throw new Exception("Invalid path, file exist but not file: "
-					+ tmpPath);
+			throw new Exception("Is not a file: " + tmpPath);
 		}
 
 		return tmpPath;

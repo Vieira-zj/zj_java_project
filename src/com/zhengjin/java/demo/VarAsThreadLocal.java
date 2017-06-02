@@ -4,12 +4,12 @@ import java.util.Random;
 
 import static com.zhengjin.apis.testutils.TestUtils.printLog;
 
-public final class ThreadLocalDemo {
+public final class VarAsThreadLocal {
 
 	private final static ThreadLocal<People> threadLocal = new ThreadLocal<>();
 
-	public static void testMain(String[] agrs) {
-		ThreadLocalDemo demo = new ThreadLocalDemo();
+	public static void main(String[] agrs) {
+		VarAsThreadLocal demo = new VarAsThreadLocal();
 
 		Thread t1 = new Thread(demo.new myRunnable());
 		Thread t2 = new Thread(demo.new myRunnable());
@@ -26,7 +26,7 @@ public final class ThreadLocalDemo {
 
 			int age = new Random().nextInt(100);
 			printLog("thread " + curThreadName + " set age to: " + age);
-			People people = ThreadLocalDemo.this.getPeople();
+			People people = VarAsThreadLocal.this.getPeople();
 			people.setAge(age);
 
 			printLog("thread " + curThreadName + " first read age is: " + people.getAge());
