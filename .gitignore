@@ -3,4 +3,5 @@
 bin/
 output/
 #reports/
+drivers/
 testdata/*.html
