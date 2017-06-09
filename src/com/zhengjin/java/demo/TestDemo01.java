@@ -113,14 +113,15 @@ public final class TestDemo01 {
 		}
 
 		for (int i = 0, length = bytesArr.length; i < length; i++) {
-			TestUtils.printLog("Char: " + tmpStr.charAt(i));
-
 			byte tmpByte = bytesArr[i];
+
+			TestUtils.printLog("Char: " + (char) tmpByte);
 			TestUtils.printLog("Oct: " + tmpByte);
 
 			// for binary, if length less than 8, prefix with 0
 			String strByteAsBin = Integer.toBinaryString(tmpByte);
-			char[] tmpInitArr = { '0', '0', '0', '0', '0', '0', '0', '0', '0' };
+			TestUtils.printLog("Binary: " + strByteAsBin);
+			char[] tmpInitArr = { '0', '0', '0', '0', '0', '0', '0', '0' };
 			final int bytesLen = 8;
 			if (strByteAsBin.length() != bytesLen) {
 				for (int j = 0, len = strByteAsBin.length(); j < len; j++) {
@@ -130,21 +131,23 @@ public final class TestDemo01 {
 			TestUtils.printLog("Binary: " + String.valueOf(tmpInitArr));
 
 			String byteAsHex = Integer.toHexString(tmpByte & 0xFF);
-			TestUtils.printLog("Hex: " + byteAsHex.toUpperCase());
+			TestUtils.printLog("Hex: " + byteAsHex.toUpperCase() + "\n");
 		}
 	}
 
 	@Test
 	public void test05Demo() {
-		// char and byte
+		// byte (8 bits, ascii), char (2 bytes, unicode)
 		char tmpChar = 'A';
 		TestUtils.printLog("Char: " + tmpChar);
-
-		String bin = Integer.toBinaryString(tmpChar);
-		TestUtils.printLog("Binary: " + bin);
-
-		String hex = Integer.toHexString(tmpChar & 0xFF);
-		TestUtils.printLog("Hex: " + hex.toUpperCase());
+		TestUtils.printLog("Oct: " + (byte) tmpChar);
+		TestUtils.printLog("Binary: " + Integer.toBinaryString(tmpChar));
+		TestUtils.printLog("Hex: " + Integer.toHexString(tmpChar & 0xFF).toUpperCase());
+		
+		char c = 65;
+		TestUtils.printLog("Char: " + c);
+		int i = 'h';
+		TestUtils.printLog("Int: " + i);
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
