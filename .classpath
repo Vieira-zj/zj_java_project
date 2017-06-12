@@ -12,5 +12,7 @@
 	<classpathentry kind="lib" path="libs/junit.jar"/>
 	<classpathentry kind="lib" path="libs/org.hamcrest.core_1.3.0.v201303031735.jar"/>
 	<classpathentry kind="lib" path="libs/ant.jar"/>
+	<classpathentry kind="lib" path="libs/selenium-server-standalone-3.4.0.jar"/>
+	<classpathentry kind="lib" path="libs/client-combined-3.4.0-nodeps.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
