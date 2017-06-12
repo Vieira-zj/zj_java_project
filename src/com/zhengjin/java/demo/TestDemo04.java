@@ -13,7 +13,7 @@ import org.junit.runners.MethodSorters;
 import com.zhengjin.apis.testutils.TestUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public final class TestDemos04 {
+public final class TestDemo04 {
 
 	@Test
 	public void test01Demo() {
