@@ -21,7 +21,7 @@ import org.junit.runners.MethodSorters;
 import com.zhengjin.apis.testutils.TestUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public final class TestDemo01 {
+public final class TestDemos01 {
 
 	@Test
 	public void test01Demo() {
@@ -254,10 +254,10 @@ public final class TestDemo01 {
 	@Test
 	public void test10Demo() {
 		// reflection
-		Class<?> cls = TestDemo01.class;
+		Class<?> cls = TestDemos01.class;
 
 		TestUtils.printLog("Test methods in "
-				+ TestDemo01.class.getSimpleName() + ": ");
+				+ TestDemos01.class.getSimpleName() + ": ");
 		Method[] methods = cls.getMethods();
 		for (Method m : methods) {
 			Annotation annotation = m.getAnnotation(org.junit.Test.class);

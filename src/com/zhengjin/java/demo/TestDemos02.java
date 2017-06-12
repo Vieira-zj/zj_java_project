@@ -29,7 +29,7 @@ import org.junit.runners.MethodSorters;
 import com.zhengjin.apis.testutils.TestUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public final class TestDemo02 {
+public final class TestDemos02 {
 
 	@Test
 	public void test01Demo() {
@@ -51,7 +51,7 @@ public final class TestDemo02 {
 	public static void testMain(String[] args) {
 		JUnitCore runner = new JUnitCore();
 		runner.addListener(new ExecutionListener());
-		runner.run(TestDemo02.class);
+		runner.run(TestDemos02.class);
 	}
 
 	@Test
@@ -312,7 +312,7 @@ public final class TestDemo02 {
 	@Test
 	public void test19Demo() {
 		// overload
-		TestDemo02 demo = new TestDemo02();
+		TestDemos02 demo = new TestDemos02();
 		demo.myPrint("overload test");
 		demo.myPrint(10);
 	}

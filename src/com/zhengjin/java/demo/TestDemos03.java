@@ -32,7 +32,7 @@ import com.zhengjin.apis.testutils.TestConstants;
 import static com.zhengjin.apis.testutils.TestUtils.printLog;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public final class TestDemo03 {
+public final class TestDemos03 {
 
 	@Test
 	public void test01Demo() {
@@ -182,7 +182,7 @@ public final class TestDemo03 {
 		employee.SSN = 11122333;
 		employee.number = 101;
 
-		TestDemo03 demo = new TestDemo03();
+		TestDemos03 demo = new TestDemos03();
 		String text = "test08Demo";
 		demo.showMessage(employee, text);
 		try {
