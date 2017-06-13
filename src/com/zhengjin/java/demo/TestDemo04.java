@@ -97,4 +97,49 @@ public final class TestDemo04 {
 		TestUtils.printLog("ConcurrentHashMap after iterator: " + myMap);
 	}
 
+	@Test
+	public void test04GenericDemo() {
+		// generic class
+		Info<String> info = new InfoImpl<>("ZJ Test");
+		TestUtils.printLog("results: " + info.getVar());
+	}
+
+	private static class InfoImpl<T> implements Info<T> {
+
+		private T var;
+
+		public InfoImpl(T var) {
+			this.setVar(var);
+		}
+
+		public void setVar(T var) {
+			this.var = var;
+		}
+
+		@Override
+		public T getVar() {
+			return this.var;
+		}
+	}
+
+	private interface Info<T> {
+		public T getVar();
+	}
+
+	@Test
+	public void test05GenericDemo() {
+		// generic method
+		GenericTestInfo info = new GenericTestInfo();
+		TestUtils.printLog(info.fun("coder", "print second generic param"));
+		TestUtils.printLog(info.fun(30, "print second param again"));
+	}
+
+	private static class GenericTestInfo {
+		
+		public <T, S> T fun(T t, S s) {
+			TestUtils.printLog(s.toString());
+			return t;
+		}
+	}
+
 }

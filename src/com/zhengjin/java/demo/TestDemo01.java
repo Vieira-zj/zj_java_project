@@ -269,14 +269,14 @@ public final class TestDemo01 {
 
 	@Test
 	public void test11RunnableTaskDemo() {
-		// Runnable, return null
-		ExecutorService executorService = Executors.newCachedThreadPool();
+		// submit runnable, and return null
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		@SuppressWarnings("unchecked")
 		Future<String> future = (Future<String>) executorService
 				.submit(new TaskRunnable());
 
 		try {
-			TestUtils.printLog(future.get());
+			TestUtils.printLog("results: " + future.get());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
@@ -293,13 +293,13 @@ public final class TestDemo01 {
 
 	@Test
 	public void test12CallableTaskDemo() {
-		// Callable, return
-		ExecutorService executorService = Executors.newCachedThreadPool();
+		// submit callable,  and return int
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		Future<Integer> future = (Future<Integer>) executorService
 				.submit(new TaskCallable());
 
 		try {
-			TestUtils.printLog(future.get().toString());
+			TestUtils.printLog("results: " + future.get().toString());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
@@ -308,13 +308,13 @@ public final class TestDemo01 {
 
 	@Test
 	public void test13FutureTaskDemo() {
-		// FutureTask, return
-		ExecutorService executorService = Executors.newCachedThreadPool();
+		// submit FutureTask (wrapped callable), and return int
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		FutureTask<Integer> futureTask = new FutureTask<>(new TaskCallable());
 
 		executorService.submit(futureTask);
 		try {
-			TestUtils.printLog(futureTask.get());
+			TestUtils.printLog("results: " + futureTask.get());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
@@ -323,10 +323,9 @@ public final class TestDemo01 {
 
 	@Test
 	public void test14FutureTaskDemo() {
-		// FutureTask, return
+		// submit FutureTask, and return int
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Integer> futureTask = new FutureTask<>(new Runnable() {
-
 			@Override
 			public void run() {
 				TestUtils.printLog("FutureTask2 run");
@@ -335,20 +334,18 @@ public final class TestDemo01 {
 
 		executorService.submit(futureTask);
 		try {
-			TestUtils.printLog(futureTask.get());
+			TestUtils.printLog("results: " + futureTask.get());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
-
 		executorService.shutdown();
 	}
 
 	@Test
 	public void test15FutureTaskDemo() {
-		// FutureTask, return
+		// submit FutureTask, and return null
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Void> futureTask = new FutureTask<>(new Runnable() {
-
 			@Override
 			public void run() {
 				TestUtils.printLog("FutureTask3 run");
@@ -357,11 +354,10 @@ public final class TestDemo01 {
 
 		executorService.submit(futureTask);
 		try {
-			TestUtils.printLog(futureTask.get());
+			TestUtils.printLog("results: " + futureTask.get());
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
-
 		executorService.shutdown();
 	}
 
