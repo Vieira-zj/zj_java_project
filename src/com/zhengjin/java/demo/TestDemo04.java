@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -135,10 +136,41 @@ public final class TestDemo04 {
 	}
 
 	private static class GenericTestInfo {
-		
+
 		public <T, S> T fun(T t, S s) {
 			TestUtils.printLog(s.toString());
 			return t;
+		}
+	}
+
+	@Test
+	public void test06Demo() {
+		// Arrays.asList() and Collections.singletonList()
+		String[] initArr = { "One", "Two", "Three", "Four", };
+
+		List<String> tmpLst1 = new ArrayList<>(Arrays.asList(initArr));
+		TestUtils.printLog(tmpLst1);
+		tmpLst1.set(0, "first"); // update value
+		tmpLst1.add("Five"); // update structure
+		TestUtils.printLog(tmpLst1);
+
+		TestUtils.printLog("After update, array items:");
+		for (String item : initArr) {
+			TestUtils.printLog("item: " + item);
+		}
+
+		// the capacity of the List returned by
+		// Collections.singletonList(something) will always be 1
+		List<String> tmpLst2 = Collections.singletonList("OnlyOneElement");
+		TestUtils.printLog(tmpLst2);
+
+		try {
+			tmpLst2.set(0, "update");
+			TestUtils.printLog(tmpLst2);
+		} catch (UnsupportedOperationException e) {
+			TestUtils.printLog("Any changes made to the List returned by  "
+					+ "Collections.singletonList(something) will result in "
+					+ "UnsupportedOperationException");
 		}
 	}
 
