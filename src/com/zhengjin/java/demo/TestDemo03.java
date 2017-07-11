@@ -447,15 +447,15 @@ public final class TestDemo03 {
 
 	@Test
 	public void test17Demo() {
-		String fileName = "fun_settings_TEST-all_2017-04-11_03-21-13-623.xml";
+		String fileName = "fun_settings_TEST-all_2017-07-11_10-26-53-070.xml";
 		try {
-			printLog(getTestingFileAbsPathInUserHome(fileName));
+			printLog(getTestingFileAbsPathBaseOnUserHome(fileName));
 		} catch (Exception e) {
 			printLog(e.getMessage());
 		}
 	}
 
-	private String getTestingFileAbsPathInUserHome(String fileName)
+	private String getTestingFileAbsPathBaseOnUserHome(String fileName)
 			throws Exception {
 		final String envVarUserHome = "USERPROFILE";
 		final String testingDir = "auto_test_logs";
@@ -473,8 +473,7 @@ public final class TestDemo03 {
 		if (!tmpFile.isFile()) {
 			throw new Exception("Is not a file: " + tmpPath);
 		}
-
-		return tmpPath;
+		return tmpFile.getAbsolutePath();
 	}
 
 	@Test
@@ -483,26 +482,24 @@ public final class TestDemo03 {
 		final String baseDir = TestConstants.TEST_DATA_PATH;
 		final String baseFileName = "11_testsuites";
 
-		String xmlFileName = baseDir + File.separator + baseFileName + ".xml";
-		String targetFileName = baseDir + File.separator + baseFileName
-				+ ".html";
-		String xslFileName = FileUtils.getProjectPath() + File.separator
+		String xmlFilePath = baseDir + File.separator + baseFileName + ".xml";
+		String xslFilePath = FileUtils.getProjectPath() + File.separator
 				+ "xstl" + File.separator + "testsuites.xstl";
 
 		try {
 			// set src xml file path here
-			String tmpFileName = getTestingFileAbsPathInUserHome("");
-			if (tmpFileName.length() > 0) {
-				xmlFileName = tmpFileName;
-				targetFileName = tmpFileName.replace(".xml", ".html");
+			final String srcFileName = "fun_settings_TEST-all_2017-07-11_10-26-53-070.xml";
+			String tmpFilePath = getTestingFileAbsPathBaseOnUserHome(srcFileName);
+			if (tmpFilePath.length() > 0) {
+				xmlFilePath = tmpFilePath;
 			}
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		}
 
 		try {
-			String output = XstlTransform.XmlXstlHtml(xmlFileName, xslFileName,
-					targetFileName);
+			String output = XstlTransform.XmlXstlHtml(xmlFilePath, xslFilePath,
+					xmlFilePath.replace(".xml", ".html"));
 			printLog("Xstl transform finished and save at: " + output);
 		} catch (Exception e) {
 			Assert.fail("Xstl transform error: " + e.getMessage());
