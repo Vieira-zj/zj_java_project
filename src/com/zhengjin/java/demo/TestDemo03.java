@@ -355,10 +355,10 @@ public final class TestDemo03 {
 			public void run() {
 				printLog("invoked after 3 seconds.");
 			}
-		}, 3000);
+		}, 3000L);
 
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(5000L);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
