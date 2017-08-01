@@ -14,19 +14,19 @@ public final class XstlTransform {
 	private XstlTransform() {
 	}
 
-	public static String XmlXstlHtml(String xmlFileName, String xslFileName,
-			String htmlFileName) throws Exception {
+	public static String XmlXstlHtml(String xmlFilePath, String xslFilePath,
+			String htmlFilePath) throws Exception {
 		TransformerFactory factory = TransformerFactory.newInstance();
-		StreamSource source = new StreamSource(new File(xslFileName));
-		Transformer tx = factory.newTransformer(source);
+		StreamSource xslSource = new StreamSource(new File(xslFilePath));
+		Transformer tx = factory.newTransformer(xslSource);
 
 		Properties properties = tx.getOutputProperties();
 		properties.setProperty(OutputKeys.ENCODING, "UTF-8");
 		properties.setProperty(OutputKeys.METHOD, "html");
 		tx.setOutputProperties(properties);
 
-		StreamSource xmlSource = new StreamSource(new File(xmlFileName));
-		File targetFile = new File(htmlFileName);
+		StreamSource xmlSource = new StreamSource(new File(xmlFilePath));
+		File targetFile = new File(htmlFilePath);
 		StreamResult result = new StreamResult(targetFile);
 
 		tx.transform(xmlSource, result);
