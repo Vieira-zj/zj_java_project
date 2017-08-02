@@ -19,6 +19,26 @@ import com.zhengjin.apis.testutils.TestUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public final class TestDemo04 {
 
+	private static final String TAG = TestDemo04.class.getSimpleName();
+
+	private String testValue = "test";
+
+	public TestDemo04() {
+		// must be public for Junit invoke
+		testValue = "zj_test";
+	}
+
+	private class innerCls {
+
+		String testValue = "inner test";
+
+		public void testPrint() {
+			TestUtils.printLog("outer static tag: " + TestDemo04.TAG);
+			TestUtils.printLog("inner value: " + this.testValue);
+			TestUtils.printLog("outer value: " + TestDemo04.this.testValue);
+		}
+	}
+
 	@Test
 	public void test01Demo() {
 		// Arrays.equals()
@@ -172,6 +192,17 @@ public final class TestDemo04 {
 					+ "Collections.singletonList(something) will result in "
 					+ "UnsupportedOperationException");
 		}
+	}
+
+	@Test
+	public void test07Demo() {
+		// test instance variable initialize sequence
+		TestUtils.printLog("class: " + this.getClass().getSimpleName());
+		TestUtils.printLog("value: " + this.testValue);
+
+		// variables access in inner class
+		innerCls cls = this.new innerCls();
+		cls.testPrint();
 	}
 
 }
