@@ -7,7 +7,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -203,6 +208,119 @@ public final class TestDemo04 {
 		// variables access in inner class
 		innerCls cls = this.new innerCls();
 		cls.testPrint();
+	}
+
+	// TODO: add demos here
+
+	// FixedThreadPool
+	public static void testMain01(String args[]) throws InterruptedException {
+		// 1) core pool size is 2, add 2 tasks in pool
+		// 2) unbounded queue, add remained 8 tasks in queue
+		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors
+				.newFixedThreadPool(2);
+
+		for (int i = 0; i < 10; i++) {
+			MyTask task = new MyTask(i, "task" + i);
+			pool.execute(task);
+			printPoolStatus(pool);
+		}
+		pool.shutdown();
+
+		while (!pool.isTerminated()) {
+			Thread.sleep(3000L);
+			printPoolStatus(pool);
+		}
+	}
+
+	// CachedThreadPool
+	public static void testMain02(String args[]) throws InterruptedException {
+		// 1) core pull size is 0, and max pull size is max
+		// 2) add tasks in pool, and reuse previously threads if available (keep
+		// alive for 60s)
+		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors
+				.newCachedThreadPool();
+
+		for (int i = 0; i < 10; i++) {
+			MyTask task = new MyTask(i, "task" + i);
+			pool.execute(task);
+			printPoolStatus(pool);
+			Thread.sleep(1000L);
+		}
+		pool.shutdown();
+
+		while (!pool.isTerminated()) {
+			Thread.sleep(3000L);
+			printPoolStatus(pool);
+		}
+	}
+
+	// customized thread pool
+	public static void testMain03(String args[]) throws InterruptedException {
+		// 1) core pool size is 2, add 2 tasks to pool
+		// 2) queue size is 3, add 3 tasks to queue
+		// 3) max pool size is 4, add 2 additional tasks to pool (now 4 tasks in
+		// pool)
+		// 4) for newly add tasks, invoke RejectedThreadPoolHandler
+
+		// corePoolSize, number of threads in the pool, always alive
+		// keepAliveTime, for number of threads that greater than the core
+		ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 4, 60L,
+				TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(3),
+				new RejectedThreadPoolHandler());
+
+		for (int i = 0; i < 10; i++) {
+			MyTask task = new MyTask(i, "task" + i);
+			pool.execute(task);
+			printPoolStatus(pool);
+		}
+		pool.shutdown();
+
+		while (!pool.isTerminated()) {
+			Thread.sleep(3000L);
+			printPoolStatus(pool);
+		}
+	}
+
+	private static void printPoolStatus(ThreadPoolExecutor pool) {
+		TestUtils.printLog("activity thread count: " + pool.getActiveCount()
+				+ ", core pool size: " + pool.getCorePoolSize()
+				+ ", max pool size: " + pool.getMaximumPoolSize()
+				+ ", pool size: " + pool.getPoolSize() + ", queue size: "
+				+ pool.getQueue().size());
+	}
+
+	private static class MyTask implements Runnable {
+
+		public int taskId;
+		public String taskName;
+
+		public MyTask(int taskId, String taskName) {
+			this.taskId = taskId;
+			this.taskName = taskName;
+		}
+
+		@Override
+		public void run() {
+			TestUtils.printLog("running thread id => " + taskId
+					+ " thread name => " + taskName);
+			try {
+				Thread.sleep(3000L);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			TestUtils.printLog("run end, thread id => " + taskId
+					+ " thread name => " + taskName);
+		}
+	}
+
+	private static class RejectedThreadPoolHandler implements
+			RejectedExecutionHandler {
+
+		@Override
+		public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+			TestUtils.printLog("warn, self defined reject handler, task => "
+					+ r.toString() + " reject from " + executor.toString());
+		}
 	}
 
 }

@@ -142,8 +142,9 @@ public final class TestDemo01 {
 		TestUtils.printLog("Char: " + tmpChar);
 		TestUtils.printLog("Oct: " + (byte) tmpChar);
 		TestUtils.printLog("Binary: " + Integer.toBinaryString(tmpChar));
-		TestUtils.printLog("Hex: " + Integer.toHexString(tmpChar & 0xFF).toUpperCase());
-		
+		TestUtils.printLog("Hex: "
+				+ Integer.toHexString(tmpChar & 0xFF).toUpperCase());
+
 		char c = 65;
 		TestUtils.printLog("Char: " + c);
 		int i = 'h';
@@ -271,10 +272,10 @@ public final class TestDemo01 {
 	public void test11RunnableTaskDemo() {
 		// submit runnable, and return null
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
+
 		@SuppressWarnings("unchecked")
 		Future<String> future = (Future<String>) executorService
 				.submit(new TaskRunnable());
-
 		try {
 			TestUtils.printLog("results: " + future.get());
 		} catch (InterruptedException | ExecutionException e) {
@@ -283,21 +284,28 @@ public final class TestDemo01 {
 		executorService.shutdown();
 	}
 
+	private static final long WAIT_TIME = 3000L;
+
 	private static class TaskRunnable implements Runnable {
 
 		@Override
 		public void run() {
-			TestUtils.printLog("run");
+			TestUtils.printLog("runnable running...");
+			try {
+				Thread.sleep(WAIT_TIME);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@Test
 	public void test12CallableTaskDemo() {
-		// submit callable,  and return int
+		// submit callable, and return int
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
+
 		Future<Integer> future = (Future<Integer>) executorService
 				.submit(new TaskCallable());
-
 		try {
 			TestUtils.printLog("results: " + future.get().toString());
 		} catch (InterruptedException | ExecutionException e) {
@@ -328,7 +336,12 @@ public final class TestDemo01 {
 		FutureTask<Integer> futureTask = new FutureTask<>(new Runnable() {
 			@Override
 			public void run() {
-				TestUtils.printLog("FutureTask2 run");
+				TestUtils.printLog("FutureTask2 running...");
+				try {
+					Thread.sleep(WAIT_TIME);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}, fibc(30)); // the result to return on successful completion
 
@@ -348,7 +361,12 @@ public final class TestDemo01 {
 		FutureTask<Void> futureTask = new FutureTask<>(new Runnable() {
 			@Override
 			public void run() {
-				TestUtils.printLog("FutureTask3 run");
+				TestUtils.printLog("FutureTask3 running...");
+				try {
+					Thread.sleep(WAIT_TIME);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}, null);
 
@@ -365,7 +383,8 @@ public final class TestDemo01 {
 
 		@Override
 		public Integer call() throws Exception {
-			TestUtils.printLog("call");
+			TestUtils.printLog("callable running...");
+			Thread.sleep(WAIT_TIME);
 			return fibc(30);
 		}
 	}
@@ -384,7 +403,7 @@ public final class TestDemo01 {
 	public void test16Demo() {
 		// ENUM object
 		EnumStatus status = EnumStatus.DISABLE;
-		
+
 		switch (status) {
 		case DELETE: {
 			TestUtils.printLog("Status is DELETE.");
