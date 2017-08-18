@@ -393,7 +393,9 @@ public final class TestDemo02 {
 				.unmodifiableCollection(tmpLst);
 
 		TestUtils.printLog("Size = " + tmpCollection.size());
-		tmpCollection.add("test4"); // unmodifiable
+		tmpLst.add("Test4");
+		TestUtils.printLog(tmpLst);
+		tmpCollection.add("test5"); // unmodifiable
 	}
 
 	@Test
