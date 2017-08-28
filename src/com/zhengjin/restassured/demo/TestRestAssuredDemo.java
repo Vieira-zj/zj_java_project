@@ -3,10 +3,13 @@ package com.zhengjin.restassured.demo;
 import static org.hamcrest.Matchers.*;
 import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -26,15 +29,15 @@ public class TestRestAssuredDemo {
 
 	private static final String baseUrl = "http://card.tv.funshion.com/api/rest/weather/tv/get";
 
-	private static RequestSpecification requestParams = null;
+	private static RequestSpecification requestWithParams = null;
 	private static Response responseJson = null;
 
 	@BeforeClass
 	public static void classSetup() {
-		requestParams = buildRequestParams();
+		requestWithParams = buildRequestWithParams();
 	}
 
-	private static RequestSpecification buildRequestParams() {
+	private static RequestSpecification buildRequestWithParams() {
 		return given().param("plat_type", "funtv")
 				.param("version", "2.8.0.8_s").param("sid", "FD5551A-SU")
 				.param("account", "28:76:CD:01:96:F6")
@@ -46,60 +49,71 @@ public class TestRestAssuredDemo {
 
 	@Before
 	public void setup() {
-		Assert.assertNotNull(requestParams);
-	}
-
-	@Test
-	public void test01RespStatusCode() {
-		requestParams.log().all(); // print request data
-		requestParams.when().get(baseUrl).then().assertThat().statusCode(200);
-	}
-
-	@Test
-	public void test02RespTime() {
-		requestParams.when().get(baseUrl).then()
-				.time(lessThan(1000L), TimeUnit.MILLISECONDS);
-	}
-
-	@Test
-	public void test03PrintRespBody() {
 		if (responseJson == null) {
-			responseJson = requestParams.when().get(baseUrl);
+			Assert.assertNotNull(requestWithParams);
+
+			responseJson = requestWithParams.when().get(baseUrl);
+			responseJson.then().log().ifError();
+			responseJson.then().log().ifValidationFails();
 		}
-		responseJson.getBody().prettyPrint(); // print response data
 	}
 
 	@Test
-	public void test04RespRetCodeAndMessage() {
-		if (responseJson == null) {
-			responseJson = requestParams.when().get(baseUrl);
-		}
+	public void test01ResponseTime() {
+		requestWithParams.when().get(baseUrl).then()
+				.time(lessThan(800L), TimeUnit.MILLISECONDS);
+	}
+
+	@Test
+	public void test02RespStatusCode() {
+		// requestWithParams.log().all();
+		requestWithParams.log().params();
+		responseJson.then().assertThat().statusCode(200);
+	}
+
+	@Test
+	public void test03RespRetCodeAndMessage() {
+		responseJson.then().assertThat().contentType(ContentType.JSON);
 		responseJson.then().body("retCode", equalTo("200"));
 		responseJson.then().body("retMsg", equalTo("ok"));
 	}
 
 	@Test
+	public void test04PrintRespBody() {
+		// responseJson.then().log().all();
+		responseJson.then().log().body();
+		// responseJson.getBody().prettyPrint();
+	}
+
+	@Test
 	public void test05RespDataElements() {
-		if (responseJson == null) {
-			responseJson = requestParams.when().get(baseUrl);
-		}
 		responseJson.then().body("data.cityId", equalTo("101200101"));
 		responseJson.then().body("data.forecast", hasSize(5));
 		responseJson.then().body("data.forecast[0].highTemp", lessThan(40));
 	}
 
 	@Test
-	public void test06JsonSchemaValidation() {
-		if (responseJson == null) {
-			responseJson = requestParams.when().get(baseUrl);
-		}
+	public void test06RespDataElementsByRoot() {
+		responseJson.then().root("data.today")
+				.body("date", equalTo(this.getCurrentDate()))
+				.body("highTemp", lessThan(40))
+				.body("lowTemp", greaterThan(-10));
+	}
 
+	private String getCurrentDate() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return df.format(new Date());
+	}
+
+	@Test
+	public void test07JsonSchemaValidation() {
 		final String filePath = TestConstants.TEST_DATA_PATH
 				+ "json_schema_test.json";
 		File jsonSchemaFile = new File(filePath);
 		if (!jsonSchemaFile.exists()) {
 			Assert.fail("The json schema file not exist!");
 		}
+
 		responseJson.then().assertThat()
 				.body(matchesJsonSchema(jsonSchemaFile));
 	}
