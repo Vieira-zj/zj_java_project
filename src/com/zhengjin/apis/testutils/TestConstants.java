@@ -1,19 +1,21 @@
 package com.zhengjin.apis.testutils;
 
+import java.io.File;
+
 public final class TestConstants {
 
 	private TestConstants() {
 	}
 
-	public static final String TEST_DATA_DIR = "testdata/";
-	public static final String EXCEL_TESTCASES_FILE_NAME = "testcases.xlsx";
+	private static final String TEST_DATA_DIR = "testdata";
+	private static final String EXCEL_TESTCASES_FILE_NAME = "testcases.xlsx";
 
 	// for JMETER ENV, FileUtils.getProjectPath() returns null
 	public static final String PROJECT_ROOT_PATH = FileUtils.getProjectPath();
 	// public static final String PROJECT_ROOT_PATH =
 	// "D:/GitHub_Workspace/Eclipse_Workspace/FunSettingsInterfaceTest";
-	public static final String TEST_DATA_PATH = String.format("%s/%s",
-			PROJECT_ROOT_PATH, TEST_DATA_DIR);
+	public static final String TEST_DATA_PATH = PROJECT_ROOT_PATH
+			+ File.separator + TEST_DATA_DIR + File.separator;
 	public static final String EXCEL_TESTCASES_FILE_PATH = TEST_DATA_PATH
 			+ EXCEL_TESTCASES_FILE_NAME;
 

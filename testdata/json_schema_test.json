@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Json schema test",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "forecast": {
+      	  "type": "array",
+          "item": {
+      	    "type": "object",
+      	    "properties": {
+      	  	  "date": {
+      	  	    "type": "string"
+      	  	  },
+      	  	  "type": {
+      	  	    "type": "number"
+      	  	  }
+      	    },
+            "required": ["date", "type"]
+      	  },
+      	  "minItems": 5
+        }
+      },
+      "required": ["forecast"]
+    },
+    "retCode": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "required": ["data", "retCode", "retMsg"]
+}
