@@ -39,8 +39,8 @@ public final class TestDemo04 {
 
 		public void testPrint() {
 			TestUtils.printLog("outer static tag: " + TestDemo04.TAG);
-			TestUtils.printLog("inner value: " + this.testValue);
 			TestUtils.printLog("outer value: " + TestDemo04.this.testValue);
+			TestUtils.printLog("inner value: " + this.testValue);
 		}
 	}
 
@@ -51,38 +51,35 @@ public final class TestDemo04 {
 		String[] tmpArr2 = { "Java", "Javascript", "C++" };
 		String[] tmpArr3 = { "Javascript", "Java", "C++" };
 
-		Assert.assertTrue("Content and position equal.",
-				Arrays.equals(tmpArr1, tmpArr2));
-		Assert.assertTrue("Only content equal.",
-				Arrays.equals(tmpArr1, tmpArr3));
+		Assert.assertTrue("Content and position equal.", Arrays.equals(tmpArr1, tmpArr2));
+		Assert.assertTrue("Only content equal.", Arrays.equals(tmpArr1, tmpArr3));
 	}
 
 	@Test
 	public void test02Demo() {
 		// Collections.unmodifiableCollection()
-		Collection<User> originalCollection = new ArrayList<>();
-		originalCollection.add(new User("name1"));
-		originalCollection.add(new User("name2"));
-		originalCollection.add(new User("name3"));
+		Collection<User> originCollection = new ArrayList<>();
+		originCollection.add(new User("name1"));
+		originCollection.add(new User("name2"));
+		originCollection.add(new User("name3"));
 
-		Collection<User> copiedCollection = Collections
-				.unmodifiableCollection(originalCollection);
+		Collection<User> copiedCollection = Collections.unmodifiableCollection(originCollection);
 		TestUtils.printLog("Before update:");
 		for (User u : copiedCollection) {
 			TestUtils.printLog(u.name);
 		}
 
-		for (User u : originalCollection) {
-			u.name = "test";
-		}
-		TestUtils.printLog("\nAfter update item value:");
+		originCollection.add(new User("ZJ"));
+		TestUtils.printLog("\nAfter update collection:");
 		for (User u : copiedCollection) {
 			TestUtils.printLog(u.name);
 		}
 
-		originalCollection.add(new User("ZJ"));
-		TestUtils.printLog("\nAfter update collection:");
 		for (User u : copiedCollection) {
+			u.name = "test";
+		}
+		TestUtils.printLog("\nAfter update item value:");
+		for (User u : originCollection) {
 			TestUtils.printLog(u.name);
 		}
 
@@ -119,7 +116,6 @@ public final class TestDemo04 {
 				myMap.put("key3_new", "test3_new");
 			}
 		}
-
 		TestUtils.printLog("ConcurrentHashMap after iterator: " + myMap);
 	}
 
@@ -180,9 +176,7 @@ public final class TestDemo04 {
 		TestUtils.printLog(tmpLst1);
 
 		TestUtils.printLog("After update, array items:");
-		for (String item : initArr) {
-			TestUtils.printLog("item: " + item);
-		}
+		TestUtils.printLog(Arrays.toString(initArr));
 
 		// the capacity of the List returned by
 		// Collections.singletonList(something) will always be 1
@@ -194,8 +188,7 @@ public final class TestDemo04 {
 			TestUtils.printLog(tmpLst2);
 		} catch (UnsupportedOperationException e) {
 			TestUtils.printLog("Any changes made to the List returned by  "
-					+ "Collections.singletonList(something) will result in "
-					+ "UnsupportedOperationException");
+					+ "Collections.singletonList(something) will result in " + "UnsupportedOperationException");
 		}
 	}
 
@@ -212,19 +205,19 @@ public final class TestDemo04 {
 
 	// TODO: add demos here
 
-	// FixedThreadPool
 	public static void testMain01(String args[]) throws InterruptedException {
+		// FixedThreadPool
 		// 1) core pool size is 2, add 2 tasks in pool
 		// 2) unbounded queue, add remained 8 tasks in queue
-		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors
-				.newFixedThreadPool(2);
+		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
 		for (int i = 0; i < 10; i++) {
 			MyTask task = new MyTask(i, "task" + i);
 			pool.execute(task);
 			printPoolStatus(pool);
 		}
-		pool.shutdown();
+		pool.shutdown(); // set a tag to shutdown, no more tasks added
+		pool.awaitTermination(60, TimeUnit.SECONDS); // wait remained tasks done
 
 		while (!pool.isTerminated()) {
 			Thread.sleep(3000L);
@@ -232,13 +225,12 @@ public final class TestDemo04 {
 		}
 	}
 
-	// CachedThreadPool
 	public static void testMain02(String args[]) throws InterruptedException {
-		// 1) core pull size is 0, and max pull size is max
+		// CachedThreadPool
+		// 1) core pool size is 0, and max pool size is max
 		// 2) add tasks in pool, and reuse previously threads if available (keep
 		// alive for 60s)
-		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors
-				.newCachedThreadPool();
+		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 
 		for (int i = 0; i < 10; i++) {
 			MyTask task = new MyTask(i, "task" + i);
@@ -264,9 +256,8 @@ public final class TestDemo04 {
 
 		// corePoolSize, number of threads in the pool, always alive
 		// keepAliveTime, for number of threads that greater than the core
-		ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 4, 60L,
-				TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(3),
-				new RejectedThreadPoolHandler());
+		ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 4, 60L, TimeUnit.SECONDS,
+				new ArrayBlockingQueue<Runnable>(3), new RejectedThreadPoolHandler());
 
 		for (int i = 0; i < 10; i++) {
 			MyTask task = new MyTask(i, "task" + i);
@@ -282,11 +273,9 @@ public final class TestDemo04 {
 	}
 
 	private static void printPoolStatus(ThreadPoolExecutor pool) {
-		TestUtils.printLog("activity thread count: " + pool.getActiveCount()
-				+ ", core pool size: " + pool.getCorePoolSize()
-				+ ", max pool size: " + pool.getMaximumPoolSize()
-				+ ", pool size: " + pool.getPoolSize() + ", queue size: "
-				+ pool.getQueue().size());
+		TestUtils.printLog("activity thread count: " + pool.getActiveCount() + ", core pool size: "
+				+ pool.getCorePoolSize() + ", max pool size: " + pool.getMaximumPoolSize() + ", pool size: "
+				+ pool.getPoolSize() + ", queue size: " + pool.getQueue().size());
 	}
 
 	private static class MyTask implements Runnable {
@@ -301,25 +290,22 @@ public final class TestDemo04 {
 
 		@Override
 		public void run() {
-			TestUtils.printLog("running thread id => " + taskId
-					+ " thread name => " + taskName);
+			TestUtils.printLog("running thread id => " + taskId + " thread name => " + taskName);
 			try {
 				Thread.sleep(3000L);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			TestUtils.printLog("run end, thread id => " + taskId
-					+ " thread name => " + taskName);
+			TestUtils.printLog("run end, thread id => " + taskId + " thread name => " + taskName);
 		}
 	}
 
-	private static class RejectedThreadPoolHandler implements
-			RejectedExecutionHandler {
+	private static class RejectedThreadPoolHandler implements RejectedExecutionHandler {
 
 		@Override
 		public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-			TestUtils.printLog("warn, self defined reject handler, task => "
-					+ r.toString() + " reject from " + executor.toString());
+			TestUtils.printLog("warn, self defined reject handler, task => " + r.toString() + " reject from "
+					+ executor.toString());
 		}
 	}
 
