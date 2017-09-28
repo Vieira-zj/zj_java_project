@@ -203,6 +203,42 @@ public final class TestDemo04 {
 		cls.testPrint();
 	}
 
+	@Test
+	public void test08Demo() {
+		// test override equals() method
+		Purchase p1 = new Purchase();
+		p1.setId(1000);
+		Purchase p2 = new Purchase();
+		p2.setId(1001);
+
+		TestUtils.printLog("p1 equals p2: " + p1.equals(p2));
+	}
+
+	private static class Purchase {
+
+		private int id;
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public int getId() {
+			return this.id;
+		}
+
+		@Override
+		public boolean equals(Object another) {
+			if (this == another) {
+				return true;
+			}
+			if (!(another instanceof Purchase)) {
+				return false;
+			}
+
+			return this.getId() == ((Purchase) another).getId();
+		}
+	}
+
 	// TODO: add demos here
 
 	public static void testMain01(String args[]) throws InterruptedException {
