@@ -54,8 +54,7 @@ public final class TestDemo01 {
 			throw e;
 		} finally {
 			// do not use return in finally block
-			TestUtils.printLog("myExceptionDemo01, finally; return value="
-					+ ret);
+			TestUtils.printLog("myExceptionDemo01, finally; return value=" + ret);
 			return ret;
 		}
 	}
@@ -88,8 +87,7 @@ public final class TestDemo01 {
 			ret = false;
 			throw e;
 		} finally {
-			TestUtils.printLog("myExceptionDemo02, finally; return value="
-					+ ret);
+			TestUtils.printLog("myExceptionDemo02, finally; return value=" + ret);
 			return ret;
 		}
 	}
@@ -142,8 +140,7 @@ public final class TestDemo01 {
 		TestUtils.printLog("Char: " + tmpChar);
 		TestUtils.printLog("Oct: " + (byte) tmpChar);
 		TestUtils.printLog("Binary: " + Integer.toBinaryString(tmpChar));
-		TestUtils.printLog("Hex: "
-				+ Integer.toHexString(tmpChar & 0xFF).toUpperCase());
+		TestUtils.printLog("Hex: " + Integer.toHexString(tmpChar & 0xFF).toUpperCase());
 
 		char c = 65;
 		TestUtils.printLog("Char: " + c);
@@ -166,15 +163,22 @@ public final class TestDemo01 {
 			TestUtils.printLog("Item: " + str);
 		}
 
-		TestUtils.printLog("List updated => ");
-		tmpStrLst.add("NodeJs"); // throw UnsupportedOperationException
+		boolean isCreateNew = false;
+		if (isCreateNew) {
+			List<String> tmpStrLst2 = new ArrayList<>(tmpStrLst);
+			tmpStrLst2.add("NodeJs");
+			TestUtils.printLog(tmpStrLst2);
+		} else {
+			TestUtils.printLog("tmpStrLst is arraylist: " + (tmpStrLst instanceof ArrayList<?> ? "true" : "false"));
+			TestUtils.printLog("List updated => ");
+			tmpStrLst.add("NodeJs"); // throw UnsupportedOperationException
+		}
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void test0701Demo() {
 		// remove list element in for loop, from start
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 
 		// throw IndexOutOfBoundsException in loop
 		for (int i = 0, size = tmpStrLst.size(); i < size; i++) {
@@ -187,8 +191,7 @@ public final class TestDemo01 {
 	@Test
 	public void test0702Demo() {
 		// remove list element in for loop, from end
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {
 			TestUtils.printLog("Item: " + str);
 		}
@@ -208,8 +211,7 @@ public final class TestDemo01 {
 	@Test(expected = ConcurrentModificationException.class)
 	public void test0801Demo() {
 		// remove element in list by iterator
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 
 		// throw ConcurrentModificationException in loop
 		for (String item : tmpStrLst) {
@@ -222,8 +224,7 @@ public final class TestDemo01 {
 	@Test
 	public void test0802Demo() {
 		// remove element in list by iterator
-		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] {
-				"js", "Java", "C++", "C#", "JS" }));
+		List<String> tmpStrLst = new ArrayList<>(Arrays.asList(new String[] { "js", "Java", "C++", "C#", "JS" }));
 		for (String str : tmpStrLst) {
 			TestUtils.printLog("Item: " + str);
 		}
@@ -257,8 +258,7 @@ public final class TestDemo01 {
 		// reflection
 		Class<?> cls = TestDemo01.class;
 
-		TestUtils.printLog("Test methods in "
-				+ TestDemo01.class.getSimpleName() + ": ");
+		TestUtils.printLog("Test methods in " + TestDemo01.class.getSimpleName() + ": ");
 		Method[] methods = cls.getMethods();
 		for (Method m : methods) {
 			Annotation annotation = m.getAnnotation(org.junit.Test.class);
@@ -274,8 +274,7 @@ public final class TestDemo01 {
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 		@SuppressWarnings("unchecked")
-		Future<String> future = (Future<String>) executorService
-				.submit(new TaskRunnable());
+		Future<String> future = (Future<String>) executorService.submit(new TaskRunnable());
 		try {
 			TestUtils.printLog("results: " + future.get());
 		} catch (InterruptedException | ExecutionException e) {
@@ -304,8 +303,7 @@ public final class TestDemo01 {
 		// submit callable, and return int
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-		Future<Integer> future = (Future<Integer>) executorService
-				.submit(new TaskCallable());
+		Future<Integer> future = (Future<Integer>) executorService.submit(new TaskCallable());
 		try {
 			TestUtils.printLog("results: " + future.get().toString());
 		} catch (InterruptedException | ExecutionException e) {
