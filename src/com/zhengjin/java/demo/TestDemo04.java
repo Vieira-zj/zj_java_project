@@ -239,6 +239,23 @@ public final class TestDemo04 {
 		}
 	}
 
+	@Test
+	public void test09Demo() {
+		// iterator
+		String[] tmpArr = new String[] { "Java", "C#", "C++", "JS", "Python" };
+		ArrayList<String> tmpList = new ArrayList<>(Arrays.asList(tmpArr));
+		// interface iterable => iterator() => return an iterator with cursor set as 0
+		Iterator<String> tmpIter1 = tmpList.iterator();
+		while (tmpIter1.hasNext()) {
+			String item = tmpIter1.next();
+			TestUtils.printLog("list item:" + item);
+		}
+
+		Iterator<String> tmpIter2 = tmpList.iterator();
+		String res = (tmpIter1 == tmpIter2) ? "true" : "false";
+		TestUtils.printLog("iterator equals: " + res);
+	}
+
 	// TODO: add demos here
 
 	public static void testMain01(String args[]) throws InterruptedException {

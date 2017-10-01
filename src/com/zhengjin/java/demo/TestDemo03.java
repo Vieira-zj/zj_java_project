@@ -55,9 +55,26 @@ public final class TestDemo03 {
 
 	@Test
 	public void test03Demo() {
+		// String => final char value[]
+		// StringBuilder => char value[]
+		// ArrayList => Object[] elementData
+
+		// #1, StringBuilder, create with number
+		StringBuilder sb2 = new StringBuilder(30);
+		sb2.append("hello ");
+		sb2.append("zheng ");
+		sb2.append("jin");
+		printLog(sb2.toString());
+
+		// #2, StringBuilder, create with string
+		StringBuilder sb1 = new StringBuilder("Hello ");
+		sb1.append("zheng ");
+		sb1.append("jin");
+		printLog(sb1.toString());
+
 		// string reverse
-		StringBuilder sb = new StringBuilder("abcd");
-		printLog(sb.reverse().toString());
+		StringBuilder sb3 = new StringBuilder("abcd");
+		printLog(sb3.reverse().toString());
 	}
 
 	@Test
@@ -151,8 +168,7 @@ public final class TestDemo03 {
 
 		@Override
 		public String toString() {
-			return String.format("(name = %s, address = %s, number = %s)",
-					this.name, this.address, this.number);
+			return String.format("(name = %s, address = %s, number = %s)", this.name, this.address, this.number);
 		}
 
 		@Override
@@ -204,8 +220,7 @@ public final class TestDemo03 {
 				for (int i = 1; i <= 5; i++) {
 					employee.mailCheck();
 					printLog("MSG: " + message);
-					System.out.printf("%s, run at %d time, and wait 1 sec.\n",
-							Thread.currentThread().getName(), i);
+					System.out.printf("%s, run at %d time, and wait 1 sec.\n", Thread.currentThread().getName(), i);
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -219,8 +234,7 @@ public final class TestDemo03 {
 	@Test
 	public void test09Demo() {
 		// sort by Comparator
-		Integer[] integers = { new Integer(-1), new Integer(-2),
-				new Integer(0), new Integer(1), new Integer(-1) };
+		Integer[] integers = { new Integer(-1), new Integer(-2), new Integer(0), new Integer(1), new Integer(-1) };
 
 		printLog(Arrays.asList(integers));
 
@@ -268,8 +282,7 @@ public final class TestDemo03 {
 	@Test
 	public void test11Demo() {
 		// loop by RandomAccess or Iterator
-		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
-				"test1", "test2", "test3" }));
+		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] { "test1", "test2", "test3" }));
 		this.loopOnList(tmpLst);
 
 		List<String> tmpLinkedLst = new LinkedList<>(tmpLst);
@@ -334,8 +347,7 @@ public final class TestDemo03 {
 	public void test12Demo() {
 		// get array element type
 		String[] tmpArr = { "C++", "Java", "Python", "Javascript" };
-		printLog("Array element type: "
-				+ tmpArr.getClass().getComponentType().toString());
+		printLog("Array element type: " + tmpArr.getClass().getComponentType().toString());
 
 		Arrays.sort(tmpArr);
 		printLog(Arrays.asList(tmpArr));
@@ -455,8 +467,7 @@ public final class TestDemo03 {
 		}
 	}
 
-	private String getTestingFileAbsPathBaseOnUserHome(String fileName)
-			throws Exception {
+	private String getTestingFileAbsPathBaseOnUserHome(String fileName) throws Exception {
 		final String envVarUserHome = "USERPROFILE";
 		final String testingDir = "auto_test_logs";
 
@@ -464,8 +475,7 @@ public final class TestDemo03 {
 			return "";
 		}
 
-		String tmpPath = System.getenv(envVarUserHome) + File.separator
-				+ testingDir + File.separator + fileName;
+		String tmpPath = System.getenv(envVarUserHome) + File.separator + testingDir + File.separator + fileName;
 		File tmpFile = new File(tmpPath);
 		if (!tmpFile.exists()) {
 			throw new Exception("File not exist: " + tmpPath);
@@ -483,8 +493,7 @@ public final class TestDemo03 {
 		final String baseFileName = "11_testsuites";
 
 		String xmlFilePath = baseDir + File.separator + baseFileName + ".xml";
-		String xslFilePath = FileUtils.getProjectPath() + File.separator
-				+ "xstl" + File.separator + "testsuites.xstl";
+		String xslFilePath = FileUtils.getProjectPath() + File.separator + "xstl" + File.separator + "testsuites.xstl";
 
 		try {
 			// set src xml file path here
@@ -498,8 +507,7 @@ public final class TestDemo03 {
 		}
 
 		try {
-			String output = XstlTransform.XmlXstlHtml(xmlFilePath, xslFilePath,
-					xmlFilePath.replace(".xml", ".html"));
+			String output = XstlTransform.XmlXstlHtml(xmlFilePath, xslFilePath, xmlFilePath.replace(".xml", ".html"));
 			printLog("Xstl transform finished and save at: " + output);
 		} catch (Exception e) {
 			Assert.fail("Xstl transform error: " + e.getMessage());
