@@ -47,7 +47,7 @@ public final class TestDemo02 {
 		Assert.assertTrue("Test assert true.", true);
 	}
 
-	// run with customized test listener
+	// run with customized Junit test listener
 	public static void testMain(String[] args) {
 		JUnitCore runner = new JUnitCore();
 		runner.addListener(new ExecutionListener());
@@ -171,8 +171,7 @@ public final class TestDemo02 {
 		this.updateStringValue(s2);
 		TestUtils.printLog(s2);
 
-		List<String> lst = new ArrayList<>(Arrays.asList(new String[] { "Java",
-				"C++" }));
+		List<String> lst = new ArrayList<>(Arrays.asList(new String[] { "Java", "C++" }));
 		TestUtils.printLog(lst);
 		this.updateListValue(lst);
 		TestUtils.printLog(lst);
@@ -196,8 +195,12 @@ public final class TestDemo02 {
 	@Test
 	public void test11Demo() {
 		// replace()
-		String tmpStr = "Test Demo 11";
-		TestUtils.printLog(tmpStr.replace(" ", ""));
+		String tmpStr1 = "Test Demo 11";
+		TestUtils.printLog(tmpStr1.replace(" ", "_"));
+
+		// not support RegExp
+		String tmpStr2 = "Test   Demo  11";
+		TestUtils.printLog(tmpStr2.replace(" ", "_"));
 	}
 
 	@Test
@@ -259,7 +262,7 @@ public final class TestDemo02 {
 
 	@Test
 	public void test16Demo() {
-		// Iterator
+		// iterator for map
 		HashMap<String, String> hm = new HashMap<>(20);
 		for (int i = 0; i < 5; i++) {
 			hm.put("Key=" + i, "Val=" + i);
@@ -271,11 +274,15 @@ public final class TestDemo02 {
 			TestUtils.printLog(keys.next());
 		}
 
-		TestUtils.printLog("Value:");
-		for (Iterator<Entry<String, String>> entries = hm.entrySet().iterator(); entries
-				.hasNext();) {
+		TestUtils.printLog("Values:");
+		for (Iterator<Entry<String, String>> entries = hm.entrySet().iterator(); entries.hasNext();) {
 			Entry<String, String> en = entries.next();
 			TestUtils.printLog(en.getValue());
+		}
+
+		TestUtils.printLog("Entry values:");
+		for (Entry<String, String> entry : hm.entrySet()) {
+			TestUtils.printLog("key: " + entry.getKey() + ", value: " + entry.getValue());
 		}
 	}
 
@@ -313,12 +320,13 @@ public final class TestDemo02 {
 	public void test19Demo() {
 		// overload
 		TestDemo02 demo = new TestDemo02();
-		demo.myPrint("overload test");
 		demo.myPrint(10);
+		demo.myPrint("overload test");
 	}
 
 	private void myPrint(int value) {
-		TestUtils.printLog("Print int value: " + String.valueOf(value));
+		// TestUtils.printLog("Print int value: " + String.valueOf(value));
+		TestUtils.printLog("Print int value: " + new Integer(value).toString());
 	}
 
 	private void myPrint(String text) {
@@ -336,7 +344,7 @@ public final class TestDemo02 {
 		}
 
 		TestUtils.printLog("Sub class value: " + testClsSub.value);
-		if (testClsSub.Compare(testClsSuper)) {  // overload
+		if (testClsSub.Compare(testClsSuper)) { // overload
 			TestUtils.printLog("Sub class is greater.");
 		} else {
 			TestUtils.printLog("Sub class is less.");
@@ -346,14 +354,12 @@ public final class TestDemo02 {
 	@Test
 	public void test21Demo() {
 		// contains()
-		List<String> tmpLst = Arrays.asList(new String[] { "Java", "C++",
-				"Python" });
+		List<String> tmpLst = Arrays.asList(new String[] { "Java", "C++", "Python" });
 		if (tmpLst.contains("Java")) {
 			TestUtils.printLog("Java incldude.");
 		}
 
-		Set<String> tmpSet = new HashSet<>(Arrays.asList(new String[] { "C++",
-				"C#", "JS" }));
+		Set<String> tmpSet = new HashSet<>(Arrays.asList(new String[] { "C++", "C#", "JS" }));
 		if (!tmpSet.contains("Java")) {
 			TestUtils.printLog("Java not incldude.");
 		}
@@ -367,34 +373,33 @@ public final class TestDemo02 {
 		tmpMap.put("key2", "value2");
 		tmpMap.put("key3", "value3");
 
-		Iterator<Entry<String, String>> tmpEntries = tmpMap.entrySet()
-				.iterator();
+		Iterator<Entry<String, String>> tmpEntries = tmpMap.entrySet().iterator();
 		while (tmpEntries.hasNext()) {
 			// update map in loop
 			Entry<String, String> tmpEntry = tmpEntries.next();
 			if (tmpEntry.getKey().equals("key2")) {
-				tmpMap.put(tmpEntry.getKey() + "new ", tmpEntry.getValue()
-						+ "new");
+				tmpMap.put(tmpEntry.getKey() + "new ", tmpEntry.getValue() + "new");
 			}
 		}
 
 		for (Entry<String, String> entry : tmpMap.entrySet()) {
-			TestUtils.printLog("Key: " + entry.getKey() + " Value: "
-					+ entry.getValue());
+			TestUtils.printLog("Key: " + entry.getKey() + " Value: " + entry.getValue());
 		}
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void test23Demo() {
 		// Collections.unmodifiableCollection
-		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] {
-				"test1", "test2", "test3" }));
-		Collection<String> tmpCollection = Collections
-				.unmodifiableCollection(tmpLst);
+		List<String> tmpLst = new ArrayList<>(Arrays.asList(new String[] { "test1", "test2", "test3" }));
+		Collection<String> tmpCollection = Collections.unmodifiableCollection(tmpLst);
 
 		TestUtils.printLog("Size = " + tmpCollection.size());
+
 		tmpLst.add("Test4");
 		TestUtils.printLog(tmpLst);
+		tmpLst.set(0, "testx");
+		TestUtils.printLog(tmpCollection);
+
 		tmpCollection.add("test5"); // unmodifiable
 	}
 
@@ -402,8 +407,7 @@ public final class TestDemo02 {
 	public void test24Demo() {
 		// Threads
 		TestRunnable testRunnable = new TestRunnable();
-		Thread[] threads = { new Thread(testRunnable, "Thread1"),
-				new Thread(testRunnable, "Thread2"),
+		Thread[] threads = { new Thread(testRunnable, "Thread1"), new Thread(testRunnable, "Thread2"),
 				new Thread(testRunnable, "Thread3") };
 
 		for (Thread t : threads) {
@@ -421,6 +425,7 @@ public final class TestDemo02 {
 
 	private static class TestRunnable implements Runnable {
 
+		// shared variable by threads, and use Atomic
 		// private int ticket = 10;
 		private AtomicInteger ticket = new AtomicInteger(10);
 
@@ -428,9 +433,8 @@ public final class TestDemo02 {
 		public void run() {
 			for (int i = 0; i <= 20; i++) {
 				if (this.ticket.get() > 0) {
-					TestUtils.printLog(Thread.currentThread().getName()
-							+ " get and ticket: "
-							+ this.ticket.decrementAndGet());
+					TestUtils.printLog(
+							Thread.currentThread().getName() + " get and ticket: " + this.ticket.decrementAndGet());
 				}
 			}
 		}
@@ -439,8 +443,7 @@ public final class TestDemo02 {
 	@Test
 	public void test25Demo() {
 		// HashSet
-		Set<String> tmpLst = new HashSet<>(Arrays.asList(new String[] { "Java",
-				"C++", "Python", "JS", "Java" }));
+		Set<String> tmpLst = new HashSet<>(Arrays.asList(new String[] { "Java", "C++", "Python", "JS", "Java" }));
 		TestUtils.printLog(tmpLst);
 		TestUtils.printLog(tmpLst.contains("Java"));
 	}

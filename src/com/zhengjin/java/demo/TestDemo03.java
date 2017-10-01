@@ -291,12 +291,12 @@ public final class TestDemo03 {
 	}
 
 	private void loopOnList(List<String> lst) {
-		if (lst instanceof RandomAccess) {
+		if (lst instanceof RandomAccess) { // array
 			printLog("access by for loop");
 			for (int i = 0, length = lst.size(); i < length; i++) {
 				printLog("item: " + lst.get(i));
 			}
-		} else {
+		} else { // linked list
 			printLog("access by for iterator");
 			Iterator<String> iterator = lst.iterator();
 			while (iterator.hasNext()) {
