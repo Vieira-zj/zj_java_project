@@ -244,7 +244,8 @@ public final class TestDemo04 {
 		// iterator
 		String[] tmpArr = new String[] { "Java", "C#", "C++", "JS", "Python" };
 		ArrayList<String> tmpList = new ArrayList<>(Arrays.asList(tmpArr));
-		// interface iterable => iterator() => return an iterator with cursor set as 0
+		// interface iterable => iterator() => return an iterator with cursor
+		// set as 0
 		Iterator<String> tmpIter1 = tmpList.iterator();
 		while (tmpIter1.hasNext()) {
 			String item = tmpIter1.next();
@@ -254,6 +255,31 @@ public final class TestDemo04 {
 		Iterator<String> tmpIter2 = tmpList.iterator();
 		String res = (tmpIter1 == tmpIter2) ? "true" : "false";
 		TestUtils.printLog("iterator equals: " + res);
+	}
+
+	private static class Super {
+
+		private String value = "null";
+
+		public Super(String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return "Super: " + value;
+		}
+	}
+
+	private static class Sub extends Super {
+
+		public Sub(String value) {
+			super(value); // invoke super(value) explicit
+		}
+	}
+
+	@Test
+	public void test10Demo() {
+		TestUtils.printLog(new Sub("Test").getValue());
 	}
 
 	// TODO: add demos here
