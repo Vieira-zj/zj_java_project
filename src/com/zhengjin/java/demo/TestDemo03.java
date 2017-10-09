@@ -86,13 +86,15 @@ public final class TestDemo03 {
 			printLog(item);
 		}
 
-		// Copy 4 elements from array 'arrSrc' starting at offset 3 to array
+		// Copy 2 elements from array 'arrSrc' starting at offset 3 to array
 		// 'arrTarget' starting at offset 0
 		printLog("After update: ");
-		System.arraycopy(arrSrc, 3, arrTarget, 0, 4);
-		for (String item : arrTarget) {
-			printLog(item);
-		}
+		System.arraycopy(arrSrc, 3, arrTarget, 0, 2);
+		printLog(Arrays.toString(arrTarget));
+
+		// Arrays.copyOf()
+		String[] arrNew = Arrays.copyOf(arrSrc, 6);
+		printLog(Arrays.toString(arrNew));
 	}
 
 	@Test
