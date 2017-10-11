@@ -102,8 +102,8 @@ public final class TestDemo01 {
 
 	@Test
 	public void test04Demo() {
-		// byte
-		String tmpStr = "ZJTest";
+		// byte(decimal) -> char -> binary, octal, hex
+		String tmpStr = "ZJTest1";
 		byte[] bytesArr = tmpStr.getBytes();
 
 		if (tmpStr.length() == bytesArr.length) {
@@ -114,11 +114,13 @@ public final class TestDemo01 {
 			byte tmpByte = bytesArr[i];
 
 			TestUtils.printLog("Char: " + (char) tmpByte);
-			TestUtils.printLog("Oct: " + tmpByte);
-
-			// for binary, if length less than 8, prefix with 0
+			TestUtils.printLog("Decimal: " + tmpByte);
+			TestUtils.printLog("Octal: " + Integer.toOctalString(tmpByte));
+			
 			String strByteAsBin = Integer.toBinaryString(tmpByte);
 			TestUtils.printLog("Binary: " + strByteAsBin);
+
+			// for binary, if length less than 8, prefix with 0
 			char[] tmpInitArr = { '0', '0', '0', '0', '0', '0', '0', '0' };
 			final int bytesLen = 8;
 			if (strByteAsBin.length() != bytesLen) {
