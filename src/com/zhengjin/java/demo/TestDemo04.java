@@ -261,6 +261,14 @@ public final class TestDemo04 {
 
 		private String value = "null";
 
+		private static String getMessage() {
+			return "in Super";
+		}
+
+		public static void printMessage() {
+			TestUtils.printLog(getMessage());
+		}
+
 		public Super(String value) {
 			this.value = value;
 		}
@@ -272,6 +280,11 @@ public final class TestDemo04 {
 
 	private static class Sub extends Super {
 
+		@SuppressWarnings("unused")
+		private static String getMessage() {
+			return "in Sub";
+		}
+
 		public Sub(String value) {
 			super(value); // invoke super(value) explicit
 		}
@@ -280,6 +293,13 @@ public final class TestDemo04 {
 	@Test
 	public void test10Demo() {
 		TestUtils.printLog(new Sub("Test").getValue());
+	}
+
+	@Test
+	public void test11Demo() {
+		// static methods, bind when compile
+		Super.printMessage();
+		Sub.printMessage();
 	}
 
 	// TODO: add demos here
