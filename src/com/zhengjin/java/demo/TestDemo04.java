@@ -302,6 +302,45 @@ public final class TestDemo04 {
 		Sub.printMessage();
 	}
 
+	@Test
+	public void test12Demo() {
+		// string reverse
+		final String testStr = "hello, world";
+		StringReverseCls rev = new StringReverseCls();
+		TestUtils.printLog(rev.reverse1(testStr));
+		TestUtils.printLog(rev.reverse2(testStr));
+	}
+
+	private static class StringReverseCls {
+
+		public String reverse1(String text) {
+			char[] inputChars = text.toCharArray();
+			int length = text.length();
+			char[] tmpChars = new char[length];
+
+			// for (int i = 0, j = length - 1; j >= 0; i++, j--) {
+			// tmpChars[i] = inputChars[j];
+			// }
+			for (int i = 0; i < length; i++) {
+				tmpChars[i] = inputChars[length - 1 - i];
+			}
+			return new String(tmpChars);
+		}
+
+		public String reverse2(String text) {
+			char[] inputChars = text.toCharArray();
+			int length = text.length();
+
+			char tmpChar;
+			for (int i = 0, j = length - 1; i < length / 2; i++, j--) {
+				tmpChar = inputChars[i];
+				inputChars[i] = inputChars[j];
+				inputChars[j] = tmpChar;
+			}
+			return new String(inputChars);
+		}
+	}
+
 	// TODO: add demos here
 
 	public static void testMain01(String args[]) throws InterruptedException {
