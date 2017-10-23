@@ -307,8 +307,11 @@ public final class TestDemo04 {
 		// string reverse
 		final String testStr = "hello, world";
 		StringReverseCls rev = new StringReverseCls();
+
 		TestUtils.printLog(rev.reverse1(testStr));
 		TestUtils.printLog(rev.reverse2(testStr));
+
+		rev.reverse3(testStr, 0);
 	}
 
 	private static class StringReverseCls {
@@ -338,6 +341,15 @@ public final class TestDemo04 {
 				inputChars[j] = tmpChar;
 			}
 			return new String(inputChars);
+		}
+
+		public void reverse3(String text, int idx) {
+			if (idx == text.length() - 1) {
+				System.out.print(text.charAt(idx));
+				return;
+			}
+			reverse3(text, idx + 1);
+			System.out.print(text.charAt(idx));
 		}
 	}
 
