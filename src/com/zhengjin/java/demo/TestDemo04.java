@@ -205,7 +205,7 @@ public final class TestDemo04 {
 
 	@Test
 	public void test08Demo() {
-		// test override equals() method
+		// override equals() method
 		Purchase p1 = new Purchase();
 		p1.setId(1000);
 		Purchase p2 = new Purchase();
@@ -249,7 +249,7 @@ public final class TestDemo04 {
 		Iterator<String> tmpIter1 = tmpList.iterator();
 		while (tmpIter1.hasNext()) {
 			String item = tmpIter1.next();
-			TestUtils.printLog("list item:" + item);
+			TestUtils.printLog("list item: " + item);
 		}
 
 		Iterator<String> tmpIter2 = tmpList.iterator();
@@ -271,8 +271,13 @@ public final class TestDemo04 {
 
 		public Super(String value) {
 			this.value = value;
+			TestUtils.printLog(this.getInstanceMsg());
 		}
 
+		public String getInstanceMsg() {
+			return "in Super instance";
+		}
+		
 		public String getValue() {
 			return "Super: " + value;
 		}
@@ -288,11 +293,18 @@ public final class TestDemo04 {
 		public Sub(String value) {
 			super(value); // invoke super(value) explicit
 		}
+		
+		@Override
+		public String getInstanceMsg() {
+			return "In Sub instance";
+		}
 	}
 
 	@Test
 	public void test10Demo() {
-		TestUtils.printLog(new Sub("Test").getValue());
+		// instance methods, bind when runtime
+		Super s = new Sub("Test");
+		TestUtils.printLog(s.getValue());
 	}
 
 	@Test
@@ -357,7 +369,7 @@ public final class TestDemo04 {
 
 	public static void testMain01(String args[]) throws InterruptedException {
 		// FixedThreadPool
-		// 1) core pool size is 2, add 2 tasks in pool
+		// 1) core pool size is 2, then add 2 tasks in pool
 		// 2) unbounded queue, add remained 8 tasks in queue
 		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
@@ -398,10 +410,10 @@ public final class TestDemo04 {
 
 	// customized thread pool
 	public static void testMain03(String args[]) throws InterruptedException {
-		// 1) core pool size is 2, add 2 tasks to pool
-		// 2) queue size is 3, add 3 tasks to queue
-		// 3) max pool size is 4, add 2 additional tasks to pool (now 4 tasks in
-		// pool)
+		// 1) core pool size is 2, then add 2 tasks to pool
+		// 2) queue size is 3, then add 3 tasks to queue
+		// 3) max pool size is 4, then add 2 additional tasks to pool (now 4
+		// tasks in pool)
 		// 4) for newly add tasks, invoke RejectedThreadPoolHandler
 
 		// corePoolSize, number of threads in the pool, always alive
