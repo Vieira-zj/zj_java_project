@@ -371,7 +371,10 @@ public final class TestDemo04 {
 		OddEvenSort sort = new OddEvenSort();
 
 		TestUtils.printLog(Arrays.toString(sort.sort1(input)));
-		TestUtils.printLog(Arrays.toString(sort.sort2(input)));
+
+		// TestUtils.printLog(Arrays.toString(sort.sort2(input)));
+		sort.sort3(input);
+		TestUtils.printLog(Arrays.toString(input));
 	}
 
 	private static class OddEvenSort {
@@ -395,6 +398,7 @@ public final class TestDemo04 {
 			return retArr;
 		}
 
+		@SuppressWarnings("unused")
 		int[] sort2(int[] input) {
 			int start = 0;
 			int end = input.length - 1;
@@ -413,6 +417,25 @@ public final class TestDemo04 {
 			}
 
 			return input;
+		}
+
+		void sort3(int[] input) {
+			// pass as reference, but not copied
+			int start = 0;
+			int end = input.length - 1;
+			int tmp;
+
+			while (start < end) {
+				if (input[start] % 2 == 0) {
+					start++;
+				} else if (input[end] % 2 == 1) {
+					end--;
+				} else {
+					tmp = input[start];
+					input[start] = input[end];
+					input[end] = tmp;
+				}
+			}
 		}
 	}
 
