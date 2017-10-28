@@ -277,7 +277,7 @@ public final class TestDemo04 {
 		public String getInstanceMsg() {
 			return "in Super instance";
 		}
-		
+
 		public String getValue() {
 			return "Super: " + value;
 		}
@@ -293,7 +293,7 @@ public final class TestDemo04 {
 		public Sub(String value) {
 			super(value); // invoke super(value) explicit
 		}
-		
+
 		@Override
 		public String getInstanceMsg() {
 			return "In Sub instance";
@@ -362,6 +362,57 @@ public final class TestDemo04 {
 			}
 			reverse3(text, idx + 1);
 			System.out.print(text.charAt(idx));
+		}
+	}
+
+	@Test
+	public void test13Demo() {
+		int[] input = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		OddEvenSort sort = new OddEvenSort();
+
+		TestUtils.printLog(Arrays.toString(sort.sort1(input)));
+		TestUtils.printLog(Arrays.toString(sort.sort2(input)));
+	}
+
+	private static class OddEvenSort {
+
+		int[] sort1(int[] input) {
+			int len = input.length;
+			int[] retArr = new int[len];
+			int idx = 0;
+
+			for (int i = 0; i < len; i++) {
+				if (input[i] % 2 == 0) {
+					retArr[idx++] = input[i];
+				}
+			}
+			for (int i = 0; i < len; i++) {
+				if (input[i] % 2 == 1) {
+					retArr[idx++] = input[i];
+				}
+			}
+
+			return retArr;
+		}
+
+		int[] sort2(int[] input) {
+			int start = 0;
+			int end = input.length - 1;
+			int tmp;
+
+			while (start < end) {
+				if (input[start] % 2 == 0) {
+					start++;
+				} else if (input[end] % 2 == 1) {
+					end--;
+				} else {
+					tmp = input[start];
+					input[start] = input[end];
+					input[end] = tmp;
+				}
+			}
+
+			return input;
 		}
 	}
 
