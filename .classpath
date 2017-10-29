@@ -44,5 +44,6 @@
 	<classpathentry kind="lib" path="libs/rest-assured-3.0.3-deps/tagsoup-1.2.1.jar"/>
 	<classpathentry kind="lib" path="libs/rest-assured-3.0.3-deps/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="lib" path="libs/rest-assured-3.0.3-deps/hamcrest-library-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/assertj-core-3.8.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
