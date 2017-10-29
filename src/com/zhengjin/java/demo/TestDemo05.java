@@ -4,13 +4,21 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.zhengjin.apis.testutils.TestUtils;
+
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -109,6 +117,50 @@ public final class TestDemo05 {
 
 		public String getAddress() {
 			return this.address;
+		}
+	}
+
+	@Test
+	public void testDemo05() {
+		// sort for HashMap by entry value
+		Map<String, Integer> inputMap = new HashMap<>(20);
+		inputMap.put("Five", 5);
+		inputMap.put("Seven", 7);
+		inputMap.put("Eight", 8);
+		inputMap.put("One", 1);
+		inputMap.put("Two", 2);
+		inputMap.put("Three", 3);
+
+		sortMapByValue(inputMap);
+	}
+
+	private void sortMapByValue(Map<String, Integer> inputMap) {
+		Set<Entry<String, Integer>> mapEnties = inputMap.entrySet();
+
+		// HashMap entries print as random
+		TestUtils.printLog("Map keys and values before sort:");
+		for (Entry<String, Integer> entry : mapEnties) {
+			TestUtils.printLog(entry.getKey() + "-" + entry.getValue());
+		}
+
+		// sort by LinkedList
+		List<Entry<String, Integer>> tmpList = new LinkedList<>(mapEnties);
+		Collections.sort(tmpList, new Comparator<Entry<String, Integer>>() {
+			@Override
+			public int compare(Entry<String, Integer> ele1, Entry<String, Integer> ele2) {
+				return ele1.getValue().compareTo(ele2.getValue());
+			}
+		});
+
+		// store sorted entries by LinkedHashMap
+		Map<String, Integer> sortedMap = new LinkedHashMap<>(20);
+		for (Entry<String, Integer> entry : tmpList) {
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+
+		TestUtils.printLog("\nMap keys and values after sort:");
+		for (Entry<String, Integer> entry : sortedMap.entrySet()) {
+			TestUtils.printLog(entry.getKey() + "-" + entry.getValue());
 		}
 	}
 
