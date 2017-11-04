@@ -9,6 +9,9 @@ import com.zhengjin.apis.testutils.TestUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -179,10 +182,14 @@ public final class TestDemo05 {
 		inputMap.put("Two", 2);
 		inputMap.put("Three", 3);
 
-		sortMapByValue(inputMap);
+		Map<String, Integer> sortedMap = sortMapByValue(inputMap);
+		TestUtils.printLog("\nMap keys and values after sort:");
+		for (Entry<String, Integer> entry : sortedMap.entrySet()) {
+			TestUtils.printLog(entry.getKey() + "-" + entry.getValue());
+		}
 	}
 
-	private void sortMapByValue(Map<String, Integer> inputMap) {
+	private Map<String, Integer> sortMapByValue(Map<String, Integer> inputMap) {
 		Set<Entry<String, Integer>> mapEnties = inputMap.entrySet();
 
 		// HashMap entries print as random
@@ -205,11 +212,105 @@ public final class TestDemo05 {
 		for (Entry<String, Integer> entry : tmpList) {
 			sortedMap.put(entry.getKey(), entry.getValue());
 		}
+		return sortedMap;
+	}
 
-		TestUtils.printLog("\nMap keys and values after sort:");
-		for (Entry<String, Integer> entry : sortedMap.entrySet()) {
-			TestUtils.printLog(entry.getKey() + "-" + entry.getValue());
+	@Test
+	public void testDemo07() {
+		// list file for specified directory
+		this.printListFile("d:\\");
+	}
+
+	private void printListFile(String absDirPath) {
+		File dir = new File(absDirPath);
+		if (!dir.exists()) {
+			TestUtils.printLog("The dir is not exists => " + dir.getAbsolutePath());
+			return;
 		}
+		if (!dir.isDirectory()) {
+			TestUtils.printLog("Dir is not directory => " + dir.getAbsolutePath());
+		}
+
+		String[] children = dir.list();
+		if (children.length == 0) {
+			TestUtils.printLog("There is no dir and file in directory => " + dir.getAbsolutePath());
+			return;
+		}
+
+		TestUtils.printLog("list file:");
+		TestUtils.printLog(Arrays.toString(children));
+	}
+
+	@Test
+	public void testDemo08() {
+		// list file for specified directory, and filter by file name
+		FilenameFilter myFilter = new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.startsWith("ZJ");
+			}
+		};
+		printListFileByFilenameFilter("d:\\", myFilter);
+	}
+
+	private void printListFileByFilenameFilter(String absDirPath, FilenameFilter filter) {
+		File dir = new File(absDirPath);
+		String[] children = dir.list(filter);
+		if (children == null) {
+			TestUtils.printLog("Either dir does not exist or is not a directory.");
+			return;
+		}
+
+		TestUtils.printLog("list file:");
+		TestUtils.printLog(Arrays.toString(children));
+	}
+
+	@Test
+	public void testDemo09() {
+		// list file for specified directory, and filter by File
+		printListFileByFileFilter("D:\\ZJ_Tmp_files", new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
+		});
+	}
+
+	private void printListFileByFileFilter(String absDirPath, FileFilter filter) {
+		File dir = new File(absDirPath);
+		File[] children = dir.listFiles(filter);
+		if (children == null) {
+			TestUtils.printLog("Either dir does not exist or is not a directory.");
+			return;
+		}
+
+		TestUtils.printLog("list file:");
+		for (int i = 0, len = children.length; i < len; i++) {
+			TestUtils.printLog(children[i].getAbsolutePath());
+		}
+	}
+
+	@Test
+	public void testDemo10() {
+		// resize array
+		int[] tmpArray = { 1, 2, 3 };
+		tmpArray = (int[]) resizeArray(tmpArray, 5);
+		tmpArray[3] = 4;
+		tmpArray[4] = 5;
+		TestUtils.printLog("Results: " + Arrays.toString(tmpArray));
+	}
+
+	private Object resizeArray(Object oldArray, int newSize) {
+		// use Object for all types array
+		int oldSize = java.lang.reflect.Array.getLength(oldArray);
+		Class<?> elementType = oldArray.getClass().getComponentType();
+		Object newArray = java.lang.reflect.Array.newInstance(elementType, newSize);
+
+		int preserveLength = Math.min(oldSize, newSize);
+		if (preserveLength > 0) {
+			System.arraycopy(oldArray, 0, newArray, 0, preserveLength);
+		}
+		return newArray;
 	}
 
 }

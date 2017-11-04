@@ -116,7 +116,7 @@ public final class TestDemo01 {
 			TestUtils.printLog("Char: " + (char) tmpByte);
 			TestUtils.printLog("Decimal: " + tmpByte);
 			TestUtils.printLog("Octal: " + Integer.toOctalString(tmpByte));
-			
+
 			String strByteAsBin = Integer.toBinaryString(tmpByte);
 			TestUtils.printLog("Binary: " + strByteAsBin);
 
@@ -442,6 +442,34 @@ public final class TestDemo01 {
 		// create object by Builder
 		MyTestClass02 testCls = new MyTestClass02.Builder(1, 2).setC(3).build();
 		testCls.myPrint();
+	}
+
+	@Test
+	public void test19Demo() {
+		// type convert
+		TestUtils.printLog("Results: " + String.valueOf(2));
+		TestUtils.printLog(Integer.parseInt("2") + 2);
+	}
+
+	@Test
+	public void test20Demo() {
+		// get current method name
+		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+		TestUtils.printLog("Current method: " + methodName);
+	}
+
+	@Test
+	public void test21Demo() {
+		// Singleton
+		SimpleSingleton.INSTANCE.printMessage("ZhengJin");
+	}
+
+	public enum SimpleSingleton {
+		INSTANCE;
+
+		public void printMessage(String msg) {
+			TestUtils.printLog("Hello, " + msg);
+		}
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.zhengjin.java.demo;
 
+//import java.util.ArrayList;
+//import java.util.Collections;
+//import java.util.List;
 import java.util.Vector;
 
 import com.zhengjin.apis.testutils.TestUtils;
@@ -7,7 +10,9 @@ import com.zhengjin.apis.testutils.TestUtils;
 public final class ThreadWaitNotifyTest {
 
 	public static void main(String args[]) {
+		// lock, wait() and notify() are based on 'goods'
 		Vector<String> goods = new Vector<>();
+//		List<String> goods = Collections.synchronizedList(new ArrayList<String>(10));
 		
 		Thread consumer = new Thread(new Consumer(goods));
 		Thread productor = new Thread(new Productor(goods));
