@@ -118,10 +118,58 @@ public final class TestDemo05 {
 		public String getAddress() {
 			return this.address;
 		}
+
+		@Override
+		public String toString() {
+			return this.name + " - " + this.mobile + " - " + this.address;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this) {
+				return true;
+			}
+
+			User another;
+			if (obj instanceof User) {
+				another = (User) obj;
+			} else {
+				return false;
+			}
+
+			return this.name.equals(another.name) && this.mobile.equals(another.mobile)
+					&& this.address.equals(another.address);
+		}
+
+		@Override
+		public int hashCode() {
+			return this.name.hashCode() + this.mobile.hashCode() * 17;
+		}
 	}
 
 	@Test
 	public void testDemo05() {
+		// HaspMap
+		User user1 = new User("user1", "11111111", "ShangHai");
+		User user2 = new User("user1", "11111111", "ShangHai");
+		User user3 = new User("user1", "11111111", "WuHan");
+		User user4 = new User("user4", "44444444", "ShengZhen");
+		User user5 = new User("user5", "55555555", "GuangZhou");
+
+		HashMap<User, String> map = new HashMap<>(10);
+		map.put(user1, "equals1");
+		map.put(user2, "equals2"); // override "user1" value
+		map.put(user3, "hashcode equals");
+		map.put(user4, "new user4");
+		map.put(user5, "new user5");
+
+		for (Entry<User, String> entry : map.entrySet()) {
+			TestUtils.printLog("Key: " + entry.getKey() + " Value: " + entry.getValue());
+		}
+	}
+
+	@Test
+	public void testDemo06() {
 		// sort for HashMap by entry value
 		Map<String, Integer> inputMap = new HashMap<>(20);
 		inputMap.put("Five", 5);
