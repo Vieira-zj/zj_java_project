@@ -12,6 +12,7 @@ import org.hamcrest.Matchers;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -217,7 +218,7 @@ public final class TestDemo05 {
 
 	@Test
 	public void testDemo07() {
-		// list file for specified directory
+		// list file for directory
 		this.printListFile("d:\\");
 	}
 
@@ -243,7 +244,7 @@ public final class TestDemo05 {
 
 	@Test
 	public void testDemo08() {
-		// list file for specified directory, and filter by file name
+		// list file for directory, and filter by file name
 		FilenameFilter myFilter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -267,7 +268,7 @@ public final class TestDemo05 {
 
 	@Test
 	public void testDemo09() {
-		// list file for specified directory, and filter by File
+		// list file for directory, and filter by File
 		printListFileByFileFilter("D:\\ZJ_Tmp_files", new FileFilter() {
 			@Override
 			public boolean accept(File file) {
@@ -311,6 +312,63 @@ public final class TestDemo05 {
 			System.arraycopy(oldArray, 0, newArray, 0, preserveLength);
 		}
 		return newArray;
+	}
+
+	@Test
+	public void testDemo11() {
+		String[] testArr = { "a", "d", "c", "c", "e", "c", "x", "d", "a", "w" };
+		String[] retArr;
+
+		ArrayDistinct myDistinct = new ArrayDistinct();
+		retArr = myDistinct.arrayDistinct01(Arrays.copyOf(testArr, testArr.length));
+		TestUtils.printLog("Distinct: " + Arrays.toString(retArr));
+
+		retArr = myDistinct.arrayDistinct02(Arrays.copyOf(testArr, testArr.length));
+		TestUtils.printLog("Distinct: " + Arrays.toString(retArr));
+
+		retArr = myDistinct.arrayDistinct03(Arrays.copyOf(testArr, testArr.length));
+		TestUtils.printLog("Distinct: " + Arrays.toString(retArr));
+	}
+
+	private static class ArrayDistinct {
+
+		public String[] arrayDistinct01(String[] srcArr) {
+			List<String> retList = new ArrayList<>(srcArr.length * 2);
+
+			TestUtils.printLog("Source: " + Arrays.toString(srcArr));
+			for (String word : srcArr) {
+				if (retList.indexOf(word) == -1) {
+					retList.add(word);
+				}
+			}
+			return retList.toArray(new String[0]);
+		}
+
+		public String[] arrayDistinct02(String[] srcArr) {
+			List<String> retList = new ArrayList<>(srcArr.length * 2);
+
+			TestUtils.printLog("Source: " + Arrays.toString(srcArr));
+			Arrays.sort(srcArr);
+			retList.add(srcArr[0]);
+			for (int i = 1, len = srcArr.length; i < len; i++) {
+				if (!srcArr[i].equals(retList.get(retList.size() - 1))) {
+					retList.add(srcArr[i]);
+				}
+			}
+			return retList.toArray(new String[retList.size()]);
+		}
+
+		public String[] arrayDistinct03(String[] srcArr) {
+			LinkedHashMap<String, Integer> tmpMap = new LinkedHashMap<>(srcArr.length * 2);
+
+			TestUtils.printLog("Source: " + Arrays.toString(srcArr));
+			for (String word : srcArr) {
+				if (!tmpMap.containsKey(word)) {
+					tmpMap.put(word, 1);
+				}
+			}
+			return tmpMap.keySet().toArray(new String[0]);
+		}
 	}
 
 }
