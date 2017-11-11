@@ -17,7 +17,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -328,6 +330,13 @@ public final class TestDemo05 {
 
 		retArr = myDistinct.arrayDistinct03(Arrays.copyOf(testArr, testArr.length));
 		TestUtils.printLog("Distinct: " + Arrays.toString(retArr));
+
+		List<String> tmpList = Arrays.asList(testArr);
+		TestUtils.printLog("Source: " + tmpList.toString());
+		HashSet<String> tmpHashSet = new HashSet<>(tmpList);
+		TestUtils.printLog("Distinct by HashSet: " + tmpHashSet.toString());
+		LinkedHashSet<String> tmpLinkedSet = new LinkedHashSet<>(tmpList);
+		TestUtils.printLog("Distinct by LinkedHashSet: " + tmpLinkedSet.toString());
 	}
 
 	private static class ArrayDistinct {
