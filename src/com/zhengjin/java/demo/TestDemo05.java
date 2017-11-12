@@ -24,7 +24,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -175,8 +176,8 @@ public final class TestDemo05 {
 	}
 
 	@Test
-	public void testDemo06() {
-		// sort for HashMap by entry value
+	public void testDemo0601() {
+		// sort map by entry value
 		Map<String, Integer> inputMap = new HashMap<>(20);
 		inputMap.put("Five", 5);
 		inputMap.put("Seven", 7);
@@ -185,37 +186,77 @@ public final class TestDemo05 {
 		inputMap.put("Two", 2);
 		inputMap.put("Three", 3);
 
-		Map<String, Integer> sortedMap = sortMapByValue(inputMap);
-		TestUtils.printLog("\nMap keys and values after sort:");
-		for (Entry<String, Integer> entry : sortedMap.entrySet()) {
-			TestUtils.printLog(entry.getKey() + "-" + entry.getValue());
-		}
-	}
-
-	private Map<String, Integer> sortMapByValue(Map<String, Integer> inputMap) {
-		Set<Entry<String, Integer>> mapEnties = inputMap.entrySet();
-
 		// HashMap entries print as random
 		TestUtils.printLog("Map keys and values before sort:");
-		for (Entry<String, Integer> entry : mapEnties) {
-			TestUtils.printLog(entry.getKey() + "-" + entry.getValue());
+		TestUtils.printLog(inputMap.entrySet().toString());
+
+		SortMapByValue sortMap = new SortMapByValue();
+		Map<String, Integer> sortedMap01 = sortMap.sortMapByValue01(inputMap);
+		TestUtils.printLog("\nMap keys and values after sort:");
+		TestUtils.printLog(sortedMap01.entrySet().toString());
+
+		Map<String, Integer> sortedMap02 = sortMap.sortMapByValue02(inputMap);
+		TestUtils.printLog("\nMap keys and values after sort:");
+		TestUtils.printLog(sortedMap02.entrySet().toString());
+	}
+
+	private static class SortMapByValue {
+
+		public Map<String, Integer> sortMapByValue01(Map<String, Integer> inputMap) {
+			// sort by LinkedList
+			List<Entry<String, Integer>> tmpList = new LinkedList<>(inputMap.entrySet());
+			Collections.sort(tmpList, new MyEntryValueComparator());
+			return buildSortedMapByEntries(tmpList);
 		}
 
-		// sort by LinkedList
-		List<Entry<String, Integer>> tmpList = new LinkedList<>(mapEnties);
-		Collections.sort(tmpList, new Comparator<Entry<String, Integer>>() {
+		public Map<String, Integer> sortMapByValue02(Map<String, Integer> inputMap) {
+			// sort by ArrayList
+			List<Entry<String, Integer>> tmpList = new ArrayList<>(inputMap.entrySet());
+			Collections.sort(tmpList, new MyEntryValueComparator());
+			return buildSortedMapByEntries(tmpList);
+		}
+
+		private Map<String, Integer> buildSortedMapByEntries(List<Entry<String, Integer>> inputList) {
+			// store sorted entries by LinkedHashMap
+			Map<String, Integer> sortedMap = new LinkedHashMap<>(20);
+			for (Entry<String, Integer> entry : inputList) {
+				sortedMap.put(entry.getKey(), entry.getValue());
+			}
+			return sortedMap;
+		}
+
+		private class MyEntryValueComparator implements Comparator<Entry<String, Integer>> {
 			@Override
 			public int compare(Entry<String, Integer> ele1, Entry<String, Integer> ele2) {
 				return ele1.getValue().compareTo(ele2.getValue());
 			}
-		});
-
-		// store sorted entries by LinkedHashMap
-		Map<String, Integer> sortedMap = new LinkedHashMap<>(20);
-		for (Entry<String, Integer> entry : tmpList) {
-			sortedMap.put(entry.getKey(), entry.getValue());
 		}
-		return sortedMap;
+	}
+
+	@Test
+	public void testDemo0602() {
+		// sort map by key base TreeMap
+		Map<Integer, String> tmpMap = new LinkedHashMap<>(20);
+		tmpMap.put(5, "Five");
+		tmpMap.put(7, "Seven");
+		tmpMap.put(8, "Eight");
+		tmpMap.put(1, "One");
+		tmpMap.put(2, "Two");
+		tmpMap.put(3, "Three");
+
+		TestUtils.printLog("Map keys and values before sort:");
+		TestUtils.printLog(tmpMap.entrySet().toString());
+
+		SortedMap<Integer, String> sortedMap = new TreeMap<>(new Comparator<Integer>() {
+			@Override
+			public int compare(Integer v1, Integer v2) {
+				return v1.compareTo(v2);
+			}
+		});
+		sortedMap.putAll(tmpMap);
+
+		TestUtils.printLog("Map keys and values after sort:");
+		TestUtils.printLog(sortedMap.entrySet().toString());
 	}
 
 	@Test
@@ -322,13 +363,13 @@ public final class TestDemo05 {
 		String[] retArr;
 
 		ArrayDistinct myDistinct = new ArrayDistinct();
-		retArr = myDistinct.arrayDistinct01(Arrays.copyOf(testArr, testArr.length));
+		retArr = myDistinct.arrayDistinct01(testArr);
 		TestUtils.printLog("Distinct: " + Arrays.toString(retArr));
 
 		retArr = myDistinct.arrayDistinct02(Arrays.copyOf(testArr, testArr.length));
 		TestUtils.printLog("Distinct: " + Arrays.toString(retArr));
 
-		retArr = myDistinct.arrayDistinct03(Arrays.copyOf(testArr, testArr.length));
+		retArr = myDistinct.arrayDistinct03(testArr);
 		TestUtils.printLog("Distinct: " + Arrays.toString(retArr));
 
 		List<String> tmpList = Arrays.asList(testArr);
@@ -357,7 +398,7 @@ public final class TestDemo05 {
 			List<String> retList = new ArrayList<>(srcArr.length * 2);
 
 			TestUtils.printLog("Source: " + Arrays.toString(srcArr));
-			Arrays.sort(srcArr);
+			Arrays.sort(srcArr); // change source array
 			retList.add(srcArr[0]);
 			for (int i = 1, len = srcArr.length; i < len; i++) {
 				if (!srcArr[i].equals(retList.get(retList.size() - 1))) {
