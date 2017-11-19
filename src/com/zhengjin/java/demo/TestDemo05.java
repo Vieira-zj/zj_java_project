@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.WeakHashMap;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -419,6 +420,35 @@ public final class TestDemo05 {
 			}
 			return tmpMap.keySet().toArray(new String[0]);
 		}
+	}
+
+	@Test
+	public void testDemo12() {
+		// WeakHashMap
+		Map<String, User> map = new WeakHashMap<>(20);
+		String key1 = "reference key1";
+		String key2 = "weak reference key2";
+
+		map.put(key1, new User("user1", "11112222", "WuHan"));
+		map.put(key2, new User("user2", "22223333", "ShangHai"));
+		map.put(new String("weak reference key3"), new User("user3", "12345678", "BeiJing"));
+		TestUtils.printLog("size: " + map.size());
+		for (Map.Entry<String, User> entry : map.entrySet()) {
+			TestUtils.printLog("key: " + entry.getKey() + " => value: " + entry.getValue());
+		}
+
+		key2 = null;
+		System.gc();
+		try {
+			final long wait = 3000L;
+			Thread.sleep(wait);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		TestUtils.printLog("After GC");
+		TestUtils.printLog("size: " + map.size());
+		TestUtils.printLog(map);
 	}
 
 }
