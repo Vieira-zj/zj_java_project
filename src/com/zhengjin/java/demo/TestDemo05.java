@@ -18,14 +18,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.WeakHashMap;
 
 import org.assertj.core.api.Assertions;
@@ -34,6 +37,8 @@ import org.assertj.core.api.SoftAssertions;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public final class TestDemo05 {
 
+	private String testInstanceValue = "test";
+	
 	@Test
 	public void testDemo01() {
 		// Hamcrest demo
@@ -360,6 +365,7 @@ public final class TestDemo05 {
 
 	@Test
 	public void testDemo11() {
+		// array elements distinct
 		String[] testArr = { "a", "d", "c", "c", "e", "c", "x", "d", "a", "w" };
 		String[] retArr;
 
@@ -451,4 +457,60 @@ public final class TestDemo05 {
 		TestUtils.printLog(map);
 	}
 
+	@Test
+	public void testDemo13() {
+		TestDemo05 td1 = new TestDemo05();
+		TestUtils.printLog("instance value: " + td1.testInstanceValue);
+		td1.testInstanceValue = "update test";
+		TestUtils.printLog("instance value, updated: " + td1.testInstanceValue);
+
+		TestDemo05 td2 = new TestDemo05();
+		TestUtils.printLog("instance value: " + td2.testInstanceValue);
+		
+		TestUtils.printLog("instance value: " + this.testInstanceValue);
+	}
+	
+	@Test
+	public void testDemo14() {
+		// TreeSet for sort
+		Set<Student> students = new TreeSet<>();
+		students.add(new Student("zhangsan", 2));
+		students.add(new Student("lisi", 1));
+		students.add(new Student("wangwu", 3));
+		students.add(new Student("mazi", 3));
+		TestUtils.printLog("students: " + students);
+		
+		TestUtils.printLog("students:");
+		Iterator<Student> iter = students.iterator();
+		while (iter.hasNext()) {
+			Student s = iter.next();
+			System.out.printf("serial no=%d, name=%s\n", s.num, s.name);
+		}
+	}
+	
+	private static class Student implements Comparable<Student> {
+		
+		int num;
+		String name;
+		
+		Student(String name, int num) {
+			this.num = num;
+			this.name = name;
+		}
+		
+		public String toString() {
+			return "serial no: " + this.num + ", name: " + this.name;
+		}
+		
+		@Override
+		public int compareTo(Student t) {
+			int result = this.num > t.num ? 1 : (this.num == t.num ? 0 : -1);
+			if (result == 0) {
+				result = this.name.compareTo(t.name);
+			}
+			return result;
+		}
+	}
+	
 }
+ 
