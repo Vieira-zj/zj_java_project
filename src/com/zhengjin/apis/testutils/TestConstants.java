@@ -14,10 +14,10 @@ public final class TestConstants {
 	public static final String PROJECT_ROOT_PATH = FileUtils.getProjectPath();
 	// public static final String PROJECT_ROOT_PATH =
 	// "D:/GitHub_Workspace/Eclipse_Workspace/FunSettingsInterfaceTest";
-	public static final String TEST_DATA_PATH = PROJECT_ROOT_PATH
-			+ File.separator + TEST_DATA_DIR + File.separator;
-	public static final String EXCEL_TESTCASES_FILE_PATH = TEST_DATA_PATH
-			+ EXCEL_TESTCASES_FILE_NAME;
+	public static final String TEST_DATA_PATH = PROJECT_ROOT_PATH + File.separator + TEST_DATA_DIR + File.separator;
+	public static final String EXCEL_TESTCASES_FILE_PATH = TEST_DATA_PATH + EXCEL_TESTCASES_FILE_NAME;
+
+	public static final String DRIVERS_DIR_ABS_PATH = TestConstants.PROJECT_ROOT_PATH + File.separator + "drivers";
 
 	// user defined variables name in Jmeter
 	public static final String JMETER_KEY_TEST_DATA = "testdata_path";
