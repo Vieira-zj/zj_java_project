@@ -274,11 +274,10 @@ public final class TestDemo01 {
 	public void test11RunnableTaskDemo() {
 		// submit runnable, and return null
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-		@SuppressWarnings("unchecked")
-		Future<String> future = (Future<String>) executorService.submit(new TaskRunnable());
+		Future<?> future = (Future<?>) executorService.submit(new TaskRunnable());
 		try {
-			TestUtils.printLog("results: " + future.get());
+			future.get(); // return null
+			TestUtils.printLog("task done");
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
@@ -291,7 +290,7 @@ public final class TestDemo01 {
 
 		@Override
 		public void run() {
-			TestUtils.printLog("runnable running...");
+			TestUtils.printLog("TaskRunnable running...");
 			try {
 				Thread.sleep(WAIT_TIME);
 			} catch (InterruptedException e) {
@@ -302,9 +301,8 @@ public final class TestDemo01 {
 
 	@Test
 	public void test12CallableTaskDemo() {
-		// submit callable, and return int
+		// submit callable, and return value
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-
 		Future<Integer> future = (Future<Integer>) executorService.submit(new TaskCallable());
 		try {
 			TestUtils.printLog("results: " + future.get().toString());
@@ -316,10 +314,9 @@ public final class TestDemo01 {
 
 	@Test
 	public void test13FutureTaskDemo() {
-		// submit FutureTask (wrapped callable), and return int
+		// submit FutureTask (wrapped callable), and return value
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 		FutureTask<Integer> futureTask = new FutureTask<>(new TaskCallable());
-
 		executorService.submit(futureTask);
 		try {
 			TestUtils.printLog("results: " + futureTask.get());
@@ -331,7 +328,7 @@ public final class TestDemo01 {
 
 	@Test
 	public void test14FutureTaskDemo() {
-		// submit FutureTask, and return int
+		// submit FutureTask, and return value
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		FutureTask<Integer> futureTask = new FutureTask<>(new Runnable() {
 			@Override
@@ -372,7 +369,9 @@ public final class TestDemo01 {
 
 		executorService.submit(futureTask);
 		try {
-			TestUtils.printLog("results: " + futureTask.get());
+			// TestUtils.printLog("results: " + futureTask.get());
+			futureTask.get();
+			TestUtils.printLog("task done");
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}

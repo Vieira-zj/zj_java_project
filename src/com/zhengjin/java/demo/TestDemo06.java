@@ -2,6 +2,8 @@ package com.zhengjin.java.demo;
 
 import static org.junit.Assert.*;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
@@ -160,6 +162,36 @@ public class TestDemo06 {
 		public void run() {
 			TestUtils.printLog("DelayedElement [delay=" + delay + ", name=" + name + "]");
 		}
+	}
+
+	@Test
+	public void testExample03() {
+		// LinkedList used as Deque
+		Deque<Integer> list = new LinkedList<>();
+
+		System.out.println("LinkedList as queue, FIFO");
+		final int count = 10;
+		for (int i = 0; i < count; i++) {
+			assertTrue(list.offerLast(i));
+		}
+		System.out.println(list);
+
+		Integer item;
+		while ((item = list.pollFirst()) != null) {
+			System.out.print(item + " ");
+		}
+		System.out.println();
+
+		System.out.println("\nLinkedList as stack, LIFO");
+		for (int i = 0; i < count; i++) {
+			assertTrue(list.offerFirst(i));
+		}
+		System.out.println(list);
+
+		while ((item = list.pollFirst()) != null) {
+			System.out.print(item + " ");
+		}
+		System.out.println();
 	}
 
 }

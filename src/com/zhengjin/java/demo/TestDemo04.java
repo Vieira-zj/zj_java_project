@@ -444,7 +444,7 @@ public final class TestDemo04 {
 	public static void testMain01(String args[]) throws InterruptedException {
 		// FixedThreadPool
 		// 1) core pool size is 2, then add 2 tasks in pool
-		// 2) unbounded queue, add remained 8 tasks in queue
+		// 2) LinkedBlockingQueue (unbounded queue), add remained 8 tasks in queue
 		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
 		for (int i = 0; i < 10; i++) {
@@ -464,7 +464,8 @@ public final class TestDemo04 {
 	public static void testMain02(String args[]) throws InterruptedException {
 		// CachedThreadPool
 		// 1) core pool size is 0, and max pool size is max
-		// 2) add tasks in pool, and reuse previously threads if available (keep
+		// 2) SynchronousQueue
+		// 3) add tasks in pool, and reuse previously threads if available (keep
 		// alive for 60s)
 		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 
