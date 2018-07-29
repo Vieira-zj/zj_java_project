@@ -38,12 +38,9 @@ public class TestRestAssuredDemo {
 	}
 
 	private static RequestSpecification buildRequestWithParams() {
-		return given().param("plat_type", "funtv")
-				.param("version", "2.8.0.8_s").param("sid", "FD5551A-SU")
-				.param("account", "28:76:CD:01:96:F6")
-				.param("random", "1483947198639484")
-				.param("sign", "1cec28e1006cee8f5fd7f678487dd28f")
-				.param("province").param("city").param("area")
+		return given().param("plat_type", "funtv").param("version", "2.8.0.8_s").param("sid", "FD5551A-SU")
+				.param("account", "28:76:CD:01:96:F6").param("random", "1483947198639484")
+				.param("sign", "1cec28e1006cee8f5fd7f678487dd28f").param("province").param("city").param("area")
 				.param("cityId", "101200101");
 	}
 
@@ -60,8 +57,7 @@ public class TestRestAssuredDemo {
 
 	@Test
 	public void test01ResponseTime() {
-		requestWithParams.when().get(baseUrl).then()
-				.time(lessThan(800L), TimeUnit.MILLISECONDS);
+		requestWithParams.when().get(baseUrl).then().time(lessThan(800L), TimeUnit.MILLISECONDS);
 	}
 
 	@Test
@@ -94,10 +90,8 @@ public class TestRestAssuredDemo {
 
 	@Test
 	public void test06RespDataElementsByRoot() {
-		responseJson.then().root("data.today")
-				.body("date", equalTo(this.getCurrentDate()))
-				.body("highTemp", lessThan(40))
-				.body("lowTemp", greaterThan(-10));
+		responseJson.then().root("data.today").body("date", equalTo(this.getCurrentDate()))
+				.body("highTemp", lessThan(40)).body("lowTemp", greaterThan(-10));
 	}
 
 	private String getCurrentDate() {
@@ -107,15 +101,13 @@ public class TestRestAssuredDemo {
 
 	@Test
 	public void test07JsonSchemaValidation() {
-		final String filePath = TestConstants.TEST_DATA_PATH
-				+ "json_schema_test.json";
+		final String filePath = TestConstants.TEST_DATA_PATH + "json_schema_test.json";
 		File jsonSchemaFile = new File(filePath);
 		if (!jsonSchemaFile.exists()) {
 			Assert.fail("The json schema file not exist!");
 		}
 
-		responseJson.then().assertThat()
-				.body(matchesJsonSchema(jsonSchemaFile));
+		responseJson.then().assertThat().body(matchesJsonSchema(jsonSchemaFile));
 	}
 
 }

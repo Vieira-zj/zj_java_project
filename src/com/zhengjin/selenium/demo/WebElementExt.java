@@ -25,6 +25,7 @@ public class WebElementExt implements WebElement {
 
 	private WebElement element;
 
+	// invoke getWebElement() when do element action like click(), sendKeys()
 	private WebElement getWebElement() {
 		if (element != null) {
 			return element;

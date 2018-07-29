@@ -23,6 +23,7 @@ public class PageUtil {
 		return DRIVER;
 	}
 
+	// initial web element with properties
 	public static void initialWebElement(Object obj) {
 		Field[] fields = obj.getClass().getDeclaredFields();
 		for (Field field : fields) {

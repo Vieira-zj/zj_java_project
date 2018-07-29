@@ -38,7 +38,7 @@ import org.assertj.core.api.SoftAssertions;
 public final class TestDemo05 {
 
 	private String testInstanceValue = "test";
-	
+
 	@Test
 	public void testDemo01() {
 		// Hamcrest demo
@@ -466,10 +466,10 @@ public final class TestDemo05 {
 
 		TestDemo05 td2 = new TestDemo05();
 		TestUtils.printLog("instance value: " + td2.testInstanceValue);
-		
+
 		TestUtils.printLog("instance value: " + this.testInstanceValue);
 	}
-	
+
 	@Test
 	public void testDemo14() {
 		// TreeSet for sort
@@ -479,7 +479,7 @@ public final class TestDemo05 {
 		students.add(new Student("wangwu", 3));
 		students.add(new Student("mazi", 3));
 		TestUtils.printLog("students: " + students);
-		
+
 		TestUtils.printLog("students:");
 		Iterator<Student> iter = students.iterator();
 		while (iter.hasNext()) {
@@ -487,21 +487,21 @@ public final class TestDemo05 {
 			System.out.printf("serial no=%d, name=%s\n", s.num, s.name);
 		}
 	}
-	
+
 	private static class Student implements Comparable<Student> {
-		
+
 		int num;
 		String name;
-		
+
 		Student(String name, int num) {
 			this.num = num;
 			this.name = name;
 		}
-		
+
 		public String toString() {
 			return "serial no: " + this.num + ", name: " + this.name;
 		}
-		
+
 		@Override
 		public int compareTo(Student t) {
 			int result = this.num > t.num ? 1 : (this.num == t.num ? 0 : -1);
@@ -511,6 +511,5 @@ public final class TestDemo05 {
 			return result;
 		}
 	}
-	
+
 }
- 

@@ -194,7 +194,7 @@ public final class TestDemo04 {
 
 	@Test
 	public void test07Demo() {
-		// test instance variable initialize sequence
+		// test instance variable initialize order
 		TestUtils.printLog("class: " + this.getClass().getSimpleName());
 		TestUtils.printLog("value: " + this.testValue);
 
@@ -444,7 +444,8 @@ public final class TestDemo04 {
 	public static void testMain01(String args[]) throws InterruptedException {
 		// FixedThreadPool
 		// 1) core pool size is 2, then add 2 tasks in pool
-		// 2) LinkedBlockingQueue (unbounded queue), add remained 8 tasks in queue
+		// 2) LinkedBlockingQueue (unbounded queue), add remained 8 tasks in
+		// queue
 		ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
 		for (int i = 0; i < 10; i++) {
