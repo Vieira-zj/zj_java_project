@@ -32,11 +32,11 @@ public class TestDemo06 {
 	ExCls ex1 = new ExCls("from test"); // #4
 
 	static {
-		TestUtils.printLog("test class static"); // #1
+		TestUtils.printLog("test class TestDemo06 static"); // #1
 	}
 
 	public TestDemo06() {
-		TestUtils.printLog("test class constructor"); // #5
+		TestUtils.printLog("test class TestDemo06 constructor"); // #5
 	}
 
 	public static void mainTest(String[] args) {
@@ -203,6 +203,7 @@ public class TestDemo06 {
 	}
 
 	@Test
+	@TestInfo(author = "zhengjin", date = "2018-10-27")
 	public void testExample04() {
 		// Java8 stream
 		List<String> actual = Stream.of("CCC", "A", "BB", "BB").filter(str -> str.length() > 1).sorted().distinct()
@@ -214,6 +215,7 @@ public class TestDemo06 {
 	}
 
 	@Test
+	@TestInfo(author = "zhengjin", date = "2018-10-27")
 	public void testExample05() {
 		// reverse by LinkedList
 		// input: aa, bb, cc, dd
@@ -230,6 +232,7 @@ public class TestDemo06 {
 	}
 
 	@Test
+	@TestInfo(author = "zhengjin", date = "2018-10-27")
 	public void testExample06() {
 		// get resource
 		// https://www.cnblogs.com/dingyingsi/p/6055845.html
@@ -253,6 +256,7 @@ public class TestDemo06 {
 	}
 
 	@Test
+	@TestInfo(author = "zhengjin", date = "2018-10-27")
 	public void testExample07() {
 		// check chars sequence
 		String testInput = "ABCDEFH";
