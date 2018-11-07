@@ -271,4 +271,13 @@ public class TestDemo06 {
 		}
 	}
 
+	@Test
+	@TestInfo(author = "zhengjin", date = "2018-11-7")
+	public void testExample08() {
+		// number comparison
+		final String num1 = "10.1";
+		final String num2 = "9.9";
+		assertTrue(Double.parseDouble(num1) > Double.parseDouble(num2));
+	}
+	
 }

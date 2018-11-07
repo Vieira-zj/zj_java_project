@@ -1,0 +1,12 @@
+<students>
+  <student>
+    <name>John</name>
+    <grade>B</grade>
+    <age>12</age>
+  </student>
+  <student>
+    <name>Mary</name>
+    <grade>A</grade>
+    <age>11</age>
+  </student>
+</students>
