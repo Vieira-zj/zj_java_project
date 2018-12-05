@@ -279,5 +279,18 @@ public class TestDemo06 {
 		final String num2 = "9.9";
 		assertTrue(Double.parseDouble(num1) > Double.parseDouble(num2));
 	}
-	
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2018-12-5")
+	public void testExample09() {
+		// pass in anonymous list
+		testIterator(Arrays.asList(new String[] { "hello", "world" }));
+	}
+
+	private void testIterator(List<String> inputLst) {
+		for (String item : inputLst) {
+			System.out.println("item: " + item);
+		}
+	}
+
 }
