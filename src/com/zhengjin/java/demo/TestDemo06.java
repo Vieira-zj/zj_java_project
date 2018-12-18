@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -290,6 +291,59 @@ public class TestDemo06 {
 	private void testIterator(List<String> inputLst) {
 		for (String item : inputLst) {
 			System.out.println("item: " + item);
+		}
+	}
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2018-12-18")
+	public void testExample10() {
+		// object clone
+		List<String> grade = new ArrayList<>(10);
+		grade.add("a");
+		grade.add("b");
+
+		CloneClazz srcObj = new CloneClazz(0, "clone test object", grade);
+		CloneClazz cloneObj = null;
+		try {
+			cloneObj = (CloneClazz) srcObj.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(cloneObj);
+
+		cloneObj.incrIndex();
+		System.out.println("before, src object => " + srcObj);
+		System.out.println("clone object => " + cloneObj);
+
+		grade.add("c");
+		System.out.println("after, src object => " + srcObj);
+		System.out.println("clone object => " + cloneObj);
+	}
+
+	private static class CloneClazz implements Cloneable {
+
+		private int index;
+		private String desc;
+		private List<String> grade;
+
+		public CloneClazz(int index, String desc, List<String> grade) {
+			this.index = index;
+			this.desc = desc;
+			this.grade = grade;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("Index: %d, desc: %s, grade: %s", this.index, this.desc, this.grade);
+		}
+
+		@Override
+		protected Object clone() throws CloneNotSupportedException {
+			return super.clone();
+		}
+
+		public void incrIndex() {
+			this.index++;
 		}
 	}
 
