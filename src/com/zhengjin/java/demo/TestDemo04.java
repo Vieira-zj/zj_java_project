@@ -454,12 +454,10 @@ public final class TestDemo04 {
 			printPoolStatus(pool);
 		}
 		pool.shutdown(); // set a tag to shutdown, no more tasks added
-		pool.awaitTermination(60, TimeUnit.SECONDS); // wait remained tasks done
+		pool.awaitTermination(60, TimeUnit.SECONDS); // sync wait remained tasks done
 
-		while (!pool.isTerminated()) {
-			Thread.sleep(3000L);
-			printPoolStatus(pool);
-		}
+		TestUtils.printLog("pool terminated: " + pool.isTerminated());
+		TestUtils.printLog("newFixedThreadPool demo done.");
 	}
 
 	public static void testMain02(String args[]) throws InterruptedException {
@@ -482,6 +480,7 @@ public final class TestDemo04 {
 			Thread.sleep(3000L);
 			printPoolStatus(pool);
 		}
+		TestUtils.printLog("newCachedThreadPool demo done.");
 	}
 
 	// customized thread pool
@@ -508,6 +507,7 @@ public final class TestDemo04 {
 			Thread.sleep(3000L);
 			printPoolStatus(pool);
 		}
+		TestUtils.printLog("customed ThreadPool demo done.");
 	}
 
 	private static void printPoolStatus(ThreadPoolExecutor pool) {
@@ -530,6 +530,7 @@ public final class TestDemo04 {
 		public void run() {
 			TestUtils.printLog("running thread id => " + taskId + " thread name => " + taskName);
 			try {
+				TestUtils.printLog("current thread: " + Thread.currentThread().getName());
 				Thread.sleep(3000L);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
