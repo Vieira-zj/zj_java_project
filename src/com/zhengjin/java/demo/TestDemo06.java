@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutorService;
@@ -345,6 +346,38 @@ public class TestDemo06 {
 		public void incrIndex() {
 			this.index++;
 		}
+	}
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-01-01")
+	public void testExample11() {
+		// countDownLatch
+		int runCount = 3;
+		CountDownLatch countDownLatch = new CountDownLatch(runCount);
+
+		for (int i = 0; i < runCount; i++) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						System.out.println("thread: " + Thread.currentThread().getName() + " wait");
+						Thread.sleep(2000L);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} finally {
+						countDownLatch.countDown();
+					}
+				}
+			}).start();
+		}
+
+		try {
+			countDownLatch.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("all threads done.");
 	}
 
 }
