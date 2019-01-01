@@ -1,4 +1,4 @@
-package com.zhengjin.zookeeper.demo;
+package com.zhengjin.app.demo;
 
 import java.io.IOException;
 
@@ -9,9 +9,9 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 
-public class TestZookeeper {
+public class ZookeeperTest {
 
-	private static final String TAG = TestZookeeper.class.getSimpleName() + " => ";
+	private static final String TAG = ZookeeperTest.class.getSimpleName() + " => ";
 
 	private void testZookeeper01(ZooKeeper zk) throws InterruptedException, KeeperException {
 		zk.create("/testRootPath", "testRootData".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
@@ -53,7 +53,7 @@ public class TestZookeeper {
 
 	public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
 
-		TestZookeeper testZk = new TestZookeeper();
+		ZookeeperTest testZk = new ZookeeperTest();
 
 		ZooKeeper zk = new ZooKeeper("127.0.0.1:2181", 5000, new Watcher() {
 			@Override

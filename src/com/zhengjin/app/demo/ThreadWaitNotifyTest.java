@@ -1,4 +1,4 @@
-package com.zhengjin.java.demo;
+package com.zhengjin.app.demo;
 
 //import java.util.ArrayList;
 //import java.util.Collections;

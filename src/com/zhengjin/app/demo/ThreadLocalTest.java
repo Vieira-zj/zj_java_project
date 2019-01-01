@@ -1,4 +1,4 @@
-package com.zhengjin.java.demo;
+package com.zhengjin.app.demo;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
