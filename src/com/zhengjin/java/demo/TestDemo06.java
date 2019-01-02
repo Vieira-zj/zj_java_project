@@ -12,7 +12,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutorService;
@@ -351,7 +353,7 @@ public class TestDemo06 {
 	@Test
 	@TestInfo(author = "zhengjin", date = "2019-01-01")
 	public void testExample11() {
-		// countDownLatch
+		// CountDownLatch
 		int runCount = 3;
 		CountDownLatch countDownLatch = new CountDownLatch(runCount);
 
@@ -378,6 +380,46 @@ public class TestDemo06 {
 			e.printStackTrace();
 		}
 		System.out.println("all threads done.");
+	}
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-01-02")
+	public void testExample12() {
+		// CyclicBarrier
+		int runCount = 3;
+		List<Thread> pool = new ArrayList<>(runCount * 2);
+		CyclicBarrier barrier = new CyclicBarrier(runCount);
+
+		for (int i = 0; i < runCount; i++) {
+			Thread t = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					String pName = Thread.currentThread().getName();
+					try {
+						int wait = new Random().nextInt(5);
+						System.out.println(pName + " running secs: " + wait);
+						Thread.sleep(wait * 1000L);
+						barrier.await();
+						System.out.println(pName + " wait...");
+					} catch (InterruptedException | BrokenBarrierException e) {
+						e.printStackTrace();
+					}
+					System.out.println(pName + " continue to run.");
+				}
+			});
+			pool.add(t);
+			t.start();
+		}
+
+		for (Thread t : pool) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("main test done.");
 	}
 
 }
