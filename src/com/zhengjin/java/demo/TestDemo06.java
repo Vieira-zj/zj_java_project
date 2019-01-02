@@ -387,10 +387,10 @@ public class TestDemo06 {
 	public void testExample12() {
 		// CyclicBarrier
 		int runCount = 3;
-		List<Thread> pool = new ArrayList<>(runCount * 2);
+		List<Thread> pool = new ArrayList<>(runCount * 3);
 		CyclicBarrier barrier = new CyclicBarrier(runCount);
 
-		for (int i = 0; i < runCount; i++) {
+		for (int i = 0; i < (runCount * 2); i++) {
 			Thread t = new Thread(new Runnable() {
 
 				@Override
@@ -400,8 +400,8 @@ public class TestDemo06 {
 						int wait = new Random().nextInt(5);
 						System.out.println(pName + " running secs: " + wait);
 						Thread.sleep(wait * 1000L);
-						barrier.await();
 						System.out.println(pName + " wait...");
+						barrier.await();
 					} catch (InterruptedException | BrokenBarrierException e) {
 						e.printStackTrace();
 					}
