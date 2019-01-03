@@ -27,8 +27,7 @@ public final class FileUtils {
 	public static String getProjectPath() {
 		String path = FileUtils.class.getResource("/").getPath();
 		if (path == null || path.length() == 0) {
-			Assert.assertTrue("Error, the project path is null or empty!",
-					false);
+			Assert.assertTrue("Error, the project path is null or empty!", false);
 		}
 
 		path = path.substring(1, (path.length() - 1));
@@ -42,8 +41,7 @@ public final class FileUtils {
 
 		try {
 			FileInputStream fis = new FileInputStream(path);
-			InputStreamReader isr = new InputStreamReader(fis,
-					TestConstants.CHARSET_UFT8);
+			InputStreamReader isr = new InputStreamReader(fis, TestConstants.CHARSET_UFT8);
 			reader = new BufferedReader(isr);
 
 			String tempStr = null;
@@ -53,9 +51,7 @@ public final class FileUtils {
 			return content.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertTrue(
-					String.format("Error, IOException(%s) when read file %s",
-							e.getMessage(), path), false);
+			Assert.assertTrue(String.format("Error, IOException(%s) when read file %s", e.getMessage(), path), false);
 		} finally {
 			if (reader != null) {
 				try {
@@ -69,8 +65,7 @@ public final class FileUtils {
 		return "";
 	}
 
-	public static List<List<String>> readExcelRows(String filePath,
-			String sheetName) {
+	public static List<List<String>> readExcelRows(String filePath, String sheetName) {
 		FileInputStream fis = null;
 		Workbook excelWorkbook = null;
 		List<List<String>> rows = null;
@@ -83,8 +78,7 @@ public final class FileUtils {
 			rows = new ArrayList<>();
 			for (int i = 0, lastRowNum = sheet.getLastRowNum(); i < lastRowNum; i++) {
 				Row row = sheet.getRow(i);
-				String tempStr = row.getCell(TestConstants.COL_RUN_FLAG)
-						.getStringCellValue().trim();
+				String tempStr = row.getCell(TestConstants.COL_RUN_FLAG).getStringCellValue().trim();
 
 				if (tempStr != null && "Y".equals(tempStr.toUpperCase())) {
 					List<String> cells = new ArrayList<String>();
@@ -96,13 +90,12 @@ public final class FileUtils {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			Assert.assertTrue(String.format(
-					"Error, the file(%s) is NOT exist!", filePath), false);
+			Assert.assertTrue(String.format("Error, the file(%s) is NOT exist!", filePath), false);
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertTrue(String.format(
-					"Error, the IOException(%s) when read excel file %s",
-					e.getMessage(), filePath), false);
+			Assert.assertTrue(
+					String.format("Error, the IOException(%s) when read excel file %s", e.getMessage(), filePath),
+					false);
 		} finally {
 			try {
 				if (excelWorkbook != null) {
@@ -117,24 +110,21 @@ public final class FileUtils {
 		}
 
 		if (rows.size() == 0) {
-			Assert.assertTrue(String.format(
-					"Error, test cases count is 0 in file(%s) and sheet(%s)!",
-					filePath, sheetName), false);
+			Assert.assertTrue(
+					String.format("Error, test cases count is 0 in file(%s) and sheet(%s)!", filePath, sheetName),
+					false);
 		}
 		return rows;
 	}
 
-	public static List<String> getSpecifiedRow(List<List<String>> rows,
-			String caseId) {
+	public static List<String> getSpecifiedRow(List<List<String>> rows, String caseId) {
 		for (List<String> row : rows) {
 			if (row.get(TestConstants.COL_CASE_ID).trim().equals(caseId)) {
 				return row;
 			}
 		}
 
-		Assert.assertTrue(
-				String.format("Error, the test case(%s) is NOT found!", caseId),
-				false);
+		Assert.assertTrue(String.format("Error, the test case(%s) is NOT found!", caseId), false);
 		return Collections.emptyList();
 	}
 

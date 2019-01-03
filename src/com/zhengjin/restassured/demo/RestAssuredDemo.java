@@ -22,8 +22,10 @@ import org.junit.runners.MethodSorters;
 import com.zhengjin.apis.testutils.TestConstants;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestRestAssuredDemo {
+public class RestAssuredDemo {
 
+	// github:
+	// https://github.com/rest-assured/rest-assured
 	// rest-assured usage:
 	// https://github.com/rest-assured/rest-assured/wiki/Usage
 
