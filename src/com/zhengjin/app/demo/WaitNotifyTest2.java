@@ -7,7 +7,7 @@ import java.util.Vector;
 
 import com.zhengjin.apis.testutils.TestUtils;
 
-public final class ThreadWaitNotifyTest {
+public final class WaitNotifyTest2 {
 
 	public static void main(String args[]) {
 		// lock, wait() and notify() are based on 'goods'
