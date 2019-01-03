@@ -10,10 +10,11 @@ import com.zhengjin.apis.testutils.TestUtils;
 public final class WaitNotifyTest2 {
 
 	public static void main(String args[]) {
+
 		// lock, wait() and notify() are based on 'goods'
 		Vector<String> goods = new Vector<>();
 //		List<String> goods = Collections.synchronizedList(new ArrayList<String>(10));
-		
+
 		Thread consumer = new Thread(new Consumer(goods));
 		Thread productor = new Thread(new Productor(goods));
 		consumer.start();
@@ -51,7 +52,7 @@ public final class WaitNotifyTest2 {
 						e.printStackTrace();
 					}
 				}
-			}  // release lock
+			} // release lock
 		}
 	}
 
@@ -89,7 +90,8 @@ public final class WaitNotifyTest2 {
 						e.printStackTrace();
 					}
 				}
-			}  // release lock
+			} // release lock
 		}
 	}
+
 }
