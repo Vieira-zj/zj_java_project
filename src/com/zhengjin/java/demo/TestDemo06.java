@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -420,6 +421,46 @@ public class TestDemo06 {
 			}
 		}
 		System.out.println("main test done.");
+	}
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-01-03")
+	public void testExample13() {
+		// multi threads for arraylist
+		int tCount = 30;
+		CountDownLatch countDown = new CountDownLatch(tCount);
+		int itemCount = 1000;
+
+		// non sync list
+//		List<String> lst = new ArrayList<>(2 * tCount * itemCount);
+		// sync list
+		List<String> lst = Collections.synchronizedList(new ArrayList<>(2 * tCount * itemCount));
+
+		for (int i = 0; i < tCount; i++) {
+			final int idx = i;
+
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					String pName = Thread.currentThread().getName();
+					String prefix = pName + "_" + String.valueOf(idx) + "_";
+					for (int j = 0; j < itemCount; j++) {
+						lst.add(prefix + "j");
+					}
+					countDown.countDown();
+				}
+			}).start();
+		}
+
+		try {
+			countDown.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("list size: " + lst.size());
+		lst.clear();
+
+		System.out.println("multi threads for arraylist test done.");
 	}
 
 }
