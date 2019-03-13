@@ -463,4 +463,53 @@ public class TestDemo06 {
 		System.out.println("multi threads for arraylist test done.");
 	}
 
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-03-13")
+	public void testExample14() {
+		// Java8 stream
+		// #1
+		List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
+		List<Integer> newNumbers = numbers.stream().map(num -> num * 2).distinct().sorted()
+				.collect(Collectors.toList());
+		System.out.println("new numbers: " + newNumbers);
+
+		// #2, flatMap
+		Stream<List<Integer>> inputStream = 
+				Stream.of(Arrays.asList(1), Arrays.asList(2, 3), Arrays.asList(4, 5, 6));
+		Stream<Integer> outputStream = inputStream.flatMap((numberList) -> numberList.stream());
+		numbers = outputStream.collect(Collectors.toList());
+		System.out.println("all numbers: " + newNumbers);
+
+		// #3, peek
+		List<String> words = Stream.of("one", "two", "three", "four").filter(e -> (e.length() > 3))
+				.peek(e -> System.out.println("Filtered value: " + e)).map(String::toUpperCase)
+				.peek(e -> System.out.println("Mapped value: " + e)).collect(Collectors.toList());
+		System.out.println("updated words: " + words);
+
+		// #4, reduce
+		int sum = Stream.of(1, 2, 3, 4).reduce(0, Integer::sum);
+		System.out.println("sum: " + sum);
+
+		String concat = Stream.of("a", "B", "c", "D", "e", "F")
+				.filter(x -> (x.compareTo("Z") > 0)).reduce("", String::concat);
+		System.out.println("concat string: " + concat);
+
+		double min = Stream.of(-1.5, 1.0, -3.0, -2.0).reduce(Double.MAX_VALUE, Double::min);
+		System.out.println("min number: " + min);
+
+		// #5, get max length
+		Stream<String> langs = Stream.of("Java", "JavaScript", "C++", "Golang", "Python");
+		int maxLength = langs.mapToInt(String::length).max().getAsInt();
+		System.out.println("max lang length: " + maxLength);
+
+		// #6, match
+		Stream<Integer> ages = Stream.of(10, 21, 34, 6, 55);
+		boolean isAllAdult = ages.allMatch(num -> (num > 18));
+		System.out.println("is all adult: " + isAllAdult);
+
+		ages = Stream.of(10, 21, 34, 6, 55);
+		boolean isThereAnyChild = ages.anyMatch(num -> (num < 18));
+		System.out.println("is there any child: " + isThereAnyChild);
+	}
+
 }
