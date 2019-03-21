@@ -74,6 +74,7 @@ public class LockConditionTest {
 		}
 	}
 
+	// 同步阻塞队列
 	private static class BoundedQueue {
 		private Integer[] items;
 		private Lock lock = new ReentrantLock();

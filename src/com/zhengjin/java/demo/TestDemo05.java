@@ -512,4 +512,36 @@ public final class TestDemo05 {
 		}
 	}
 
+	public static void main(String[] args) {
+	
+		// when main thread is done, running sub threads will not be killed.
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(3000L);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				String tName = Thread.currentThread().getName();
+				System.out.println(String.format("[%s] is running ...", tName));
+			}
+		});
+		t.start();
+
+		String tName = Thread.currentThread().getName();
+		System.out.println(String.format("[%s] is running ...", tName));
+		System.out.println("total threads: " + Thread.activeCount());
+		
+		while (Thread.activeCount() > 1) {
+			Thread.yield();
+			try {
+				Thread.sleep(500L);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println(String.format("[%s] is done", tName));
+	}
+
 }
