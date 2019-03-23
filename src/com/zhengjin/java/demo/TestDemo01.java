@@ -471,4 +471,38 @@ public final class TestDemo01 {
 		}
 	}
 
+	@Test
+	public void test22Demo() {
+		// 左移运算 << (在低位补0)
+		int i = 9; // 1001
+		System.out.printf("%d << 1: %d\n", i, i << 1); // 0001 0010
+		System.out.printf("%d << 2: %d\n", i, i << 2); // 0010 0100
+
+		// 有符号右移运算符 >> (如果值为正, 则在高位补0; 如果值为负, 则在高位补1)
+		// 无符号右移运算符 >>> (无论值的正负, 都在高位补0)
+		i = 18; // 0001 0010
+		System.out.printf("%d >> 1: %d\n", i, i >> 1); // 0000 1001
+		System.out.printf("%d >> 2: %d\n", i, i >>> 2); // 0000 0100
+
+		// 位与运算符 & (如果两个数都为1则为1, 否则为0)
+		int x = 9; // 1001
+		int y = 5; // 0101
+		System.out.printf("%d&%d: %d\n", x, y, x&y); // 0001
+		
+		System.out.println("\n9 is odd: " + isOddv0(3));
+		System.out.println("-9 is odd: " + isOddv1(-9));
+		System.out.println("10 is odd: " + isOddv2(10));
+	}
+
+	private boolean isOddv0(int number) {
+		return number % 2 != 0;
+	}
+
+	private boolean isOddv1(int number) {
+		return number >> 1 << 1 != number;
+	}
+
+	private boolean isOddv2(int number) {
+		return (number & 1) == 1;
+	}
 }

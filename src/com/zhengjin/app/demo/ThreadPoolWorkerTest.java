@@ -6,7 +6,6 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * 
- * @author zhengjin
  * A task generator create task and put into a queue.
  * A task worker take a task from queue and handle task.
  */
@@ -161,6 +160,7 @@ public class ThreadPoolWorkerTest {
 		private void enqueueTask() throws InterruptedException {
 			while (this.isRunning) {
 				Runnable r = new Runnable() {
+
 					@Override
 					public void run() {
 						System.out.println(TaskGenerator.this.getThreadTag() + "task is running ...");
