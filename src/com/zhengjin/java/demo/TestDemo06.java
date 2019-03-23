@@ -478,7 +478,7 @@ public class TestDemo06 {
 				Stream.of(Arrays.asList(1), Arrays.asList(2, 3), Arrays.asList(4, 5, 6));
 		Stream<Integer> outputStream = inputStream.flatMap((numberList) -> numberList.stream());
 		numbers = outputStream.collect(Collectors.toList());
-		System.out.println("all numbers: " + newNumbers);
+		System.out.println("all numbers: " + numbers);
 
 		// #3, peek
 		List<String> words = Stream.of("one", "two", "three", "four").filter(e -> (e.length() > 3))
