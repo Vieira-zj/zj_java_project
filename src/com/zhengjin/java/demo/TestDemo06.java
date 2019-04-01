@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +32,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import com.zhengjin.apis.testutils.TestUtils;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestDemo06 {
@@ -301,12 +304,9 @@ public class TestDemo06 {
 	@Test
 	@TestInfo(author = "zhengjin", date = "2018-12-18")
 	public void testExample10() {
-		// object clone
-		List<String> grade = new ArrayList<>(10);
-		grade.add("a");
-		grade.add("b");
-
-		CloneClazz srcObj = new CloneClazz(0, "clone test object", grade);
+		// new a object by clone
+		List<String> grade = Arrays.asList(new String[] {"a", "b"});
+		CloneClazz srcObj = new CloneClazz(0, "src object", grade);
 		CloneClazz cloneObj = null;
 		try {
 			cloneObj = (CloneClazz) srcObj.clone();
@@ -316,19 +316,40 @@ public class TestDemo06 {
 		assertNotNull(cloneObj);
 
 		cloneObj.incrIndex();
-		System.out.println("before, src object => " + srcObj);
-		System.out.println("clone object => " + cloneObj);
+		cloneObj.desc = "clone update";
+		cloneObj.grade.add("c");
 
-		grade.add("c");
-		System.out.println("after, src object => " + srcObj);
+		System.out.println("after clone:");
+		System.out.println("src object => " + srcObj);
 		System.out.println("clone object => " + cloneObj);
+		System.out.println("desc clone: " + (srcObj.desc != cloneObj.desc));
+		System.out.println("grade clone: " + (srcObj.grade != cloneObj.grade));
+
+		// new a object by reflect constructor
+		Constructor<CloneClazz> con = null;
+		try {
+			con = CloneClazz.class.getConstructor(int.class, String.class, List.class);
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(con);
+
+		CloneClazz newObj = null;
+		try {
+			newObj = con.newInstance(2, "create by reflect", Arrays.asList(new String[] { "c", "d" }));
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(newObj);
+		System.out.println("\nnew reflect object => " + newObj);
 	}
 
 	private static class CloneClazz implements Cloneable {
 
-		private int index;
-		private String desc;
-		private List<String> grade;
+		int index;
+		String desc;
+		List<String> grade;
 
 		public CloneClazz(int index, String desc, List<String> grade) {
 			this.index = index;
@@ -336,18 +357,21 @@ public class TestDemo06 {
 			this.grade = grade;
 		}
 
-		@Override
-		public String toString() {
-			return String.format("Index: %d, desc: %s, grade: %s", this.index, this.desc, this.grade);
+		public void incrIndex() {
+			this.index++;
 		}
 
 		@Override
 		protected Object clone() throws CloneNotSupportedException {
-			return super.clone();
+			CloneClazz clone = (CloneClazz) super.clone();
+			clone.grade = new ArrayList<String>(this.grade);
+//			clone.desc = new String(this.desc);
+			return clone;
 		}
 
-		public void incrIndex() {
-			this.index++;
+		@Override
+		public String toString() {
+			return String.format("Index: %d, desc: %s, grade: %s", this.index, this.desc, this.grade);
 		}
 	}
 
