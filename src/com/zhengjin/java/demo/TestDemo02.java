@@ -11,6 +11,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -446,6 +447,68 @@ public final class TestDemo02 {
 		Set<String> tmpLst = new HashSet<>(Arrays.asList(new String[] { "Java", "C++", "Python", "JS", "Java" }));
 		TestUtils.printLog(tmpLst);
 		TestUtils.printLog(tmpLst.contains("Java"));
+	}
+
+	/**
+	 * 
+	 * return random numbers or string at specified length.
+	 */
+	private static class MyRandom {
+
+		private final int length = 10;
+
+		public String getRandomNumbers() {
+			return this.getRandomNumbers(this.length);
+		}
+
+		public String getRandomNumbers(int length) {
+			char[] numbers = new char[10];
+			for (int i = 0; i < 10; i++) {
+				numbers[i] = (char) (i + 48);
+			}
+			System.out.println("numbers base: " + Arrays.toString(numbers));
+
+			StringBuffer sb = new StringBuffer(length * 2);
+			for (int i = 0; i < length; i++) {
+				int idx = new Random().nextInt(10);
+				sb.append(numbers[idx]);
+			}
+			return sb.toString();
+		}
+
+		public String getRandomChars() {
+			return this.getRandomChars(this.length);
+		}
+
+		public String getRandomChars(int length) {
+			char[] abc = new char[52];
+			for (int i = 0; i < 26; i++) {
+				abc[i] = (char) (i + 65);
+				abc[i + 26] = (char) (i + 97);
+			}
+			System.out.println("abc base: " + Arrays.toString(abc));
+
+			StringBuffer sb = new StringBuffer(length * 2);
+			for (int i = 0; i < length; i++) {
+				int idx = new Random().nextInt(52);
+				sb.append(abc[idx]);
+			}
+			return sb.toString();
+		}
+
+		public String getTimelyRandomStr() {
+			int timelyStr = String.valueOf(System.currentTimeMillis()).hashCode() & Integer.MAX_VALUE;
+			return this.getRandomChars() + String.valueOf(timelyStr);
+		}
+	}
+
+	@Test
+	public void test26Demo() {
+		// get custom random string
+		MyRandom r = new MyRandom();
+		System.out.println(r.getRandomNumbers());
+		System.out.println(r.getRandomChars());
+		System.out.println(r.getTimelyRandomStr());
 	}
 
 }
