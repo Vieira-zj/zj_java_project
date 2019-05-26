@@ -12,8 +12,13 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +42,9 @@ import com.zhengjin.apis.testutils.TestConstants;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestUtilsDemo {
 
+	/**
+	 * Append lines to file.
+	 */
 	@Test
 	@TestInfo(author = "zhengjin", date = "2018-11-7")
 	public void testAppendToFile() {
@@ -69,6 +77,43 @@ public class TestUtilsDemo {
 		}
 	}
 
+	/**
+	 * Append lines to file v2.
+	 * @throws IOException
+	 */
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-05-26")
+	public void testAppendToFileV2() throws IOException {
+		String filepath = System.getenv("HOME") + File.separator + "Downloads/tmp_files/test_log.txt";
+		if (!this.isFileExist(filepath)) {
+			throw new FileNotFoundException("file not found: " + filepath);
+		}
+
+		String content = "Java append text test.\n";
+		Files.write(Paths.get(filepath), content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+		System.out.println("file append done.");
+	}
+
+	/**
+	 * Read all from file.
+	 * @throws IOException
+	 */
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-05-26")
+	public void testReadFromFileV2() throws IOException {
+		String filepath = System.getenv("HOME") + File.separator + "Downloads/tmp_files/test_log.txt";
+		if (!this.isFileExist(filepath)) {
+			throw new FileNotFoundException("file not found: " + filepath);
+		}
+
+		byte[] data = Files.readAllBytes(Paths.get(filepath));
+		System.out.println("file content:\n" + new String(data, StandardCharsets.UTF_8));
+	}
+
+	private boolean isFileExist(String path) {
+		return new File(path).exists();
+	}
+	
 	@Test
 	@TestInfo(author = "zhengjin", date = "2018-11-7")
 	public void testGetCurMethodName() {
