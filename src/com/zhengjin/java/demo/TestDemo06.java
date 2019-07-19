@@ -3,6 +3,7 @@ package com.zhengjin.java.demo;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -534,6 +535,34 @@ public class TestDemo06 {
 		ages = Stream.of(10, 21, 34, 6, 55);
 		boolean isThereAnyChild = ages.anyMatch(num -> (num < 18));
 		System.out.println("is there any child: " + isThereAnyChild);
+	}
+
+	private static class MyResource implements java.lang.AutoCloseable {
+		@Override
+		public void close() {
+			System.out.println("invoke MyResource close function.");
+		}
+		
+		@Override
+		public String toString() {
+			return "custom MyResource class implements AutoCloseable.";
+		}
+	}
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-07-19")
+	public void testExample15() {
+		// test try-with-resources
+		String path = System.getenv("HOME") + File.separator + "Downloads/tmp_files/test_log.txt";
+		try (InputStream inputStream = new FileInputStream(path); MyResource myResource = new MyResource()) {
+			System.out.println("\n" + myResource);
+
+			byte[] bytes = new byte[inputStream.available()];
+			int n = inputStream.read(bytes);
+			System.out.printf("read %d bytes: %s\n", n, new String(bytes));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
