@@ -15,7 +15,8 @@ public class GetTestsInfo {
 	private List<String> testClazz = new ArrayList<>(100);
 
 	public static void main(String[] args) {
-		final String projectRoot = "/Users/apple/Workspaces/EclipseWorkspaces/FunSettingsInterfaceTest";
+		final String projectRoot = System.getenv("HOME") + File.separator
+				+ "/Workspaces/EclipseWorkspaces/FunSettingsInterfaceTest";
 		final String testRoot = projectRoot + File.separator + "src/com/zhengjin/java";
 
 		int totalMethods = 0;
