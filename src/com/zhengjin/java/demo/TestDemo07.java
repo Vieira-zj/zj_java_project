@@ -2,9 +2,12 @@ package com.zhengjin.java.demo;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -94,7 +97,7 @@ public class TestDemo07 {
 				}
 			}
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println(e.toString());
+			System.out.println("Exception: " + e.toString());
 		}
 
 		// #2
@@ -107,7 +110,7 @@ public class TestDemo07 {
 				}
 			}
 		} catch (ConcurrentModificationException e) {
-			System.out.println(e.toString());
+			System.out.println("Exception: " + e.toString());
 		}
 
 		// #3
@@ -129,14 +132,13 @@ public class TestDemo07 {
 	@Test
 	@TestInfo(author = "zhengjin", date = "2019-07-24")
 	public void testExample04() {
-		// ConcurrentModificationException for Vector
+		// #1
+		System.out.println("#1. Vector, ConcurrentModificationException");
 		List<String> v = new Vector<String>(20);
 		for (int i = 0; i < 10; i++) {
 			v.add(String.valueOf(i));
 		}
 
-		// #1
-		System.out.println("#1. ConcurrentModificationException");
 		try {
 			for (String item : v) {
 				System.out.println("item: " + item);
@@ -145,7 +147,7 @@ public class TestDemo07 {
 				}
 			}
 		} catch (ConcurrentModificationException e) {
-			System.out.println(e.toString());
+			System.out.println("Exception: " + e.toString());
 		}
 
 		// #2
@@ -166,6 +168,42 @@ public class TestDemo07 {
 		 * 它使用写时变更到新数组，然后修改引用指向，读还是在旧数组上读，实现读写分离，
 		 * 写和读有所延迟，数据不保证实时一致性，只能保证最终一致性，另外需要注意这种拷贝对象会耗费不少的内存。
 		 */
+	}
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-07-25")
+	public void testExample05() throws InterruptedException {
+		// #1
+		System.out.println("#1. Hashtable, ConcurrentModificationException");
+		Map<Integer, String> table = new Hashtable<Integer, String>(20);
+		for (int i = 0; i < 10; i++) {
+			table.put(i, String.valueOf(i));
+		}
+
+		try {
+			for (int key : table.keySet()) {
+				System.out.println(String.format("entry: %d=%s", key, table.get(key)));
+				if (key == 2) {
+					table.remove(key);
+				}
+			}
+		} catch (ConcurrentModificationException e) {
+			System.out.println("Exception: " + e.toString());
+		}
+
+		// #2
+		System.out.println("\n#2. ConcurrentHashMap");
+		ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<Integer, String>();
+		for (int i = 0; i < 10; i++) {
+			map.put(i, String.valueOf(i));
+		}
+
+		for (int key : map.keySet()) {
+			System.out.println(String.format("entry: %d=%s", key, map.get(key)));
+			if (key == 3) {
+				table.remove(key);
+			}
+		}
 	}
 
 }
