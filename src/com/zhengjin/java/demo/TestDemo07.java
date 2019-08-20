@@ -1,6 +1,7 @@
 package com.zhengjin.java.demo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -115,18 +116,22 @@ public class TestDemo07 {
 
 		// #3
 		System.out.println("\n#3. Pass");
+		List<String> tmp = Arrays.asList(new String[] { "a", "b", "c", "d", "e" });
+		list = new ArrayList<String>(tmp);
 		try {
 			Iterator<String> iter = list.iterator();
 			while (iter.hasNext()) {
 				String item = iter.next();
 				System.out.println("item: " + item);
-				if ("4".equals(item)) {
-					iter.remove();
+				if ("c".equals(item)) {
+					iter.remove(); // remove current item
+					// iter.remove(); // duplicated remove, and throw IllegalStateException
 				}
 			}
 		} catch (ConcurrentModificationException e) {
 			System.out.println(e.toString());
 		}
+		System.out.println("Modified list: " + list);
 	}
 
 	@Test
