@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -208,6 +209,38 @@ public class TestDemo07 {
 			if (key == 3) {
 				table.remove(key);
 			}
+		}
+	}
+
+	@Test
+	@TestInfo(author = "zhengjin", date = "2020-02-16")
+	public void testExample06() {
+		int key;
+		int count80 = 0;
+		for (int i = 0; i < 100; i++) {
+			key = getKey(100);
+			System.out.println("Get key: " + String.valueOf(key));
+			if (key <= 20) {
+				count80++;
+			}
+		}
+		System.out.println("count 80%: " + String.valueOf(count80));
+	}
+
+	/**
+	 * 80%的请求访问20%的热点数据。
+	 * 
+	 * @param keyCount
+	 * @return
+	 */
+	public static int getKey(int keyCount) {
+		Random random = new Random();
+		int val = (int) (keyCount * 0.2 * random.nextDouble());
+		int r = random.nextInt(100);
+		if (r <= 80) {
+			return val;
+		} else {
+			return keyCount - val;
 		}
 	}
 
