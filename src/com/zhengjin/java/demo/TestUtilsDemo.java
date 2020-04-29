@@ -10,17 +10,22 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -43,22 +48,72 @@ import com.zhengjin.apis.testutils.TestConstants;
 public class TestUtilsDemo {
 
 	/**
-	 * Append lines to file.
+	 * Read lines from file.
+	 * 
+	 * @param filePath
+	 * @return
+	 * @throws IOException
 	 */
-	@Test
-	@TestInfo(author = "zhengjin", date = "2018-11-7")
-	public void testAppendToFile() {
-		final String filepath = "/Users/apple/Downloads/tmp_files/test_append_file.txt";
-		List<String> lines = new ArrayList<>(10);
-		for (int i = 0; i < 5; i++) {
-			lines.add(String.format("this is a string at %d.\n", i));
-		}
+	public List<String> readLinesFromFile(String filePath) throws IOException {
+		InputStream fis = null;
+		BufferedReader reader = null;
+		try {
+			fis = new FileInputStream(filePath);
+			reader = new BufferedReader(new InputStreamReader(fis));
 
-		for (String line : lines) {
-			this.appendLineToFile(filepath, line);
+			String line;
+			List<String> lines = new LinkedList<>();
+			while ((line = reader.readLine()) != null) {
+				if (line.trim().length() > 0) {
+					lines.add(line);
+				}
+			}
+			return lines;
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+			if (fis != null) {
+				fis.close();
+			}
 		}
 	}
 
+	@Test
+	@TestInfo(author = "zhengjin", date = "2020-04-29")
+	public void testReadLinesFromFile() throws IOException {
+		String filePath = System.getenv("HOME") + File.separator + "Downloads/tmp_files/test.out";
+		List<String> lines = this.readLinesFromFile(filePath);
+		System.out.println("file content:");
+		for (String line : lines) {
+			System.out.println(line);
+		}
+	}
+
+	/**
+	 * Read all bytes from file.
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	@TestInfo(author = "zhengjin", date = "2019-05-26")
+	public void testReadFromFileV2() throws IOException {
+		String filepath = System.getenv("HOME") + File.separator + "Downloads/tmp_files/test_log.txt";
+		if (!this.isFileExist(filepath)) {
+			throw new FileNotFoundException("file not found: " + filepath);
+		}
+
+		byte[] data = Files.readAllBytes(Paths.get(filepath));
+		System.out.println("file content:\n" + new String(data, StandardCharsets.UTF_8));
+	}
+
+	private boolean isFileExist(String path) {
+		return new File(path).exists();
+	}
+
+	/**
+	 * Append lines to file.
+	 */
 	private void appendLineToFile(String path, String line) {
 		BufferedWriter out = null;
 		try {
@@ -77,8 +132,23 @@ public class TestUtilsDemo {
 		}
 	}
 
+	@Test
+	@TestInfo(author = "zhengjin", date = "2018-11-7")
+	public void testAppendToFile() {
+		final String filepath = System.getenv("HOME") + File.separator + "Downloads/tmp_files/test_append_file.txt";
+		List<String> lines = new ArrayList<>(10);
+		for (int i = 0; i < 5; i++) {
+			lines.add(String.format("this is a string at %d.\n", i));
+		}
+
+		for (String line : lines) {
+			this.appendLineToFile(filepath, line);
+		}
+	}
+
 	/**
 	 * Append lines to file v2.
+	 * 
 	 * @throws IOException
 	 */
 	@Test
@@ -94,26 +164,6 @@ public class TestUtilsDemo {
 		System.out.println("file append done.");
 	}
 
-	/**
-	 * Read all from file.
-	 * @throws IOException
-	 */
-	@Test
-	@TestInfo(author = "zhengjin", date = "2019-05-26")
-	public void testReadFromFileV2() throws IOException {
-		String filepath = System.getenv("HOME") + File.separator + "Downloads/tmp_files/test_log.txt";
-		if (!this.isFileExist(filepath)) {
-			throw new FileNotFoundException("file not found: " + filepath);
-		}
-
-		byte[] data = Files.readAllBytes(Paths.get(filepath));
-		System.out.println("file content:\n" + new String(data, StandardCharsets.UTF_8));
-	}
-
-	private boolean isFileExist(String path) {
-		return new File(path).exists();
-	}
-	
 	@Test
 	@TestInfo(author = "zhengjin", date = "2018-11-7")
 	public void testGetCurMethodName() {
@@ -124,7 +174,7 @@ public class TestUtilsDemo {
 	@Test
 	@TestInfo(author = "zhengjin", date = "2018-11-7")
 	public void testScreenCapture() {
-		String filePath = "/Users/apple/Downloads/tmp_files/screencap.png";
+		String filePath = System.getenv("HOME") + File.separator + "Downloads/tmp_files/screencap.png";
 		this.screenCapture(filePath);
 	}
 
